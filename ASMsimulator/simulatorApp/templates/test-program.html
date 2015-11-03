@@ -1,0 +1,266 @@
+{% extends 'base-simulator.html' %}
+
+{% block title %}Viewing Program{% endblock %}
+
+{% block extra_css %}
+    <link type="text/css" href="/static/css/codemirror.css" rel="stylesheet">
+    <link type="text/css" href="/static/css/program.css" rel="stylesheet">
+
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/cookieHandler.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/lib/codemirror.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/mode/javascript/javascript.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/mode/gas/gas.js"></script>
+    <script src="/static/js/breakpoint.js"></script>
+
+{% endblock %}
+
+{% block extra_body %}onload="init()"{% endblock %}
+
+{% block cover %}
+
+    <div id="program_text">
+        <div class="editor-box display_box">
+            <form>
+                <textarea id="code" name="code">
+                    ; Testing SET
+                    SET $0x000E, R0
+                    SET $2222, R1
+                    SET $3333, R2
+                    SET $0xFFF0, R3
+                    SET R0, R1
+                    SET R1, R2
+                    SET R2, R3
+                    SET 10, R0
+                    SET 10, R1
+                    SET 10, R2
+                    SET 10, R3
+                    ; Testing MOV
+                    MOV $0xBEEF, 500
+                    MOV R3, 501
+                    MOV 10, 502
+                    ; Testing ADD
+                    SET $0, R2
+                    SET $0, R3
+                    SET $0x000E, R0
+                    SET $0xFFF0, R1
+                    SET $2, R2
+                    ADD R0, R1
+                    ADD R2, R1
+                    SUB R0, R2
+                    MUL R0, R1
+                    MUL R0, R2
+                    DIV R2, R0
+                    SET $0xFFFF, R0
+                    SET $0x5555, R1
+                    SET $0, R2
+                    SET $0, R3
+                    AND R1, R0
+                    LSH R1
+                    RSH R1
+                    SET $0xFFFF, R2
+                    OR R2, R3
+                    BRN 114
+                    SET $0, R0
+                    SET $0, R1
+                    SET $0, R2
+                    SET $0, R3
+                    PSH R3
+                    PSH R3
+                    PSH R3
+                    PSH R3
+                    PSH R3
+                    POP R0
+                    POP R0
+                    POP R0
+                </textarea>
+            </form>
+            <script>
+                var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                    lineNumbers: true,
+                    mode: {name: "gas", architecture: "ARMv6"}
+                });
+            </script>
+        </div>
+
+        <div class="register-box display_box">
+            <h1>Registers</h1>
+
+            <div id="registers">
+                <p id="R0"><span>R0</span> <span id="R0content">0000</span></p>
+
+                <p id="R1"><span>R1</span> <span id="R1content">0000</span></p>
+
+                <p id="R2"><span>R2</span> <span id="R2content">0000</span></p>
+
+                <p id="R3"><span>R3</span> <span id="R3content">0000</span></p>
+
+                <p id="PC"><span>PC</span> <span id="PCcontent">0000</span></p>
+
+                <p id="SP"><span>SP</span> <span id="SPcontent">0511</span></p>
+
+                <p id="CC"><span>CC</span> <span id="CCcontent">0000</span> <span> (ZCNO)</span></p>
+            </div>
+        </div>
+
+        <div class="memory-box display_box">
+            <h1>Main Memory</h1>
+
+            <div class="buttons">
+                <button id="init_memory_button">Zero memory</button>
+                <button id="run_button">Run program</button>
+                <button id="assemble_button">Program memory</button>
+                <button id="save_button">Save</button>
+                <button id="clear_console_button">Clear Console</button>
+                <button id="step_button">Single Step</button>
+                <script src="/static/js/ISA.js"></script>
+            </div>
+            <div id="main_memory" style="height:400px;border:1px solid #ccc;overflow:auto">
+                <span>Address Value</span><br>
+            </div>
+
+        </div>
+
+        <div class="console-box display_box">
+            <h1>Console</h1>
+
+            <div id="console">
+            </div>
+        </div>
+
+        <!-- The point of this div is to store hidden inputs/other shit etc... -->
+        <div id="store">
+        </div>
+
+
+    </div>
+
+
+    {##}
+    {#    <div class="program-left">#}
+    {#        <div>#}
+    {#            <p class="lead">#}
+    {#                <a href="#" class="btn program-btn ">Save</a>#}
+    {#                <a href="#" id="assemble_button" class="btn program-btn ">Compile</a>#}
+    {#                <a href="#" class="btn program-btn ">Debug</a>#}
+    {#            </p>#}
+    {#        </div>#}
+    {##}
+    {##}
+    {#        <div id="program_text">#}
+    {#            <form>#}
+    {#                <textarea id="code" name="code">#}
+    {#                    .syntax unified#}
+    {#                    .global main#}
+    {##}
+    {#                    /*#}
+    {#                    * A#}
+    {#                    * multi-line#}
+    {#                    * comment.#}
+    {#                    */#}
+    {##}
+    {#                    @ A single line comment.#}
+    {##}
+    {#                    main:#}
+    {#                    push {sp, lr}#}
+    {#                    ldr r0, =message#}
+    {#                    bl puts#}
+    {#                    mov r0, #0#}
+    {#                    pop {sp, pc}#}
+    {##}
+    {#                    message:#}
+    {#                    .asciz "Hello world!<br/>"#}
+    {#                </textarea>#}
+    {#            </form>#}
+    {#            <script>#}
+    {#                var editor = CodeMirror.fromTextArea(document.getElementById("code"), {#}
+    {#                    lineNumbers: true,#}
+    {#                    mode: {name: "gas", architecture: "ARMv6"},#}
+    {#                });#}
+    {#            </script>#}
+    {#        </div>#}
+    {##}
+    {##}
+    {#        <!--#}
+    {#                <div id="program_text">#}
+    {#                    <textarea id="editor_box" rows="30" cols="50">#}
+    {#                    ; Testing SET#}
+    {#                    SET $0x000E, R0#}
+    {#                    SET $2222, R1#}
+    {#                    SET $3333, R2#}
+    {#                    SET $0xFFF0, R3#}
+    {#                    SET R0, R1#}
+    {#                    SET R1, R2#}
+    {#                    SET R2, R3#}
+    {#                    SET 10, R0#}
+    {#                    SET 10, R1#}
+    {#                    SET 10, R2#}
+    {#                    SET 10, R3#}
+    {#                    ; Testing MOV#}
+    {#                    MOV $0xBEEF, 100#}
+    {#                    MOV R3, 101#}
+    {#                    MOV 10, 102#}
+    {#                    ; Testing ADD#}
+    {#                    SET $0, R2#}
+    {#                    SET $0, R3#}
+    {#                    SET $0x000E, R0#}
+    {#                    SET $0xFFF0, R1#}
+    {#                    SET $2, R2#}
+    {#                    ADD R0, R1#}
+    {#                    ADD R2, R1#}
+    {#                    </textarea>#}
+    {##}
+    {#                    <script src="../static/js/lineNumber.js"></script>#}
+    {##}
+    {#                </div>#}
+    {#        -->#}
+    {##}
+    {##}
+    {#        <div id="console">#}
+    {#            <textarea readonly class="program-text" rows="5" cols="50">Console:#}
+    {#            </textarea>#}
+    {#        </div>#}
+    {##}
+    {#    </div>#}
+    {#    <div class="program-left">#}
+    {#        <div>#}
+    {#            <p class="lead">#}
+    {#                <a href="#" id="init_memory_button" class="btn program-btn ">Clear</a>#}
+    {#                <a href="#" id="run_button" class="btn program-btn ">Run</a>#}
+    {#                <a href="#" class="btn program-btn ">Pause</a>#}
+    {#                <a href="#" class="btn program-btn ">Continue</a>#}
+    {#            </p>#}
+    {#        </div>#}
+    {#        <div>#}
+    {#            <textarea readonly class="program-text" rows="26" cols="50"> Memory displayed here:#}
+    {#            </textarea>#}
+    {#        </div>#}
+    {#    </div>#}
+    {##}
+    {#    <div class="program-left">#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {#        <br>#}
+    {##}
+    {#        <div id="registers">#}
+    {#            <p id="R0"><span>R0</span> <span id="R0content">0000</span></p>#}
+    {##}
+    {#            <p id="R1"><span>R1</span> <span id="R1content">0000</span></p>#}
+    {##}
+    {#            <p id="R2"><span>R2</span> <span id="R2content">0000</span></p>#}
+    {##}
+    {#            <p id="R3"><span>R3</span> <span id="R3content">0000</span></p>#}
+    {##}
+    {#            <p id="PC"><span>PC</span> <span id="PCcontent">0000</span></p>#}
+    {##}
+    {#            <p id="SP"><span>SP</span> <span id="SPcontent">0511</span></p>#}
+    {##}
+    {#            <p id="CC"><span>CC</span> <span id="CCcontent">0000</span> <span> (ZCNO)</span></p>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base-login.html' %}
+
+{% block title %}Confirmed Email{% endblock %}
+
+{% block cover %}
+    <div class="inner cover">
+
+        <h1 class="cover-heading"> Reset your Password </h1>
+
+        <form method="post" action="{% url 'reset' %}">
+
+            <table class="lead" style="text-align: right">
+                <tr>
+                    <td>Email:</td>
+                    <td>{{ reset_form.email }}</td>
+                    <td>{{ reset_form.email.errors }}</td>
+                </tr>
+            </table>
+            <p class="lead">
+                <input type="submit" class="btn btn-lg btn-default" value="Reset Password!"/>
+            </p>
+
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

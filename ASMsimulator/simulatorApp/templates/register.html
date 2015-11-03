@@ -1,0 +1,51 @@
+{% extends "base-login.html" %}
+
+{% block title %}Register!{% endblock %}
+
+{% block cover %}
+    <div class="inner cover">
+
+        <h1 class="cover-heading"> Register Today! </h1>
+
+        <form method="post" action="{% url 'register' %}">
+
+            <table class="lead" style="text-align: right">
+                <tr>
+                    <td>Username:</td>
+                    <td style="color: #000000">{{ registration_form.username }}</td>
+                    <td style="color: red">{{ registration_form.username.errors }}</td>
+                </tr>
+                <tr>
+                    <td>First Name:</td>
+                    <td style="color: #000000">{{ registration_form.first_name }}</td>
+                    <td style="color: red">{{ registration_form.first_name.errors }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td style="color: #000000">{{ registration_form.last_name }}</td>
+                    <td style="color: red">{{ registration_form.last_name.errors }}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td style="color: #000000">{{ registration_form.email }}</td>
+                    <td style="color: red">{{ registration_form.email.errors }}</td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td style="color: #000000">{{ registration_form.password1 }}</td>
+                    <td style="color: red">{{ registration_form.password1.errors }}</td>
+                </tr>
+                <tr>
+                    <td>Confirm Password:</td>
+                    <td style="color: #000000">{{ registration_form.password2 }}</td>
+                    <td style="color: red">{{ registration_form.password2.errors }}</td>
+                </tr>
+            </table>
+            <p class="lead">
+                <input type="submit" class="btn btn-lg btn-default" value="Register!"/>
+            </p>
+
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

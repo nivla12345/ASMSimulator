@@ -1,0 +1,15 @@
+{% extends 'base-login.html' %}
+
+{% block title %}Confirm your Email{% endblock %}
+
+{% block cover %}
+
+    <div class="cover-message">
+        <h1><span class="glyphicon glyphicon-envelope"></span> A confirmation
+            email has been sent. Please click the link in that email
+            to confirm your email address and complete your registation.</h1>
+
+        <h3>{{ email_body }}</h3>
+    </div>
+
+{% endblock %}

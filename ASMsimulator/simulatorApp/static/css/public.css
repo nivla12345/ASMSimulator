@@ -1,0 +1,109 @@
+.search-results {
+    width: 100%;
+    float: right;
+    height: 500px;
+    overflow: auto;
+}
+
+.button-area {
+    width: 18%;
+    height: 110px;
+    float: left;
+    top: 50%;
+    padding-top: 12px;
+    padding-right: 20px;
+}
+
+.simulate-button {
+    width: 65%;
+    float: left;
+
+}
+
+.favorite-button {
+    width: 35%;
+    float: left;
+}
+
+.unfavorite-button {
+    width: 35%;
+    float: left;
+}
+
+.button-area:first-of-type {
+    margin-top: 20px;
+}
+
+.favorite-button > .lead > .program-btn {
+    color: #ff87d5;
+    border-color: #ff87d5;
+    position: relative;
+}
+
+.unfavorite-button > .lead > .program-btn {
+    color: #000000;
+    border-color: #000000;
+    position: relative;
+}
+
+.simulate-button > .lead > .program-btn {
+    color: limegreen;
+    border-color: limegreen;
+    position: relative;
+}
+
+.file {
+    height: 110px;
+    text-shadow: none;
+    background-color: #ffffff;
+    color: #42c7c2;
+    border-radius: 10px;
+    border: 5px solid #42c7c2;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.file-title {
+    float: left;
+    clear: left;
+    width: 50%;
+    text-align: center;
+    color: #42c7c2;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.file-desc {
+    float: left;
+    clear: left;
+
+    width: 50%;
+    text-align: center;
+    color: #42c7c2;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.file-data {
+    float: right;
+    clear: right;
+    width: 45%;
+    text-align: right;
+    color: #42c7c2;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+a > .file-data:hover {
+    color: #1d46f3;
+}
+
+a > .file-data:active {
+    color: #1d46f3;
+}

@@ -1,0 +1,176 @@
+{% extends 'base-simulator.html' %}
+
+{% block title %}Viewing Program{% endblock %}
+
+{% block extra_css %}
+    <link type="text/css" href="/static/css/codemirror.css" rel="stylesheet">
+    <link type="text/css" href="/static/css/program.css" rel="stylesheet">
+
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/cookieHandler.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/lib/codemirror.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/mode/javascript/javascript.js"></script>
+    <script src="/static/codemirror/codemirror-4.7/mode/gas/gas.js"></script>
+    <script src="/static/js/breakpoint.js"></script>
+
+{% endblock %}
+
+{% block extra_body %}onload="init()"{% endblock %}
+
+{% block cover %}
+
+    <div id="program_text" style="margin-top: 50px">
+        <div class="editor-box display_box">
+            <h1> Editor </h1>
+
+            <div class="buttons">
+                {% if profile == program.owner %}
+                    <button id="save_button">Save</button>
+                {% else %}
+                    <button id="save_button" style="visibility: hidden">Save</button>
+                {% endif %}
+                <button id="assemble_button">Compile</button>
+                <a href="#openModalEditor">
+                    <button id="assemble_button" style="color: limegreen">Reference</button>
+                </a>
+
+            </div>
+            <div>
+                <form>
+                    <textarea id="code" name="code">
+                        {{ program.file }}
+                    </textarea>
+                    {% csrf_token %}
+                </form>
+            </div>
+            <script>
+                var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                    lineNumbers: true,
+                    mode: {name: "gas", architecture: "ARMv6"}
+                });
+            </script>
+        </div>
+
+        <div class="register-box display_box">
+            <h1>Registers</h1>
+
+            <div class="buttons">
+                <a href="#openModalRegisters">
+                    <button style="color: limegreen">Reference</button>
+                </a>
+            </div>
+            <hr>
+            <div id="registers">
+                <p id="R0"><span>R0</span> <span id="R0content">0000</span></p>
+
+                <p id="R1"><span>R1</span> <span id="R1content">0000</span></p>
+
+                <p id="R2"><span>R2</span> <span id="R2content">0000</span></p>
+
+                <p id="R3"><span>R3</span> <span id="R3content">0000</span></p>
+
+                <p id="PC"><span>PC</span> <span id="PCcontent">0000</span></p>
+
+                <p id="SP"><span>SP</span> <span id="SPcontent">0511</span></p>
+
+                <p id="CC"><span>CC</span> <span id="CCcontent">0000</span> <span> (ZCNO)</span></p>
+            </div>
+        </div>
+
+        <div class="memory-box display_box">
+            <h1>Main Memory</h1>
+
+            <div class="buttons">
+                <button id="run_button">Run Program</button>
+                <button id="step_button">Single Step</button>
+                <button id="init_memory_button">Clear Memory</button>
+                <button id="clear_console_button">Clear Console</button>
+
+                <script src="/static/js/ISA.js"></script>
+            </div>
+            <div id="main_memory" style="height:400px;border:1px solid #ccc;overflow:auto">
+                <span>Address Value</span><br>
+            </div>
+
+        </div>
+
+
+        <div class="console-box display_box">
+            <h1>Console</h1>
+            <hr>
+            <div class="buttons">
+            </div>
+            <div id="console">
+            </div>
+        </div>
+
+        <!-- The point of this div is to store hidden inputs/other shit etc... -->
+        <div id="store" data-program-id="{{ program.id }}">
+        </div>
+
+    </div>
+
+    <div id="openModalEditor" class="modalDialog">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+
+            <h2>How to use the Editor:</h2>
+
+            <p>
+                Arguments types -<br>
+                1) Immediate (I) - constant values (hex delimited by a 0x), delimited by: $<br>
+                ie. $0x1234 or $4660<br>
+                2) Registers (R) - R0, R1, R2, and R3<br>
+                3) Memory locations (M) - number must be: [0:511].<br>
+
+                Legend: Instruction Arg0, Arg1<br>
+                Arg0 restrictions | Arg1 restrictions<br>
+
+                ADD A, B Adds A and B and stores into B; ZCNO<br>
+                SUB A, B Subtracts A and B and stores into B; ZCNO<br>
+                MUL A, B Multiplies A and B and stores into B; ZN<br>
+                DIV A, B Divides A and B and stores into B; ZN<br>
+                LSH A Arithmetic left shift and stores into A; ZCNO<br>
+                RSH A Arithmetic right shift and stores into A; ZCNO<br>
+                AND A, B Logically ands A and B and stores into B; Z<br>
+                OR A, B Logically ors A and B and stores into B; Z<br>
+                CMP A, B Subtracts A from B without storing in register; ZCNO<br>
+
+                Control Flow:
+                A must be a valid memory location<br>
+                BRN A Branch to A if negative<br>
+                BRA A Branch to A always<br>
+                BRZ A Branch to A if zero<br>
+                BRG A Branch to A if greater than<br>
+                BRL A Branch to A if less than<br>
+                JSR A Jumps to function and pushes all registers to stack,
+                updates SP accordingly<br>
+                RTN Returns and pops everything back into registers
+                updates SP accordingly<br>
+
+                PSH A Pushes whatever is in A into A<br>
+                POP A Pops top of stack into A and decrements SP<br>
+
+                CCL Clears condition registers (sets all to 0)<br>
+            </p>
+        </div>
+    </div>
+    <div id="openModalRegisters" class="modalDialog">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+
+            <h2>Registers Reference:</h2>
+
+            <p>Registers - <br>
+                4 registers, R0, R1, R2, R3<br>
+                SP - stack pointer<br>
+                PC - program counter<br>
+                Condition Code flags:<br>
+                Zero flag (Z)<br>
+                Carry flag (C)<br>
+                Negative flag (N)<br>
+                Overflow flag (O)<br>
+            </p>
+        </div>
+    </div>
+{% endblock %}

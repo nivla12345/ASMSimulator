@@ -1,0 +1,25 @@
+{% extends 'base-login.html' %}
+
+{% block title %}
+    <title>Confirmed Reset</title>
+{% endblock %}
+
+{% block cover %}
+    <div class="inner cover" style="border: 2px dashed #ff2222">
+
+        <h1 class="cover-heading"> Reset your Password </h1>
+
+        <form method="post" action="{% url 'confirm_reset' username token %}">
+            <p class="form-text">Password:
+                <span class="form-input">{{ reset_password_form.password1 }}</span>
+            </p>
+
+            <p class="form-text">Confirm Password:
+                <span class="form-input">{{ reset_password_form.password2 }}</span>
+            </p>
+            <input class="btn btn-lg lead" type="submit" value="Reset Password!"/>
+            {% csrf_token %}
+        </form>
+
+    </div>
+{% endblock %}

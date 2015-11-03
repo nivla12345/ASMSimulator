@@ -1,0 +1,125 @@
+{% extends 'base-simulator.html' %}
+
+{% block extra_css %}
+    <link type="text/css" rel="stylesheet" href="/static/css/home.css"/>
+
+{% endblock %}
+
+{% block cover %}
+
+    <h1>
+        Manage Your Projects:
+    </h1>
+    <p class="lead">
+        <a href="#openModalCreate" class="btn program-btn ">Create New Project</a>
+    </p>
+
+    <div class="search-results">
+
+        {% for ASMFile, ASMFileForm in fileListInfo %}
+            <div class="button-area">
+                <div class="simulate-button">
+                    <p class="lead">
+                        <a href="{% url 'simulate_program' ASMFile.id %}" class="btn program-btn">Simulate</a>
+                    </p>
+                </div>
+                <div class="edit-button">
+                    <p class="lead">
+                        <a href="#openModalEdit{{ ASMFile.id }}" class="btn program-btn "><span
+                                class="glyphicon glyphicon-edit"></span></a>
+                    </p>
+                </div>
+                <div class="trash-button">
+                    <p class="lead">
+                        <a href="#openModalDelete{{ ASMFile.id }}" class="btn program-btn "><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                    </p>
+                </div>
+            </div>
+            <div class="file">
+                <h2 class="file-title">{{ ASMFile.name }}</h2>
+
+                <p class="file-data">Owner: {{ ASMFile.owner }}</p>
+                {% if ASMFile.public %}
+                    <p class="file-data">This project is public. Favorited {{ ASMFile.favorites.count }} times</p>
+                {% else %}
+                    <p class="file-data">This project is private. Favorited {{ ASMFile.favorites.count }} times</p>
+                {% endif %}
+
+                <h3 class="file-desc">{{ ASMFile.description }}</h3>
+
+                <p class="file-data">Created Date: {{ ASMFile.created_date }}</p>
+
+                <p class="file-data">Last Modified: {{ ASMFile.last_modified }}</p>
+
+            </div>
+
+            <div id="openModalDelete{{ ASMFile.id }}" class="modalDialog">
+                <div>
+                    <a href="#close" title="Close" class="close">X</a>
+
+                    <div class="modal-program-name">
+                        <form action="{% url "delete_program" ASMFile.id %}" method="post">
+                            <h1>Are you sure you want to delete: {{ ASMFile.name }}?</h1>
+                            <span class="input-group-btn">
+                                <button class="btn search-button" type="submit">Confirm Delete</button>
+                            </span>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="openModalEdit{{ ASMFile.id }}" class="modalDialog">
+                <div>
+                    <a href="#close" title="Close" class="close">X</a>
+
+                    <div class="modal-program-name">
+                        <form action="{% url "edit_program" ASMFile.id %}" method="post">
+                            <table>
+                                <tbody>
+                                <tr class="spaceUnder">
+                                    <td class="modal-text">Project Name:</td>
+                                    <td><span class="modal-form">{{ ASMFileForm.name }}</span></td>
+                                    <td><span style="color: red">{{ ASMFileForm.name.errors }}</span></td>
+                                </tr>
+
+                                <tr class="spaceUnder">
+                                    <td class="modal-text">Project Description:</td>
+                                    <td><span class="modal-form">{{ ASMFileForm.description }}</span></td>
+                                    <td><span style="color: red">{{ ASMFileForm.description.errors }}</span></td>
+                                </tr>
+
+                                <p class="modal-text">Make Public?
+                                    <span class="modal-form">{{ ASMFileForm.public }}</span>
+                                    <span style="color: red">{{ ASMFileForm.public.errors }}</span>
+                                </p>
+                                </tbody>
+                            </table>
+                            <input class="btn btn-lg lead" type="submit" value="Save Changes"/>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div id="openModalCreate" class="modalDialog">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+
+            <div class="modal-program-name">
+                <form action="{% url "create_program" profile.id %}" method="post">
+                    <input type="text" name="program_name" class="form-control" placeholder="Name your program">
+                    <input type="text" name="description" class="form-control" placeholder="Describe your program">
+                        <span class="input-group-btn">
+                            <button class="btn search-button" type="submit">Submit!</button>
+                        </span>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

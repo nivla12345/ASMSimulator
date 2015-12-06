@@ -2,611 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f39510fe-104d-4ab1-ba49-0146e1e87757" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/ASMsimulator.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/dataSources.ids" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/dataSources.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/dictionaries/Kevin.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/scopes/scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/.idea/workspace.xml.orig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/ASMsimulator/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/ASMsimulator/settings.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/ASMsimulator/static/humans.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/ASMsimulator/urls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/ASMsimulator/wsgi.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/Procfile" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/Procfile_cp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/manage.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/IMG_1135.JPG" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/IMG_1135_YkbBejV.JPG" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/defaultProfile.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/defaultProfile_tMtfLXh.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/lemon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/lemon_BCSA0cI.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/lemon_MTxbQ8E.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/lemon_MzLhg2J.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/media/images/lemon_NIO4TBi.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/requirements.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/media/Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/media/loginBackground.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/.gitattributes" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/.travis.yml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/AUTHORS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/CONTRIBUTING.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/comment/comment.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/comment/continuecomment.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/dialog/dialog.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/dialog/dialog.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/display/fullscreen.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/display/fullscreen.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/display/placeholder.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/display/rulers.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/closebrackets.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/closetag.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/continuelist.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/matchbrackets.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/matchtags.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/edit/trailingspace.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/brace-fold.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/comment-fold.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/foldcode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/foldgutter.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/foldgutter.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/indent-fold.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/markdown-fold.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/fold/xml-fold.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/anyword-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/css-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/html-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/javascript-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/python-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/show-hint.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/show-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/sql-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/hint/xml-hint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/coffeescript-lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/css-lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/javascript-lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/json-lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/lint.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/lint/yaml-lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/merge/merge.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/merge/merge.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/mode/loadmode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/mode/multiplex.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/mode/multiplex_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/mode/overlay.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/mode/simple.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/runmode/colorize.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/runmode/runmode-standalone.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/runmode/runmode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/runmode/runmode.node.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/scroll/scrollpastend.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/search/match-highlighter.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/search/search.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/search/searchcursor.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/selection/active-line.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/selection/mark-selection.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/tern/tern.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/tern/tern.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/tern/worker.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/addon/wrap/hardwrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bin/authors.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bin/compress" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bin/lint" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bin/release" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bin/source-highlight" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/bower.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/activeline.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/anywordhint.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/bidi.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/btree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/buffers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/changemode.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/closebrackets.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/closetag.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/complete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/emacs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/folding.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/fullscreen.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/hardwrap.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/html5complete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/indentwrap.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/lint.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/loadmode.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/marker.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/markselection.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/matchhighlighter.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/matchtags.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/merge.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/multiplex.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/mustache.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/placeholder.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/preview.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/requirejs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/resize.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/rulers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/runmode.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/search.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/simplemode.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/spanaffectswrapping_shim.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/sublime.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/tern.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/theme.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/trailingspace.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/variableheight.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/vim.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/visibletabs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/widget.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/demo/xmlcomplete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/activebookmark.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/compress.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/docs.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/internals.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/logo.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/manual.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/realworld.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/releases.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/reporting.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/upgrade_v2.2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/upgrade_v3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/doc/upgrade_v4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/keymap/emacs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/keymap/sublime.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/keymap/vim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/apl/apl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/apl/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/asterisk/asterisk.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/asterisk/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/clike/clike.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/clike/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/clike/scala.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/clojure/clojure.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/clojure/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/cobol/cobol.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/cobol/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/coffeescript/coffeescript.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/coffeescript/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/commonlisp/commonlisp.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/commonlisp/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/css.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/less.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/less_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/scss.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/scss_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/css/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/cypher/cypher.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/cypher/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/d/d.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/d/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/diff/diff.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/diff/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/django/django.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/django/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/dtd/dtd.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/dtd/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/dylan/dylan.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/dylan/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ecl/ecl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ecl/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/eiffel/eiffel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/eiffel/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/erlang/erlang.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/erlang/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/fortran/fortran.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/fortran/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gas/gas.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gas/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gfm/gfm.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gfm/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gfm/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gherkin/gherkin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/gherkin/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/go/go.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/go/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/groovy/groovy.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/groovy/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haml/haml.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haml/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haml/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haskell/haskell.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haskell/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haxe/haxe.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/haxe/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/htmlembedded/htmlembedded.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/htmlembedded/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/htmlmixed/htmlmixed.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/htmlmixed/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/http/http.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/http/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/jade/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/jade/jade.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/javascript/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/javascript/javascript.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/javascript/json-ld.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/javascript/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/javascript/typescript.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/jinja2/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/jinja2/jinja2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/julia/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/julia/julia.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/kotlin/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/kotlin/kotlin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/livescript/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/livescript/livescript.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/lua/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/lua/lua.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/markdown/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/markdown/markdown.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/markdown/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/meta.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/mirc/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/mirc/mirc.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/mllike/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/mllike/mllike.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/modelica/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/modelica/modelica.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/nginx/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/nginx/nginx.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ntriples/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ntriples/ntriples.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/octave/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/octave/octave.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pascal/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pascal/pascal.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pegjs/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pegjs/pegjs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/perl/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/perl/perl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/php/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/php/php.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/php/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pig/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/pig/pig.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/properties/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/properties/properties.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/puppet/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/puppet/puppet.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/python/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/python/python.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/q/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/q/q.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/r/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/r/r.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rpm/changes/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rpm/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rpm/rpm.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rst/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rst/rst.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ruby/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ruby/ruby.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/ruby/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rust/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/rust/rust.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sass/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sass/sass.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/scheme/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/scheme/scheme.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/shell/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/shell/shell.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/shell/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sieve/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sieve/sieve.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/slim/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/slim/slim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/slim/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smalltalk/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smalltalk/smalltalk.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smarty/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smarty/smarty.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smartymixed/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/smartymixed/smartymixed.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/solr/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/solr/solr.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sparql/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sparql/sparql.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sql/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/sql/sql.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/stex/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/stex/stex.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/stex/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tcl/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tcl/tcl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/textile/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/textile/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/textile/textile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiddlywiki/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiddlywiki/tiddlywiki.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiddlywiki/tiddlywiki.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiki/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiki/tiki.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tiki/tiki.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/toml/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/toml/toml.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tornado/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/tornado/tornado.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/turtle/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/turtle/turtle.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/vb/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/vb/vb.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/vbscript/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/vbscript/vbscript.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/velocity/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/velocity/velocity.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/verilog/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/verilog/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/verilog/verilog.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xml/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xml/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xml/xml.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xquery/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xquery/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/xquery/xquery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/yaml/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/yaml/yaml.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/z80/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/mode/z80/z80.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/comment_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/doc_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/driver.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/emacs_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/lint/acorn.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/lint/lint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/lint/walk.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/mode_test.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/mode_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/multi_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/phantom_driver.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/run.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/search_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/sublime_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/test/vim_test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/3024-day.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/3024-night.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/ambiance-mobile.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/ambiance.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/base16-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/base16-light.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/blackboard.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/cobalt.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/eclipse.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/elegant.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/erlang-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/lesser-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/mbo.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/mdn-like.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/midnight.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/monokai.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/neat.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/neo.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/night.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/paraiso-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/paraiso-light.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/pastel-on-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/rubyblue.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/solarized.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/the-matrix.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/tomorrow-night-eighties.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/twilight.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/vibrant-ink.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/xq-dark.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/codemirror/codemirror-4.7/theme/xq-light.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap-theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap-theme.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap-theme.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/carousel.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/codemirror.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/cover.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/docs.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/home.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/modal.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/profile.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/program.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/css/public.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/images/Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/images/loginBackground.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/ISA.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/ISA.js.orig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/breakpoint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/cookieHandler.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/docs.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/jquery-1.11.1.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/jquery-linedtextarea.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/lineNumber.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/lineNumberTest.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/static/js/npm.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/ISAtest.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/base-login.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/base-page.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/base-profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/base-simulator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/code_mirror_box.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/codemirror.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/confirmed-register.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/confirmed-reset.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/docs.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/edit_profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/home.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/login.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/needs-confirmation-register.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/needs-confirmation-reset.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/program.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/public.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/register.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/reset.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/test-program.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/templates/view-profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/urls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/simulatorApp/views.py.orig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/static/humans.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/Python-ast.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/Python.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/abstract.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/asdl.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/ast.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/bitset.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/boolobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/bufferobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/bytearrayobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/bytes_methods.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/bytesobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/cStringIO.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/cellobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/ceval.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/classobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/cobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/code.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/codecs.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/compile.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/complexobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/datetime.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/descrobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/dictobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/dtoa.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/enumobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/errcode.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/eval.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/fileobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/floatobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/frameobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/funcobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/genobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/graminit.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/grammar.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/import.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/intobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/intrcheck.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/iterobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/listobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/longintrepr.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/longobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/marshal.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/memoryobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/metagrammar.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/methodobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/modsupport.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/moduleobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/node.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/object.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/objimpl.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/opcode.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/osdefs.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/parsetok.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/patchlevel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pgen.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pgenheaders.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/py_curses.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyarena.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pycapsule.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyconfig.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyctype.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pydebug.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyerrors.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyexpat.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyfpe.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pygetopt.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pymacconfig.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pymactoolbox.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pymath.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pymem.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pyport.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pystate.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pystrcmp.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pystrtod.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pythonrun.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/pythread.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/rangeobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/setobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/sliceobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/stringobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/structmember.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/structseq.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/symtable.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/sysmodule.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/timefuncs.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/token.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/traceback.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/tupleobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/ucnhash.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/unicodeobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/warnings.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Include/weakrefobject.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/activate" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/activate.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/activate.ps1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/activate_this.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/deactivate.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/easy_install-2.7.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/easy_install.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/pip.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/pip2.7.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/pip2.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/python.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ASMsimulator/venv/Scripts/pythonw.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ISA.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Project Specification Notes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/README.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/codemirror.zip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/feedback/proposal.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/feedback/specification.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/isa2html.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/productBacklog.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/proposal.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sprint1progressReport.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sprint2backlog.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sprint2progressReport.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sprintBacklog.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sprintToEndBacklog.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testThisKevin/codemirror.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testThisKevin/codemirror.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testThisKevin/docs.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testThisKevin/gas.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testThisKevin/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/whatIsASMdescription.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/wireframeImages/Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/wireframeImages/wireframe_home.JPG" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/wireframeImages/wireframe_profile.JPG" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/wireframeImages/wireframe_program.JPG" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Team101.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -626,7 +22,7 @@
     <favorites_list name="Team101" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -636,6 +32,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="InvalidFacetManager">
+    <ignored-facets>
+      <facet id="Team101/invalid/Django" />
+    </ignored-facets>
+  </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" />
   <component name="JsBuildToolPackageJson" detection-done="true" />
   <component name="JsGulpfileManager">
@@ -643,9 +44,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1535" />
-    <option name="height" value="904" />
+    <option name="y" value="52" />
+    <option name="width" value="757" />
+    <option name="height" value="848" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -675,6 +76,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -709,8 +112,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -722,7 +123,6 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="LayoutCode.rearrangeEntriesHTML" value="false" />
-    <property name="FullScreen" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="LayoutCode.rearrangeEntriesDjangoTemplate" value="false" />
@@ -735,7 +135,52 @@
     </option>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-options />
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
       <method />
     </configuration>
     <configuration default="false" name="ASMsimulator" type="Python.DjangoServer" factoryName="Django server">
@@ -779,12 +224,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1535" height="904" extended-state="6" />
+    <frame x="65" y="52" width="757" height="848" extended-state="4" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.118566774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2364597" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />

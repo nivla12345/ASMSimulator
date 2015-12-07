@@ -1092,6 +1092,6 @@ $("#step_button").keyup(function (event) {
 document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
 document.getElementById("assemble_button").addEventListener("click", assemble);
 document.getElementById("run_button").addEventListener("click", run);
-document.getElementById("save_button").addEventListener("click", save);
-document.getElementById("clear_console_button").addEventListener("click", clear_console);
-document.getElementById("step_button").addEventListener("click", step);
+//document.getElementById("save_button").addEventListener("click", save);
+//document.getElementById("clear_console_button").addEventListener("click", clear_console);
+//document.getElementById("step_button").addEventListener("click", step);

@@ -3,6 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <script src="jquery-1.11.3.js"></script>
+
+    <script src="codemirror-5.9/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror-5.9/lib/codemirror.css">
+    <script src="codemirror-5.9/mode/javascript/javascript.js"></script>
     <title></title>
 </head>
 
@@ -107,6 +111,13 @@
     <button id="run_button">Run program</button>
     <button id="assemble_button">Program memory</button>
     <script src="ISA.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
+            lineNumbers: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            mode: {name: "javascript", globalVars: true}
+        });
+    </script>
 </div>
 </div>
 </body>

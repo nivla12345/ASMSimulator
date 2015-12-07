@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -7,7 +8,8 @@
     <script src="codemirror-5.9/lib/codemirror.js"></script>
     <link rel="stylesheet" href="codemirror-5.9/lib/codemirror.css">
     <script src="codemirror-5.9/mode/javascript/javascript.js"></script>
-    <title></title>
+    <script src="codemirror-5.9/addon/selection/active-line.js"></script>
+    <title>ISA Static Offline Testing</title>
 </head>
 
 <body onload="init_mm()">
@@ -114,8 +116,10 @@
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
             lineNumbers: true,
+            lineWrapping: true,
             extraKeys: {"Ctrl-Space": "autocomplete"},
-            mode: {name: "javascript", globalVars: true}
+            mode: {name: "javascript", globalVars: true}, // TODO Change from javascript to something else.
+            styleActiveLine: true
         });
     </script>
 </div>

@@ -60,4 +60,4 @@ target/
 *.zip
 
 # Idea dir
-.idea
+.idea/*

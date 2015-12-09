@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Assembly Simulator">
+    <meta name="author" content="Alvin Mao">
+    <!-- TODO Update this icon to something more assembly oriented.
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+      -->
+
+    <title>ISA Static Offline Testing</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="codemirror-5.9/theme/blackboard.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="codemirror-5.9/lib/codemirror.css">
+    <script src="jquery-1.11.3.js"></script>
+    <script src="codemirror-5.9/lib/codemirror.js"></script>
+    <script src="codemirror-5.9/mode/javascript/javascript.js"></script>
+    <script src="codemirror-5.9/addon/selection/active-line.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .CodeMirror {
+            border: 1px solid #eee;
+            height: 610px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body onload="init_mm()">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!-- TODO Fill icon picture with something.
+                <a class="navbar-brand"><img alt="Brand" src="..."></a>
+                  -->
+                <a class="navbar-brand" href="#">Assembly Simulator</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+                <li><a href="tutorial.html">Tutorial<span class="sr-only">(current)</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Program Text</h3>
+
+                <div id="program_text">
+                    <!-- TODO Change to save file in local disk -->
+                    <!-- TODO Add run, step and stop (stop last and implement)-->
+                    <form action="javascript:save()">
+                        <input type="submit" value="Save">
+                        <br>
+                        <textarea id="editor_box">
+ ; Testing SET
+ SET $0x000E, R0
+ SET $2222, R1
+ SET $3333, R2
+ SET $0xFFF0, R3
+ SET R0, R1
+ SET R1, R2
+ SET R2, R3
+ SET 10, R0
+ SET 10, R1
+ SET 10, R2
+ SET 10, R3
+ ; Testing MOV
+ MOV $0xBEEF, 500
+ MOV R3, 501
+ MOV 10, 502
+ ; Testing ADD
+ SET $0, R2
+ SET $0, R3
+ SET $0x000E, R0
+ SET $0xFFF0, R1
+ SET $2, R2
+ ADD R0, R1
+ ADD R2, R1
+ SUB R0, R2
+ MUL R0, R1
+ MUL R0, R2
+ DIV R2, R0
+ SET $0xFFFF, R0
+ SET $0x5555, R1
+ SET $0, R2
+ SET $0, R3
+ AND R1, R0
+ LSH R1
+ RSH R1
+ SET $0xFFFF, R2
+ OR R2, R3
+ BRN 114
+ SET $0, R0
+ SET $0, R1
+ SET $0, R2
+ SET $0, R3
+ PSH R3
+ PSH R3
+ PSH R3
+ PSH R3
+ PSH R3
+ POP R0
+ POP R0
+ POP R0
+                        </textarea>
+                    </form>
+                    <!-- TODO move buttons from beneath console to be beneath the text area -->
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h3>Registers</h3>
+                <div id="registers">
+                    <p id="R0"><span>R0</span> <span id="R0content">0000</span></p>
+
+                    <p id="R1"><span>R1</span> <span id="R1content">0000</span></p>
+
+                    <p id="R2"><span>R2</span> <span id="R2content">0000</span></p>
+
+                    <p id="R3"><span>R3</span> <span id="R3content">0000</span></p>
+
+                    <p id="PC"><span>PC</span> <span id="PCcontent">0000</span></p>
+
+                    <p id="SP"><span>SP</span> <span id="SPcontent">0511</span></p>
+
+                    <p id="CC"><span>CC</span> <span id="CCcontent">0000</span> <span> (ZCNO)</span></p>
+                </div>
+
+                <h3>Main Memory</h3>
+                <div id="main_memory" style="height:400px;border:1px solid #ccc;overflow:auto">
+                    <span>Address Value</span><br>
+                </div>
+
+                <h3>Console</h3>
+                <div id="console" style="height:100px;width:400px;border:3px solid #ccc;overflow:auto">
+                </div>
+
+                <button id="init_memory_button">Zero memory</button>
+                <button id="run_button">Run program</button>
+                <button id="assemble_button">Program memory</button>
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>© 2015 Alvin Mao</p>
+        </footer>
+    </div> <!-- /container -->
+
+    <script src="ISA.js"></script>
+    <script>
+        <!-- TODO Create my own autocomplete for this ISA -->
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
+            lineNumbers: true,
+            lineWrapping: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            mode: {name: "javascript", globalVars: true}, // TODO Change from javascript to something else.
+            styleActiveLine: true,
+            theme: "blackboard"
+        });
+    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="jquery-1.11.3.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

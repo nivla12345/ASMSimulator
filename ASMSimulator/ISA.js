@@ -884,20 +884,19 @@ function run() {
 function step() {
     var console_out = document.getElementById("console");
     var running = document.createElement("p");
-    running.innerHTML = "Started stepping...";
-    console_out.appendChild(running);
     var pc = getPC();
     uncolor_pc();
+    running.innerHTML = "Start step from address " + pc;
+    console_out.appendChild(running);
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
         var running = document.createElement("p");
-        running.innerHTML = "End step.";
+        running.innerHTML = "End step at address " + pc;
         console_out.appendChild(running);
         color_pc();
         return;
     }
     var work_ins = get_memory(pc);
-    var bps = getBreakpoints();
     var line2mem = readCookieObject("line2mem");
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS) {
@@ -926,7 +925,7 @@ function step() {
         break;
     }
     var running = document.createElement("p");
-    running.innerHTML = "End step.";
+    running.innerHTML = "End step at address " + pc;
     console_out.appendChild(running);
     color_pc();
 }
@@ -1095,5 +1094,5 @@ document.getElementById("init_memory_button").addEventListener("click", clear_me
 document.getElementById("assemble_button").addEventListener("click", assemble);
 document.getElementById("run_button").addEventListener("click", run);
 //document.getElementById("save_button").addEventListener("click", save);
-//document.getElementById("clear_console_button").addEventListener("click", clear_console);
-//document.getElementById("step_button").addEventListener("click", step);
+document.getElementById("clear_console_button").addEventListener("click", clear_console);
+document.getElementById("step_button").addEventListener("click", step);

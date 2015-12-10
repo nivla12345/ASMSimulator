@@ -14,6 +14,9 @@ const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
 const BREAKPOINT_COLOR = "red";
 const PC_TRACKING_COLOR = "red";
 
+// Code syntax
+const COMMENT = ";";
+
 /**********************************************************************************************************************/
 /********************************************** ERROR MESSAGES ********************************************************/
 /**********************************************************************************************************************/
@@ -721,7 +724,7 @@ function assemble() {
             continue;
         }
         // Remove starting and ending whitespace
-        var arg_no_comment = lines[i].split("@")[0].trim();
+        var arg_no_comment = lines[i].split(COMMENT)[0].trim();
         // Remove if line is a whitespace
         if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
             line_number = line_number + 1;
@@ -839,7 +842,6 @@ function assemble() {
         createCookieObject("line2mem", line2args, 100);
         color_pc();
     }
-
 }
 
 /*

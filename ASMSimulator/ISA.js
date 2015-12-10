@@ -385,7 +385,7 @@ function write_memory(address, value) {
     var element = document.getElementById("addr" + address);
     var new_element = document.createElement("span");
     new_element.setAttribute("id", "addr" + address);
-    new_element.innerHTML = "0d0" + format_addr(address) + " - " + value;
+    new_element.innerHTML = "0d0" + format_addr(address) + "   " + value;
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -685,7 +685,7 @@ function init_mm() {
     for (var i = 0; i < 512; i++) {
         var text = document.createElement("span");
         text.setAttribute("id", "addr" + i);
-        text.innerHTML = "0d0" + format_addr(i) + " " + " - " + format_numbers(0);
+        text.innerHTML = "0d0" + format_addr(i) + "    " + format_numbers(0);
         var brk = document.createElement("br");
         main_memory.appendChild(text);
         main_memory.appendChild(brk);
@@ -868,7 +868,7 @@ function run() {
         color_pc();
         return;
     }
-    var status = execute_program(512);
+    var status = execute_program(MAX_ADDRESS + 1);
 
     if (status) {
         var running = document.createElement("p");

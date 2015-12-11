@@ -11,7 +11,7 @@ const HEX_LENGTH = 16;
 
 // Colors
 const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
-const PC_TRACKING_COLOR = "red";
+const PC_TRACKING_COLOR = "pink";
 
 // Code syntax
 const COMMENT = ";";
@@ -412,7 +412,7 @@ function getR(rNum) {
 
 function setR(rNum, rIn) {
     var element = document.getElementById("R" + rNum + "content");
-    var new_element = document.createElement("span");
+    var new_element = document.createElement("td");
     new_element.setAttribute("id", "R" + rNum + "content");
     new_element.innerHTML = format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
@@ -432,7 +432,7 @@ function setPC(rIn) {
         return;
     }
     var element = document.getElementById("PCcontent");
-    var new_element = document.createElement("span");
+    var new_element = document.createElement("td");
     new_element.setAttribute("id", "PCcontent");
     new_element.innerHTML = format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
@@ -452,7 +452,7 @@ function setSP(rIn) {
         return;
     }
     var element = document.getElementById("SPcontent");
-    var new_element = document.createElement("span");
+    var new_element = document.createElement("td");
     new_element.setAttribute("id", "SPcontent");
     new_element.innerHTML = format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
@@ -467,7 +467,7 @@ function getCCF(flag) {
  */
 function setCCF(flag, set_to) {
     var element = document.getElementById("CCcontent");
-    var new_element = document.createElement("span");
+    var new_element = document.createElement("td");
     new_element.setAttribute("id", "CCcontent");
     var status = element.innerHTML;
     status = status.substring(0, ZCNO_MAPPINGS[flag]) + set_to + status.substring(ZCNO_MAPPINGS[flag] + 1, HEX_LENGTH);
@@ -867,7 +867,7 @@ function run() {
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
         var running = document.createElement("p");
-        running.innerHTML = "Finished running program successfully.";
+        running.innerHTML = "Finished running program.";
         console_out.appendChild(running);
         color_pc();
         return;
@@ -875,7 +875,7 @@ function run() {
     var status = execute_program(MAX_ADDRESS + 1);
     if (status) {
         var running = document.createElement("p");
-        running.innerHTML = "Finished running program successfully.";
+        running.innerHTML = "Finished running program.";
         console_out.appendChild(running);
         color_pc();
     }
@@ -900,7 +900,6 @@ function step() {
         return;
     }
     var work_ins = get_memory(pc);
-    var line2mem = readCookieObject(LINE2MEM);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS) {
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];

@@ -1,8 +1,9 @@
 TODO:
-- Format run and step to look pretty
+- Format registers to look pretty 
+  (what's left here is to get the table to not change size randomly)
+  (might also want to change a few magic strings)
 - Have hex and decimal mode
 - Enable labels inside of assembly
-- Format registers to look pretty
 - Enable search inside of the main memory box and jump to the
   appropriate address
 - Format main memory to look pretty

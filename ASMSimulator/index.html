@@ -52,15 +52,17 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <h3>Program Text</h3>
+            <div class="col-md-8" style="border:1px solid lightgray">
+                <h3>Program Editor</h3>
 
                 <div id="program_text">
                     <!-- TODO Change to save file in local disk -->
-                    <!-- TODO Add run, step and stop (stop last and implement)-->
-                        <br>
-
-                        <textarea id="editor_box">
+                    <!-- TODO Stop (stop last and implement)-->
+                    <div class="btn-group">
+                        <button class="btn btn-default" id="run_button"><img src="green_run.png" height="20" width="20"> Run program</button>
+                        <button class="btn btn-default" id="step_button"><img src="single_step.png" height="20" width="20"> Step</button>
+                    </div>
+                    <textarea id="editor_box">
  ; Testing SET
  SET $0x000E, R0
  SET $2222, R1
@@ -111,8 +113,8 @@
  POP R0
  POP R0
  POP R0
-                        </textarea>
-                    <!-- TODO move buttons from beneath console to be beneath the text area -->
+                    </textarea>
+                    <br>
                 </div>
             </div>
 
@@ -144,9 +146,7 @@
                 </div>
 
                 <button id="init_memory_button">Zero memory</button>
-                <button id="run_button">Run program</button>
                 <button id="assemble_button">Program memory</button>
-                <button id="step_button">Step</button>
                 <button id="clear_console_button">Clear console</button>
             </div>
         </div>

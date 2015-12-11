@@ -701,6 +701,7 @@ function init_mm() {
  * This function is so long because it performs a lot of checks that verify if the instructions are valid.
  */
 function assemble() {
+    clear_console();
     clear_memory_image();
     var prog_text = document.getElementById("program_text");
 
@@ -856,6 +857,7 @@ function assemble() {
  * TODO 2) Filter breakpoints such that a breakpoint anywhere in between two instructions is accessible.
  */
 function run() {
+    clear_console();
     uncolor_pc();
     var console_out = document.getElementById("console");
     var running = document.createElement("p");

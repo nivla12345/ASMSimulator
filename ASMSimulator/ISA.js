@@ -11,11 +11,11 @@ const HEX_LENGTH = 16;
 
 // Colors
 const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
-const BREAKPOINT_COLOR = "red";
 const PC_TRACKING_COLOR = "red";
 
 // Code syntax
 const COMMENT = ";";
+const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memory address.
 
 /**********************************************************************************************************************/
 /********************************************** ERROR MESSAGES ********************************************************/
@@ -326,7 +326,7 @@ function do_ccl() {
  * ie. n = 10, returns 0010
  */
 function format_addr(n) {
-    n = n & 0x1FF;
+    n &= 0x1FF;
     if (n < 10) {
         return "00" + n;
     }
@@ -340,7 +340,7 @@ function format_addr(n) {
  * Same function as above except formats with 4 digits
  */
 function format_numbers(n) {
-    n = n & BIT_MASK_16;
+    n &= BIT_MASK_16;
     if (n < 10) {
         return "000" + n;
     }
@@ -839,7 +839,7 @@ function assemble() {
         var end_message = document.createElement("p");
         end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
         console_out.appendChild(end_message);
-        createCookieObject("line2mem", line2args, 100);
+        createCookieObject(LINE2MEM, line2args, 100);
         color_pc();
     }
 }
@@ -869,7 +869,6 @@ function run() {
         return;
     }
     var status = execute_program(MAX_ADDRESS + 1);
-
     if (status) {
         var running = document.createElement("p");
         running.innerHTML = "Finished running program successfully.";
@@ -897,7 +896,7 @@ function step() {
         return;
     }
     var work_ins = get_memory(pc);
-    var line2mem = readCookieObject("line2mem");
+    var line2mem = readCookieObject(LINE2MEM);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS) {
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];
@@ -941,7 +940,7 @@ function execute_program(end) {
     var pc = getPC();
     var work_ins = get_memory(pc);
     var bps = getBreakpoints();
-    var line2mem = readCookieObject("line2mem");
+    var line2mem = readCookieObject(LINE2MEM);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS && pc != end) {
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];
@@ -1003,48 +1002,15 @@ function uncolor_pc() {
     $("#addr" + getPC().toString()).css({"backgroundColor": MAIN_MEMORY_BACKGROUND_COLOR});
 }
 
-function color_breakpoints() {
-    var cln = document.getElementsByClassName("CodeMirror-linenumber");
-    if (readCookie("breakpoint") == null) {
-        createCookie("breakpoint", "", 100);
-    }
-    var bps = getBreakpoints();
-    for (var i = 0; i < bps.length; i++) {
-        $(cln[parseInt(bps[i]) - 1]).css({"backgroundColor": BREAKPOINT_COLOR});
-    }
-}
-
 function remove_line2mem() {
-    eraseCookie("line2mem");
+    eraseCookie(LINE2MEM);
 }
 
 // Functions to call on page load
 function init() {
     init_mm();
-    color_breakpoints();
     remove_line2mem();
-}
-
-/*
- * TODO The save functionality must be done via the server side and passed
- * back to the user.
- * Takes the current text area and saves it as a hidden input whenever the save button is hit.
- */
-function save() {
-    var program = editor.getValue();
-    var program_id = $("#store").attr("data-program-id");
-    $.ajax({
-        type: "POST",
-        url: "/simulatorApp/save-program/" + program_id,
-        data: {data: program,
-            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value},
-        success: function (response) {
-            var console = document.getElementById("console");
-            var output = document.createElement("p");
-            output.innerHTML = "Program saved.";
-            console.appendChild(output);
-        }
-    });
+    deleteAllBreakpoints();
 }
 
 function clear_console() {

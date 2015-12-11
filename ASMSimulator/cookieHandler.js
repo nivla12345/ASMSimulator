@@ -55,6 +55,13 @@ function deleteBreakpoint(value) {
     createCookie("breakpoint", readCookie("breakpoint").replace("," + value, ""), 100);
 }
 
+function deleteAllBreakpoints() {
+    var bps = getBreakpoints();
+    for (var i = 0; i < bps.length; i++) {
+        deleteBreakpoint(bps[i]);
+    }
+}
+
 // Gets the breakpoint line numbers
 function getBreakpoints() {
     var bp = readCookie("breakpoint");

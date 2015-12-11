@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="indexCustomizations.css">
 </head>
 
-<body onload="init_mm()">
+<body onload="init()">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -58,9 +58,8 @@
                 <div id="program_text">
                     <!-- TODO Change to save file in local disk -->
                     <!-- TODO Add run, step and stop (stop last and implement)-->
-                    <form action="javascript:save()">
-                        <input type="submit" value="Save">
                         <br>
+
                         <textarea id="editor_box">
  ; Testing SET
  SET $0x000E, R0
@@ -113,7 +112,6 @@
  POP R0
  POP R0
                         </textarea>
-                    </form>
                     <!-- TODO move buttons from beneath console to be beneath the text area -->
                 </div>
             </div>

@@ -1,0 +1,28 @@
+TODO:
+- Format run and step to look pretty
+- Have hex and decimal mode
+- Enable labels inside of assembly
+- Format registers to look pretty
+- Enable search inside of the main memory box and jump to the
+  appropriate address
+- Format main memory to look pretty
+- Format console to look pretty
+- Write up tutorial
+- Have different CPU speeds
+- Stop program button with interrupt
+- Go through TODOs in code
+- Scroll with pc
+- Link main memory location to line number in code to highlight section
+  of code hit in text editor
+- Save and load
+- Set up debug button (heed breakpoints)
+
+Cool future ideas
+- Enable hardware customization
+- Enable choosing textarea editor
+
+DONE:
+- Clear console
+- Run and step
+
+

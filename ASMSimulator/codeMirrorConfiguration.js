@@ -15,10 +15,10 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
 editor.on("gutterClick", function(cm, n) {
     var info = cm.lineInfo(n);
     if (info.gutterMarkers) {
-        deleteBreakpoint(n);
+        deleteBreakpoint(n + 1);
     }
     else {
-        addBreakpoint(n);
+        addBreakpoint(n + 1);
     }
     cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
 });

@@ -6,3 +6,6 @@
 }
 
 .breakpoints {width: .8em;}
+
+table.fixed { table-layout:fixed; }
+table.fixed td { overflow: hidden; }

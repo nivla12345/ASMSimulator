@@ -18,6 +18,8 @@ TODO:
 - Save and load
 - Set up debug button (heed breakpoints)
 - Make sure you can't set breakpoints on lines that make no sense
+- Use the twitter bootstrap button feature to blank out the button while 
+  running
 
 Cool future ideas
 - Enable hardware customization

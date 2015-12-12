@@ -65,7 +65,7 @@ function deleteAllBreakpoints() {
 // Gets the breakpoint line numbers
 function getBreakpoints() {
     var bp = readCookie("breakpoint");
-    if (bp == "") {
+    if (bp == "" || !bp) {
         return [];
     }
     return bp.split(",").slice(1);

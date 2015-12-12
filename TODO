@@ -17,6 +17,7 @@ TODO:
   of code hit in text editor
 - Save and load
 - Set up debug button (heed breakpoints)
+- Make sure you can't set breakpoints on lines that make no sense
 
 Cool future ideas
 - Enable hardware customization

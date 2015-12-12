@@ -1,7 +1,4 @@
 TODO:
-- Format registers to look pretty 
-  (what's left here is to get the table to not change size randomly)
-  (might also want to change a few magic strings)
 - Have hex and decimal mode
 - Enable labels inside of assembly
 - Enable search inside of the main memory box and jump to the
@@ -28,5 +25,8 @@ Cool future ideas
 DONE:
 - Clear console
 - Run and step
+- Format registers to look pretty 
+  (what's left here is to get the table to not change size randomly)
+  (might also want to change a few magic strings)
 
 

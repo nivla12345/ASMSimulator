@@ -4,9 +4,11 @@
 /**********************************************************************************************************************/
 /********************************************** CONSTANT VALUES *******************************************************/
 /**********************************************************************************************************************/
-const MAX_ADDRESS = 511;
+const MEM_SIZE = 512;
+const MAX_ADDRESS = MEM_SIZE - 1; // Must be a (power of 2) - 1
 const BIT_MASK_16 = 0xFFFF;
 const BIT_MASK_SIGN = 0x8000;
+const DECIMAL_LENGTH = 10;
 const HEX_LENGTH = 16;
 
 // Colors
@@ -16,6 +18,12 @@ const PC_TRACKING_COLOR = "pink";
 // Code syntax
 const COMMENT = ";";
 const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memory address.
+
+/**********************************************************************************************************************/
+/*********************************************** GLOBAL VALUES ********************************************************/
+/**********************************************************************************************************************/
+// Indicates what base I'm in, gets changed by the select tag
+var BASE_VERSION = 10;
 
 /**********************************************************************************************************************/
 /********************************************** ERROR MESSAGES ********************************************************/
@@ -36,6 +44,8 @@ const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack ov
 /************************************************ Dictionaries ********************************************************/
 /**********************************************************************************************************************/
 const LIST_REG_NAMES = {"R0": true, "R1": true, "R2": true, "R3": true};
+const NUM_REGS = Object.keys(LIST_REG_NAMES).length;
+
 const LEGAL_BASE_10_NUMBERS = {"0": true, "1": true, "2": true, "3": true, "4": true, "5": true, "6": true, "7": true,
     "8": true, "9": true};
 const LEGAL_BASE_16_NUMBERS = {"A": true, "B": true, "C": true, "D": true, "E": true, "F": true};
@@ -59,7 +69,7 @@ const INS_DESCRIPTION = {
     "RSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_rsh},
     "LSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_lsh},
     "AND": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_and},
-    "OR": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_or},
+    "OR" : {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_or},
     "CMP": {"nargs": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
     "BRN": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_brn},
     "BRA": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_bra},
@@ -326,14 +336,15 @@ function do_ccl() {
  * ie. n = 10, returns 0010
  */
 function format_addr(n) {
-    n &= 0x1FF;
-    if (n < 10) {
-        return "00" + n;
+    n &= MAX_ADDRESS;
+    var str_n = convert_to_proper_string_base(n);
+    if (n < BASE_VERSION) {
+        return "00" + str_n;
     }
-    else if (n < 100) {
-        return "0" + n;
+    else if (n < BASE_VERSION * BASE_VERSION) {
+        return "0" + str_n;
     }
-    return n;
+    return str_n;
 }
 
 /*
@@ -341,16 +352,29 @@ function format_addr(n) {
  */
 function format_numbers(n) {
     n &= BIT_MASK_16;
-    if (n < 10) {
-        return "000" + n;
+    var str_n = convert_to_proper_string_base(n);
+    if (n < BASE_VERSION) {
+        return "000" + str_n;
     }
-    else if (n < 100) {
-        return "00" + n;
+    else if (n < BASE_VERSION * BASE_VERSION) {
+        return "00" + str_n;
     }
-    else if (n < 1000) {
-        return "0" + n;
+    else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION) {
+        return "0" + str_n;
     }
-    return n;
+    return str_n;
+}
+
+/*
+ * This function converts to the new base. The contract is that it only gets invoked when a change of base occurs.
+ */
+function convert_to_proper_string_base(n) {
+    if (BASE_VERSION === 10) {
+        return n.toString(DECIMAL_LENGTH);
+    }
+    else {
+        return n.toString(HEX_LENGTH);
+    }
 }
 
 /**********************************************************************************************************************/
@@ -369,7 +393,7 @@ function get_arg_val(arg) {
     // Value is an address
     else {
         var ref = get_memory(arg);
-        return ref.substring(1, ref.length);
+        return parseInt(ref.substring(1, ref.length));
     }
 }
 
@@ -385,7 +409,8 @@ function write_memory(address, value) {
     var element = document.getElementById("addr" + address);
     var new_element = document.createElement("span");
     new_element.setAttribute("id", "addr" + address);
-    new_element.innerHTML = "0d0" + format_addr(address) + "   " + value;
+    
+    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_addr(address) + " " + value;
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -396,7 +421,7 @@ function get_memory(address) {
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
         console.error(ERROR_ADDRESS_OUT_OF_BOUNDS);
-        return 0xBEAFBEAF;
+        return -1;
     }
 
     var element = document.getElementById("addr" + address);
@@ -414,7 +439,7 @@ function setR(rNum, rIn) {
     var element = document.getElementById("R" + rNum + "content");
     var new_element = document.createElement("td");
     new_element.setAttribute("id", "R" + rNum + "content");
-    new_element.innerHTML = format_numbers(rIn);
+    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -434,12 +459,12 @@ function setPC(rIn) {
     var element = document.getElementById("PCcontent");
     var new_element = document.createElement("td");
     new_element.setAttribute("id", "PCcontent");
-    new_element.innerHTML = format_numbers(rIn);
+    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
 }
 
 function getSP() {
-    return parseInt(document.getElementById("SPcontent").innerHTML);
+    return parseInt(document.getElementById("SPcontent").innerHTML, BASE_VERSION);
 }
 
 function setSP(rIn) {
@@ -454,7 +479,7 @@ function setSP(rIn) {
     var element = document.getElementById("SPcontent");
     var new_element = document.createElement("td");
     new_element.setAttribute("id", "SPcontent");
-    new_element.innerHTML = format_numbers(rIn);
+    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -684,10 +709,10 @@ function check_instruction(ins, arg0, arg1, n_args) {
  */
 function init_mm() {
     var main_memory = document.getElementById("main_memory");
-    for (var i = 0; i < 512; i++) {
+    for (var i = 0; i < MEM_SIZE; i++) {
         var text = document.createElement("span");
         text.setAttribute("id", "addr" + i);
-        text.innerHTML = "0d0" + format_addr(i) + "    " + format_numbers(0);
+        text.innerHTML = ((BASE_VERSION == 16) ? "0x": "") + format_addr(i) + " " + format_numbers(0);
         var brk = document.createElement("br");
         main_memory.appendChild(text);
         main_memory.appendChild(brk);
@@ -819,7 +844,7 @@ function assemble() {
         }
         line_number = line_number + 1;
     }
-    if (args.length > 512) {
+    if (args.length > MEM_SIZE) {
         args = [];
         errors.push(ERROR_INSUFFICIENT_MEMORY);
     }
@@ -842,6 +867,7 @@ function assemble() {
         var end_message = document.createElement("p");
         end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
         console_out.appendChild(end_message);
+        // Hundred is randomly selected and indicates number of days cookie will live for
         createCookieObject(LINE2MEM, line2args, 100);
         color_pc();
     }
@@ -853,10 +879,11 @@ function assemble() {
  * perform any checks.
  *
  * If there is an error, we need to check the checks section.
- *
- * TODO 2) Filter breakpoints such that a breakpoint anywhere in between two instructions is accessible.
  */
 function run() {
+    // TODO Only assembly if we're already at the end of the program. We can do this by checking the next memory address
+    // TODO values and seeing if its zeroes out.
+    // assemble();
     clear_console();
     uncolor_pc();
     var console_out = document.getElementById("console");
@@ -872,7 +899,7 @@ function run() {
         color_pc();
         return;
     }
-    var status = execute_program(MAX_ADDRESS + 1);
+    var status = execute_program(MEM_SIZE);
     if (status) {
         var running = document.createElement("p");
         running.innerHTML = "Finished running program.";
@@ -981,23 +1008,44 @@ function execute_program(end) {
 }
 
 function clear_memory_image() {
-    for (var i = 0; i < 511; i++) {
+    var i;
+    for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
     }
     do_ccl();
-    for (var i = 0; i < 4; i++) {
+    for (i = 0; i < NUM_REGS; i++) {
         setR(i, 0);
     }
     setPC(0);
-    setSP(511);
+    setSP(MAX_ADDRESS);
 }
 
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
-// Changed base
+// Changed the base displayed for main memory and registers
 function change_base() {
+    if (document.getElementById("base_value").value == "decimal_input") {
+        BASE_VERSION = DECIMAL_LENGTH;
+    }
+    else {
+        BASE_VERSION = HEX_LENGTH;
+    }
+    // TODO Iterate through registers and main memory and change to the appropriate base
+    var i;
+    // Rewrite main memory
+    for (i = 0; i < MEM_SIZE; i++) {
+        write_memory(i, get_memory(i));
+    }
 
+    // Rewrite registers
+    for (i = 0; i < NUM_REGS; i++) {
+        setR(i, getR(i));
+    }
+
+    // Rewrite PC and SP
+    setPC(getPC());
+    setSP(getSP());
 }
 
 // Colors pc in main memory

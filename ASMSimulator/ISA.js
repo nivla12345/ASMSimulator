@@ -17,6 +17,7 @@ const PC_TRACKING_COLOR = "pink";
 
 // Code syntax
 const COMMENT = ";";
+const LABEL_INDICATOR = ".";
 const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memory address.
 
 /**********************************************************************************************************************/
@@ -287,11 +288,14 @@ function do_brg(arg0) {
 
 // TODO Complete when line labeling has taken place.
 // TODO Allow arguments to be passed.
+// TODO Save registers.
 function do_jsr(arg0) {
     setPC(getPC() + 2);
     console.log("JSR instruction called.");
 }
 
+// TODO Unpack registers
+// TODO Store return value in R3.
 function do_rtn() {
     setPC(getPC() + 1);
     console.log("RTN instruction called.");
@@ -728,7 +732,6 @@ function init_mm() {
 function assemble() {
     clear_console();
     clear_memory_image();
-    var prog_text = document.getElementById("program_text");
 
     var console_out = document.getElementById("console");
     var running = document.createElement("p");
@@ -737,28 +740,60 @@ function assemble() {
 
     // Gets the contents of the text box and stores the lines in a list
     var lines = editor.getValue().split("\n");
+
     // This holds the error messages that will be output to the console
     var errors = [];
+
     // This list holds what should be input to main memory
     var args = [];
+
     // This dict maps the instructions to their respective line numbers, this will be used for breakpoints
     // to map line numbers to their respective locations in main memory.
     var line2args = {};
+
+    // This dict maps all the labels to their respective code editor line number
+    var lables = {};
+
+    // This dict maps all the label usages to their respective code editor line number
+    var label_usages = {};
+
+    // Line number refers to the line number in the editor
     var line_number = 1;
     for (i = 0; i < lines.length; i++) {
         // Checks if line is blank or whitespace
         if (lines[i] == "" || /^\s+$/.test(lines[i])) {
-            line_number = line_number + 1;
+            line_number++;
             continue;
         }
+
         // Remove starting and ending whitespace
         var arg_no_comment = lines[i].split(COMMENT)[0].trim();
         // Remove if line is a whitespace
         if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
-            line_number = line_number + 1;
+            line_number++;
             continue;
         }
-        var split_args = arg_no_comment.split(",");
+
+        var arg_no_comment_no_label = arg_no_comment;
+
+        // Check if line contains a label
+        if (arg_no_comment[0] == LABEL_INDICATOR) {
+            var label_arg_split = arg_no_comment.split(/\s+/g);
+
+            // There is some code or something after the label
+            if (label_arg_split.length > 1) {
+                lables[label_arg_split[0]] = line_number;
+                arg_no_comment_no_label = label_arg_split[1];
+            }
+            // There is just the label in this line
+            else {
+                lables[label_arg_split[0]] = line_number;
+                line_number++;
+                continue;
+            }
+        }
+
+        var split_args = arg_no_comment_no_label.split(",");
         // There are 2 arguments
         if (split_args.length == 2) {
             // split by whitespace to get instruction and arg0
@@ -788,7 +823,7 @@ function assemble() {
             else {
                 errors.push("Line " + line_number + " " + ERROR_INCORRECT_SPACING);
                 args = [];
-                line_number = line_number + 1;
+                line_number++;
                 continue;
             }
         }
@@ -807,7 +842,7 @@ function assemble() {
                 else {
                     errors.push(line_number + " " + state["error"]);
                     args = [];
-                    line_number = line_number + 1;
+                    line_number++;
                     continue;
                 }
             }
@@ -824,14 +859,14 @@ function assemble() {
                 else {
                     errors.push("Line " + line_number + " " + state["error"]);
                     args = [];
-                    line_number = line_number + 1;
+                    line_number++;
                     continue;
                 }
             }
             else {
                 errors.push("Line " + line_number + " " + ERROR_INCORRECT_SPACING);
                 args = [];
-                line_number = line_number + 1;
+                line_number++;
                 continue;
             }
         }
@@ -839,19 +874,17 @@ function assemble() {
             // There is some error here as there cannot be more than 2 arguments per line
             errors.push("Line " + line_number + " " + ERROR_INCORRECT_ARGS);
             args = [];
-            line_number = line_number + 1;
+            line_number++;
             continue;
         }
-        line_number = line_number + 1;
+        line_number++;
     }
+
     if (args.length > MEM_SIZE) {
         args = [];
         errors.push(ERROR_INSUFFICIENT_MEMORY);
     }
-    if (!errors.length) {
-        for (i = 0; i < args.length; i++)
-            write_memory(i, args[i]);
-    }
+
     if (errors.length) {
         var end_message = document.createElement("p");
         end_message.innerHTML = "Assembled unsuccessfully. Errors:";
@@ -863,7 +896,10 @@ function assemble() {
             console_out.appendChild(error);
         }
     }
+    // Assembled successfully
     else {
+        for (i = 0; i < args.length; i++)
+            write_memory(i, args[i]);
         var end_message = document.createElement("p");
         end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
         console_out.appendChild(end_message);

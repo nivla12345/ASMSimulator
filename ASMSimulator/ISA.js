@@ -464,7 +464,7 @@ function setPC(rIn) {
 }
 
 function getSP() {
-    return parseInt(document.getElementById("SPcontent").innerHTML, BASE_VERSION);
+    return parseInt(document.getElementById("SPcontent").innerHTML);
 }
 
 function setSP(rIn) {

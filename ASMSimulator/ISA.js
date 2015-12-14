@@ -1153,6 +1153,7 @@ function change_base() {
     // Rewrite PC and SP
     setPC(getPC());
     setSP(getSP());
+    color_pc();
 }
 
 // Colors pc in main memory

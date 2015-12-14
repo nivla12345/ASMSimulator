@@ -1,16 +1,4 @@
 TODO:
-- Enable labels inside of assembly (labels can only be used for branching + subroutine ops)
-
-Steps to take:
- o) There are 2 cases where labels are used:
-   1) Defining the label (Add to a list "label_definitions")
-   2) When the label is used in branching (Add to separate list "label_uses")
-
- o) After iterating over all the lines, check at the end that label_uses is a subset of
-    label_definitions. If not, add the error to the error list.
-
- o) Iterate through the code and substitute 2) with the lines2mem appropriate addresses.
-
 - Enable search inside of the main memory box and jump to the
   appropriate address
 - Format main memory to look pretty
@@ -33,6 +21,7 @@ Steps to take:
 - Write up tutorial
 - Have different CPU speeds
 - Add a features page
+- Enable inputting negative numbers
 
 Cool future ideas
 - Enable hardware customization
@@ -45,3 +34,5 @@ DONE:
   (what's left here is to get the table to not change size randomly)
   (might also want to change a few magic strings)
 - Have hex and decimal mode
+- Enable labels inside of assembly (labels can only be used for branching + subroutine ops)
+

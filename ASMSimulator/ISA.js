@@ -25,6 +25,7 @@ const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memo
 /**********************************************************************************************************************/
 // Indicates what base I'm in, gets changed by the select tag
 var BASE_VERSION = 10;
+var LABELS2LINES = {};
 
 /**********************************************************************************************************************/
 /********************************************** ERROR MESSAGES ********************************************************/
@@ -35,7 +36,7 @@ const ERROR_INCORRECT_SPACING = "ERROR: The number of tokens differs from your f
     " argument.";
 const ERROR_INCORRECT_INS = "ERROR: The instruction does not exist.";
 const ERROR_INCORRECT_NUM_ARGS = "ERROR: The number of arguments does not match the instruction.";
-const ERROR_INCORRECT_ARG_TYPE = "ERROR: The argument type provided is incorrect.";
+const ERROR_INCORRECT_ARG_TYPE = "ERROR: There is something wrong with the argument provided.";
 const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program. Upgrade to premium for " +
     "more memory.";
 const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input is out of bounds";
@@ -50,7 +51,7 @@ const NUM_REGS = Object.keys(LIST_REG_NAMES).length;
 const LEGAL_BASE_10_NUMBERS = {"0": true, "1": true, "2": true, "3": true, "4": true, "5": true, "6": true, "7": true,
     "8": true, "9": true};
 const LEGAL_BASE_16_NUMBERS = {"A": true, "B": true, "C": true, "D": true, "E": true, "F": true};
-const CHECK_ARGS = {"I": checkI, "R": checkR, "M": checkM};
+const CHECK_ARGS = {"I": checkI, "R": checkR, "M": checkM, "L": checkL};
 const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
 
 /*
@@ -72,11 +73,11 @@ const INS_DESCRIPTION = {
     "AND": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_and},
     "OR" : {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_or},
     "CMP": {"nargs": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
-    "BRN": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_brn},
-    "BRA": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_bra},
-    "BRZ": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_brz},
-    "BRG": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_brg},
-    "JSR": {"nargs": 1, "arg0": "M", "arg1": "", "f": do_jsr},
+    "BRN": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brn},
+    "BRA": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_bra},
+    "BRZ": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brz},
+    "BRG": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brg},
+    "JSR": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_jsr},
     "RTN": {"nargs": 0, "arg0": "", "arg1": "", "f": do_rtn},
     "POP": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_pop},
     "PSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_psh},
@@ -609,23 +610,24 @@ function checkM(mem) {
     if (mem.length < 1)
         return state;
     else {
+        var i;
         // Immediate value may be hex
         if (mem.length > 2) {
             // Value is hex
             if (mem.substring(0, 2) == "0x") {
-                for (var i = 2; i < mem.length; i++) {
+                for (i = 2; i < mem.length; i++) {
                     if (!(mem[i] in LEGAL_BASE_10_NUMBERS || mem[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
                         return state;
                     }
                 }
-                if (mem > 0x1FF || mem < 0) {
+                if (mem > MAX_ADDRESS || mem < 0) {
                     return state;
                 }
                 state["arg"] = mem;
             }
             // Value is decimal
             else {
-                for (var i = 0; i < mem.length; i++) {
+                for (i = 0; i < mem.length; i++) {
                     if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
                         return state;
                     }
@@ -638,7 +640,7 @@ function checkM(mem) {
         }
         // Number is length 1 or 2
         else {
-            for (var i = 0; i < mem.length; i++) {
+            for (i = 0; i < mem.length; i++) {
                 if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
                     return state;
                 }
@@ -647,6 +649,15 @@ function checkM(mem) {
         }
         state["state"] = true;
         return state;
+    }
+}
+
+function checkL(label) {
+    if (label in LABELS2LINES) {
+        return {"state": true, "arg": label};
+    }
+    else {
+        return {"state": false, "arg": 0};
     }
 }
 
@@ -723,6 +734,62 @@ function init_mm() {
     }
 }
 
+// Gets the assigned labels throughout the text editor.
+function get_labels(lines) {
+    var line_number = 1;
+    for (var i = 0; i < lines.length; i++) {
+        // Checks if line is blank or whitespace
+        if (lines[i] == "" || /^\s+$/.test(lines[i])) {
+            line_number++;
+            continue;
+        }
+
+        // Remove starting and ending whitespace
+        var arg_no_comment = lines[i].split(COMMENT)[0].trim();
+
+        // Remove if line is a whitespace
+        if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
+            line_number++;
+            continue;
+        }
+
+        // Check if there is a label and filter it out.
+        if (arg_no_comment[0] == LABEL_INDICATOR) {
+            var split_label_line = arg_no_comment.split(/\s+/g);
+            var label = split_label_line[0];
+            if (split_label_line.length > 1) {
+                LABELS2LINES[label] = line_number;
+            }
+            // Find the next line that's neither whitespace nor comment.
+            else {
+                var seeker = i + 1;
+                for (; seeker < lines.length; seeker++) {
+                    // Checks if line is blank or whitespace
+                    if (lines[seeker] == "" || /^\s+$/.test(lines[seeker])) {
+                        continue;
+                    }
+
+                    // Remove starting and ending whitespace
+                    var line_no_comment = $.trim(lines[seeker].split(COMMENT)[0]);
+
+                    // Remove if line is a whitespace
+                    if (line_no_comment == "" || /^\s+$/.test(line_no_comment)) {
+                        continue;
+                    }
+
+                    if (line_no_comment[0] == LABEL_INDICATOR) {
+                        continue;
+                    }
+
+                    LABELS2LINES[label] = seeker + 1;
+                    break;
+                }
+            }
+        }
+        line_number++;
+    }
+}
+
 /*
  * The assembler will take the program text and either:
  * 1) print out the errors which are supposed to be directed to the console or
@@ -751,11 +818,9 @@ function assemble() {
     // to map line numbers to their respective locations in main memory.
     var line2args = {};
 
-    // This dict maps all the labels to their respective code editor line number
-    var lables = {};
+    LABELS2LINES = {};
 
-    // This dict maps all the label usages to their respective code editor line number
-    var label_usages = {};
+    get_labels(lines);
 
     // Line number refers to the line number in the editor
     var line_number = 1;
@@ -776,36 +841,38 @@ function assemble() {
 
         var arg_no_comment_no_label = arg_no_comment;
 
-        // Check if line contains a label
+        // Check if there is a label and filter it out.
         if (arg_no_comment[0] == LABEL_INDICATOR) {
             var label_arg_split = arg_no_comment.split(/\s+/g);
 
             // There is some code or something after the label
             if (label_arg_split.length > 1) {
-                lables[label_arg_split[0]] = line_number;
                 arg_no_comment_no_label = label_arg_split[1];
+                for (var j = 2; j < label_arg_split.length; j++) {
+                    arg_no_comment_no_label += (" " + label_arg_split[j]);
+                }
             }
             // There is just the label in this line
             else {
-                lables[label_arg_split[0]] = line_number;
                 line_number++;
                 continue;
             }
         }
 
         var split_args = arg_no_comment_no_label.split(",");
+        var ins = "";
+        var state;
         // There are 2 arguments
         if (split_args.length == 2) {
             // split by whitespace to get instruction and arg0
             var ins_arg0 = split_args[0].split(/\s+/g);
-            var ins = "";
             var arg0 = "";
             var arg1 = split_args[1].trim();
             // 2 arguments
             if (ins_arg0.length == 2) {
                 ins = ins_arg0[0];
                 arg0 = ins_arg0[1];
-                var state = check_instruction(ins, arg0, arg1, 2);
+                state = check_instruction(ins, arg0, arg1, 2);
                 if (state["state"]) {
                     line2args[line_number] = args.length;
                     args.push(ins);
@@ -830,11 +897,10 @@ function assemble() {
         // There are either 1 or no arguments
         else if (split_args.length == 1) {
             var ins_maybe_arg = split_args[0].split(/\s+/g);
-            var ins = "";
             // No arguments
             if (ins_maybe_arg.length == 1) {
                 ins = ins_maybe_arg[0];
-                var state = check_instruction(ins, "", "", 0);
+                state = check_instruction(ins, "", "", 0);
                 if (state["state"]) {
                     line2args[line_number] = args.length;
                     args.push(ins);
@@ -850,7 +916,7 @@ function assemble() {
             else if (ins_maybe_arg.length == 2) {
                 ins = ins_maybe_arg[0];
                 arg0 = ins_maybe_arg[1];
-                var state = check_instruction(ins, arg0, "", 1);
+                state = check_instruction(ins, arg0, "", 1);
                 if (state["state"]) {
                     line2args[line_number] = args.length;
                     args.push(ins);
@@ -898,8 +964,13 @@ function assemble() {
     }
     // Assembled successfully
     else {
-        for (i = 0; i < args.length; i++)
-            write_memory(i, args[i]);
+        for (i = 0; i < args.length; i++) {
+            var arg = args[i];
+            if (arg[0] === ".") {
+                arg = line2args[LABELS2LINES[arg]];
+            }
+            write_memory(i, arg);
+        }
         var end_message = document.createElement("p");
         end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
         console_out.appendChild(end_message);

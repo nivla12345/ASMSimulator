@@ -725,12 +725,15 @@ function check_instruction(ins, arg0, arg1, n_args) {
 function init_mm() {
     var main_memory = document.getElementById("main_memory");
     for (var i = 0; i < MEM_SIZE; i++) {
-        var text = document.createElement("span");
-        text.setAttribute("id", "addr" + i);
-        text.innerHTML = ((BASE_VERSION == 16) ? "0x": "") + format_addr(i) + " " + format_numbers(0);
-        var brk = document.createElement("br");
-        main_memory.appendChild(text);
-        main_memory.appendChild(brk);
+        var table_row = document.createElement("tr");
+        var addr_col = document.createElement("td");
+        var value_col = document.createElement("td");
+        table_row.setAttribute("id", "addr" + i);
+        addr_col.innerHTML = ((BASE_VERSION == 16) ? "0x" : "") + format_addr(i);
+        value_col.innerHTML = format_numbers(0);
+        $(table_row).append(addr_col);
+        $(table_row).append(value_col);
+        $(main_memory).append(table_row);
     }
 }
 

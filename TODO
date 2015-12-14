@@ -3,6 +3,7 @@ TODO:
   appropriate address
 - Format main memory to look pretty
 - Format console to look pretty
+- Look into panels to encapsulate objects
 - Stop program button with interrupt
 - Go through TODOs in code
 - Scroll with pc
@@ -20,6 +21,7 @@ TODO:
 - Have different CPU speeds
 - Add a features page
 - Enable inputting negative numbers
+- Use the bootstrap glyphs
 
 Cool future ideas
 - Enable hardware customization

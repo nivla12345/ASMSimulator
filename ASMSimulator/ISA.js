@@ -412,10 +412,10 @@ function write_memory(address, value) {
         return;
     }
     var element = document.getElementById("addr" + address);
-    var new_element = document.createElement("span");
+    var new_element = document.createElement("td");
     new_element.setAttribute("id", "addr" + address);
-    
-    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_addr(address) + " " + value;
+
+    new_element.innerHTML = value;
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -430,7 +430,7 @@ function get_memory(address) {
     }
 
     var element = document.getElementById("addr" + address);
-    return element.innerHTML.split(/\s+/g)[1];
+    return element.innerHTML;
 }
 
 /*
@@ -728,8 +728,9 @@ function init_mm() {
         var table_row = document.createElement("tr");
         var addr_col = document.createElement("td");
         var value_col = document.createElement("td");
-        table_row.setAttribute("id", "addr" + i);
-        addr_col.innerHTML = ((BASE_VERSION == 16) ? "0x" : "") + format_addr(i);
+        addr_col.setAttribute("id", "address" + i);
+        value_col.setAttribute("id", "addr" + i);
+        addr_col.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i);
         value_col.innerHTML = format_numbers(0);
         $(table_row).append(addr_col);
         $(table_row).append(value_col);
@@ -1141,11 +1142,11 @@ function change_base() {
     else {
         BASE_VERSION = HEX_LENGTH;
     }
-    // TODO Iterate through registers and main memory and change to the appropriate base
+    // TODO Iterate through main memory and change to the appropriate base
     var i;
     // Rewrite main memory
     for (i = 0; i < MEM_SIZE; i++) {
-        write_memory(i, get_memory(i));
+        $("#address" + i).html(((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i));
     }
 
     // Rewrite registers
@@ -1161,12 +1162,12 @@ function change_base() {
 
 // Colors pc in main memory
 function color_pc() {
-    $("#addr" + getPC().toString()).css({"backgroundColor": PC_TRACKING_COLOR});
+    $("#addr" + getPC().toString()).parent().css({"backgroundColor": PC_TRACKING_COLOR});
 }
 
 // Uncolors pc in main memory
 function uncolor_pc() {
-    $("#addr" + getPC().toString()).css({"backgroundColor": MAIN_MEMORY_BACKGROUND_COLOR});
+    $("#addr" + getPC().toString()).parent().css({"backgroundColor": MAIN_MEMORY_BACKGROUND_COLOR});
 }
 
 function remove_line2mem() {

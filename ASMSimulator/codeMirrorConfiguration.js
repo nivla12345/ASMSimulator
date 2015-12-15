@@ -29,3 +29,7 @@ function makeMarker() {
     marker.innerHTML = "●";
     return marker;
 }
+
+editor.on("keyHandled", function (cm, n) {
+    console.log("Blah~" + n);
+});

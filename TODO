@@ -2,7 +2,7 @@ TODO:
 - Enable search inside of the main memory box and jump to the
   appropriate address
 - Format main memory to look pretty
-- Format console to look pretty
+- Format console to look pretty, have auto-scroll
 - Look into panels to encapsulate objects
 - Stop program button with interrupt
 - Go through TODOs in code
@@ -14,6 +14,7 @@ TODO:
 - Make sure you can't set breakpoints on lines that make no sense
 - Use the twitter bootstrap button feature to blank out the button while 
   running
+- When breakpoint newline, update the breakpoint cookie
 - Implement JSR and RTN
 - Give code specific color + auto complete
 - Square bracket to dereference (this will need to be done in run time)

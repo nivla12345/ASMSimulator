@@ -7,12 +7,13 @@
  */
 
 function createCookie(name, value, days) {
+    var expires;
     if (days) {
         var date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        var expires = "; expires=" + date.toGMTString();
+        expires = "; expires=" + date.toUTCString();
     }
-    else var expires = "";
+    else expires = "";
     document.cookie = name + "=" + value + expires + "; path=/";
 }
 
@@ -37,45 +38,4 @@ function createCookieObject(name, value, days) {
 
 function readCookieObject(name) {
     return JSON.parse(readCookie(name));
-}
-
-/*
- * Breakpoint handlers
- */
-function addBreakpoint(value) {
-    var bp = readCookie("breakpoint");
-    if (bp == null) {
-        createCookie("breakpoint", "," + value, 100);
-        return;
-    }
-    createCookie("breakpoint", bp + "," + value, 100);
-}
-
-function deleteBreakpoint(value) {
-    createCookie("breakpoint", readCookie("breakpoint").replace("," + value, ""), 100);
-}
-
-function deleteAllBreakpoints() {
-    var bps = getBreakpoints();
-    for (var i = 0; i < bps.length; i++) {
-        deleteBreakpoint(bps[i]);
-    }
-}
-
-// Gets the breakpoint line numbers
-function getBreakpoints() {
-    var bp = readCookie("breakpoint");
-    if (bp == "" || !bp) {
-        return [];
-    }
-    return bp.split(",").slice(1);
-}
-
-function pcAtBP(bps, pc, line2mem) {
-    for (var i = 0; i < bps.length; i++) {
-        if (line2mem[parseInt(bps[i])] == pc) {
-            return true;
-        }
-    }
-    return false;
 }

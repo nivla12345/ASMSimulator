@@ -14,12 +14,6 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
 
 editor.on("gutterClick", function(cm, n) {
     var info = cm.lineInfo(n);
-    if (info.gutterMarkers) {
-        deleteBreakpoint(n + 1);
-    }
-    else {
-        addBreakpoint(n + 1);
-    }
     cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
 });
 
@@ -30,6 +24,8 @@ function makeMarker() {
     return marker;
 }
 
-editor.on("keyHandled", function (cm, n) {
-    console.log("Blah~" + n);
-});
+function pcAtBP(mem2line, pc) {
+    if (_.has(mem2line, pc))
+        return editor.lineInfo(parseInt(mem2line[pc]) - 1).gutterMarkers != null;
+    return false;
+}

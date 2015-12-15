@@ -19,12 +19,14 @@ const PC_TRACKING_COLOR = "pink";
 const COMMENT = ";";
 const LABEL_INDICATOR = ".";
 const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memory address.
+const MEM2LINE = "mem2line";
 
 /**********************************************************************************************************************/
 /*********************************************** GLOBAL VALUES ********************************************************/
 /**********************************************************************************************************************/
 // Indicates what base I'm in, gets changed by the select tag
 var BASE_VERSION = 10;
+var COOKIE_LIFE_SPAN = 100;
 var LABELS2LINES = {};
 
 /**********************************************************************************************************************/
@@ -696,9 +698,10 @@ function check_instruction(ins, arg0, arg1, n_args) {
         state["error"] = ERROR_INCORRECT_NUM_ARGS;
         return state;
     }
+    var arg0allowable;
     // Check the argument state
     if (n_args == 2) {
-        var arg0allowable = INS_DESCRIPTION[ins]["arg0"];
+        arg0allowable = INS_DESCRIPTION[ins]["arg0"];
         var arg1allowable = INS_DESCRIPTION[ins]["arg1"];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
@@ -708,7 +711,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
             return state;
     }
     else if (n_args == 1) {
-        var arg0allowable = INS_DESCRIPTION[ins]["arg0"];
+        arg0allowable = INS_DESCRIPTION[ins]["arg0"];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -955,8 +958,9 @@ function assemble() {
         errors.push(ERROR_INSUFFICIENT_MEMORY);
     }
 
+    var end_message;
     if (errors.length) {
-        var end_message = document.createElement("p");
+        end_message = document.createElement("p");
         end_message.innerHTML = "Assembled unsuccessfully. Errors:";
         console_out.appendChild(end_message);
         for (var i = 0; i < errors.length; i++) {
@@ -975,11 +979,11 @@ function assemble() {
             }
             write_memory(i, arg);
         }
-        var end_message = document.createElement("p");
+        end_message = document.createElement("p");
         end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
         console_out.appendChild(end_message);
-        // Hundred is randomly selected and indicates number of days cookie will live for
-        createCookieObject(LINE2MEM, line2args, 100);
+        createCookieObject(LINE2MEM, line2args, COOKIE_LIFE_SPAN);
+        createCookieObject(MEM2LINE, _.invert(line2args), COOKIE_LIFE_SPAN);
         color_pc();
     }
 }
@@ -1004,7 +1008,7 @@ function run() {
     var pc = getPC();
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        var running = document.createElement("p");
+        running = document.createElement("p");
         running.innerHTML = "Finished running program.";
         console_out.appendChild(running);
         color_pc();
@@ -1012,7 +1016,7 @@ function run() {
     }
     var status = execute_program(MEM_SIZE);
     if (status) {
-        var running = document.createElement("p");
+        running = document.createElement("p");
         running.innerHTML = "Finished running program.";
         console_out.appendChild(running);
         color_pc();
@@ -1031,40 +1035,38 @@ function step() {
     console_out.appendChild(running);
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        var running = document.createElement("p");
+        running = document.createElement("p");
         running.innerHTML = "End step at address " + pc;
         console_out.appendChild(running);
         color_pc();
         return;
     }
     var work_ins = get_memory(pc);
-    // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
-    while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS) {
-        var nargs = INS_DESCRIPTION[work_ins]["nargs"];
-        // No args
-        if (nargs == 0) {
-            INS_DESCRIPTION[work_ins]["f"]();
-        }
-        // 1 arg
-        else if (nargs == 1) {
-            var arg0 = get_memory(pc + 1);
-            INS_DESCRIPTION[work_ins]["f"](arg0);
-        }
-        // 2 args
-        else if (nargs == 2) {
-            var arg0 = get_memory(pc + 1);
-            var arg1 = get_memory(pc + 2);
-            INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
-        }
-        else {
-            console.error("ERROR: I have no idea how it got here. Basically the INS_DESCRIPTION dict got corrupted");
-            return;
-        }
-        pc = getPC();
-        work_ins = get_memory(pc);
-        break;
+
+    var nargs = INS_DESCRIPTION[work_ins]["nargs"];
+    var arg0;
+    // No args
+    if (nargs == 0) {
+        INS_DESCRIPTION[work_ins]["f"]();
     }
-    var running = document.createElement("p");
+    // 1 arg
+    else if (nargs == 1) {
+        arg0 = get_memory(pc + 1);
+        INS_DESCRIPTION[work_ins]["f"](arg0);
+    }
+    // 2 args
+    else if (nargs == 2) {
+        arg0 = get_memory(pc + 1);
+        var arg1 = get_memory(pc + 2);
+        INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
+    }
+    else {
+        console.error("ERROR: I have no idea how it got here. Basically the INS_DESCRIPTION dict got corrupted");
+        return;
+    }
+    pc = getPC();
+
+    running = document.createElement("p");
     running.innerHTML = "End step at address " + pc;
     console_out.appendChild(running);
     color_pc();
@@ -1080,23 +1082,23 @@ function execute_program(end) {
     uncolor_pc();
     var pc = getPC();
     var work_ins = get_memory(pc);
-    var bps = getBreakpoints();
-    var line2mem = readCookieObject(LINE2MEM);
+    var mem2line = readCookieObject(MEM2LINE);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS && pc != end) {
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];
+        var arg0;
         // No args
         if (nargs == 0) {
             INS_DESCRIPTION[work_ins]["f"]();
         }
         // 1 arg
         else if (nargs == 1) {
-            var arg0 = get_memory(pc + 1);
+            arg0 = get_memory(pc + 1);
             INS_DESCRIPTION[work_ins]["f"](arg0);
         }
         // 2 args
         else if (nargs == 2) {
-            var arg0 = get_memory(pc + 1);
+            arg0 = get_memory(pc + 1);
             var arg1 = get_memory(pc + 2);
             INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
         }
@@ -1106,7 +1108,7 @@ function execute_program(end) {
         }
         pc = getPC();
         work_ins = get_memory(pc);
-        if (pcAtBP(bps, pc, line2mem)) {
+        if (pcAtBP(mem2line, pc)) {
             var console_out = document.getElementById("console");
             var running = document.createElement("p");
             running.innerHTML = "Breakpoint hit, main memory address: " + pc.toString();
@@ -1120,6 +1122,7 @@ function execute_program(end) {
 
 function clear_memory_image() {
     var i;
+    uncolor_pc();
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
     }
@@ -1170,15 +1173,15 @@ function uncolor_pc() {
     $("#addr" + getPC().toString()).parent().css({"backgroundColor": MAIN_MEMORY_BACKGROUND_COLOR});
 }
 
-function remove_line2mem() {
+function remove_line2mem_mem2line() {
     eraseCookie(LINE2MEM);
+    eraseCookie(MEM2LINE);
 }
 
 // Functions to call on page load
 function init() {
     init_mm();
-    remove_line2mem();
-    deleteAllBreakpoints();
+    remove_line2mem_mem2line();
 }
 
 function clear_console() {

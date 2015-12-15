@@ -289,16 +289,12 @@ function do_brg(arg0) {
         setPC(getPC() + 2);
 }
 
-// TODO Complete when line labeling has taken place.
-// TODO Allow arguments to be passed.
-// TODO Save registers.
 function do_jsr(arg0) {
     setPC(getPC() + 2);
     console.log("JSR instruction called.");
 }
 
-// TODO Unpack registers
-// TODO Store return value in R3.
+// Return value to R3
 function do_rtn() {
     setPC(getPC() + 1);
     console.log("RTN instruction called.");
@@ -410,8 +406,7 @@ function get_arg_val(arg) {
 function write_memory(address, value) {
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
-        // TODO Output this error to console
-        console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
     var element = document.getElementById("addr" + address);
@@ -456,9 +451,8 @@ function getPC() {
 }
 
 function setPC(rIn) {
-    // TODO Output these errors to console
     if (rIn > MAX_ADDRESS || rIn < 0) {
-        console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
     if (getPC() > getSP()) {
@@ -477,9 +471,8 @@ function getSP() {
 }
 
 function setSP(rIn) {
-    // TODO Output these errors to console
     if (rIn > MAX_ADDRESS || rIn < 0) {
-        console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
     if (getPC() > getSP()) {
@@ -551,7 +544,6 @@ function checkR(reg) {
 
 /*
  * Checks that the immediate value is correct. This includes in bounds and contains all the proper numeric characters.
- * TODO Enable this ISA to allow users to input negative numbers.
  */
 function checkI(imm) {
     var state = {"state": false, "arg": 0};
@@ -685,7 +677,6 @@ function check_individual_args(arg_allowable, arg, state) {
  * - R0-R3
  * - 0 <= value <= BIT_MASK_16
  * - Dereference values and check that the dereferenced values are valid.
- * TODO Include a way to dereference memory upon square brackets
  */
 function check_instruction(ins, arg0, arg1, n_args) {
     var state = {"state": true, "error": ""};
@@ -987,8 +978,6 @@ function assemble() {
  * If there is an error, we need to check the checks section.
  */
 function run() {
-    // TODO Only assembly if we're already at the end of the program. We can do this by checking the next memory address
-    // TODO values and seeing if its zeroes out.
     // assemble();
     clear_console();
     uncolor_pc();
@@ -1123,6 +1112,7 @@ function write_error_to_console(string) {
     var console_out = document.getElementById("console");
     var running = document.createElement("p");
     running.innerHTML = string;
+    running.style.color = "red";
     console_out.appendChild(running);
     console_out.scrollTop = console_out.scrollHeight;
 }
@@ -1135,7 +1125,6 @@ function change_base() {
     else {
         BASE_VERSION = HEX_LENGTH;
     }
-    // TODO Iterate through main memory and change to the appropriate base
     var i;
     // Rewrite main memory
     for (i = 0; i < MEM_SIZE; i++) {

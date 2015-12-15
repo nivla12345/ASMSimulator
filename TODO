@@ -1,5 +1,4 @@
 TODO:
-- Go through TODOs in code
 - Scroll with pc
 - Link main memory location to line number in code to highlight section
   of code hit in text editor
@@ -26,6 +25,7 @@ Cool future ideas
   back to back runs
 - Enable search inside of the main memory box and jump to the
   appropriate address (only do this with a dropdown search).
+- Change main memory values to hex on hex change.
 
 DONE:
 - Clear console
@@ -39,4 +39,5 @@ DONE:
 - Format console to look pretty, have auto-scroll
 - Look into panels to encapsulate objects
 - When breakpoint newline, update the breakpoint cookie
+- Go through TODOs in code
 

@@ -410,6 +410,7 @@ function get_arg_val(arg) {
 function write_memory(address, value) {
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
+        // TODO Output this error to console
         console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
@@ -455,6 +456,7 @@ function getPC() {
 }
 
 function setPC(rIn) {
+    // TODO Output these errors to console
     if (rIn > MAX_ADDRESS || rIn < 0) {
         console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
@@ -475,6 +477,7 @@ function getSP() {
 }
 
 function setSP(rIn) {
+    // TODO Output these errors to console
     if (rIn > MAX_ADDRESS || rIn < 0) {
         console.log(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
@@ -806,11 +809,7 @@ function get_labels(lines) {
 function assemble() {
     clear_console();
     clear_memory_image();
-
-    var console_out = document.getElementById("console");
-    var running = document.createElement("p");
-    running.innerHTML = "Your program is being assembled...";
-    console_out.appendChild(running);
+    write_to_console("Your program is being assembled...");
 
     // Gets the contents of the text box and stores the lines in a list
     var lines = editor.getValue().split("\n");
@@ -960,14 +959,9 @@ function assemble() {
 
     var end_message;
     if (errors.length) {
-        end_message = document.createElement("p");
-        end_message.innerHTML = "Assembled unsuccessfully. Errors:";
-        console_out.appendChild(end_message);
+        write_to_console("Assembled unsuccessfully. Errors:");
         for (var i = 0; i < errors.length; i++) {
-            var error = document.createElement("p");
-            error.setAttribute("style", "color:red");
-            error.innerHTML = errors[i];
-            console_out.appendChild(error);
+            write_error_to_console(errors[i]);
         }
     }
     // Assembled successfully
@@ -979,9 +973,7 @@ function assemble() {
             }
             write_memory(i, arg);
         }
-        end_message = document.createElement("p");
-        end_message.innerHTML = "Assembled successfully. Data now stored in main memory.";
-        console_out.appendChild(end_message);
+        write_to_console("Assembled successfully. Data now stored in main memory.");
         createCookieObject(LINE2MEM, line2args, COOKIE_LIFE_SPAN);
         createCookieObject(MEM2LINE, _.invert(line2args), COOKIE_LIFE_SPAN);
         color_pc();
@@ -1001,24 +993,18 @@ function run() {
     // assemble();
     clear_console();
     uncolor_pc();
-    var console_out = document.getElementById("console");
-    var running = document.createElement("p");
-    running.innerHTML = "Program started running...";
-    console_out.appendChild(running);
+    write_to_console("Program started running...");
+
     var pc = getPC();
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        running = document.createElement("p");
-        running.innerHTML = "Finished running program.";
-        console_out.appendChild(running);
+        write_to_console("Finished running program.");
         color_pc();
         return;
     }
     var status = execute_program(MEM_SIZE);
     if (status) {
-        running = document.createElement("p");
-        running.innerHTML = "Finished running program.";
-        console_out.appendChild(running);
+        write_to_console("Finished running program.");
         color_pc();
     }
 }
@@ -1027,17 +1013,12 @@ function run() {
  * Performs a single assembly instruction step.
  */
 function step() {
-    var console_out = document.getElementById("console");
-    var running = document.createElement("p");
     var pc = getPC();
     uncolor_pc();
-    running.innerHTML = "Start step from address " + pc;
-    console_out.appendChild(running);
+    write_to_console("Start step from address " + pc);
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        running = document.createElement("p");
-        running.innerHTML = "End step at address " + pc;
-        console_out.appendChild(running);
+        write_to_console("End step at address " + pc);
         color_pc();
         return;
     }
@@ -1065,10 +1046,7 @@ function step() {
         return;
     }
     pc = getPC();
-
-    running = document.createElement("p");
-    running.innerHTML = "End step at address " + pc;
-    console_out.appendChild(running);
+    write_to_console("End step at address " + pc);
     color_pc();
 }
 
@@ -1109,10 +1087,7 @@ function execute_program(end) {
         pc = getPC();
         work_ins = get_memory(pc);
         if (pcAtBP(mem2line, pc)) {
-            var console_out = document.getElementById("console");
-            var running = document.createElement("p");
-            running.innerHTML = "Breakpoint hit, main memory address: " + pc.toString();
-            console_out.appendChild(running);
+            write_to_console("Breakpoint hit, main memory address: " + pc.toString());
             color_pc();
             return false;
         }
@@ -1137,6 +1112,22 @@ function clear_memory_image() {
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
+function write_to_console(string) {
+    var console_out = document.getElementById("console");
+    var running = document.createElement("p");
+    running.innerHTML = string;
+    console_out.appendChild(running);
+    console_out.scrollTop = console_out.scrollHeight;
+}
+
+function write_error_to_console(string) {
+    var console_out = document.getElementById("console");
+    var running = document.createElement("p");
+    running.innerHTML = string;
+    console_out.appendChild(running);
+    console_out.scrollTop = console_out.scrollHeight;
+}
+
 // Changed the base displayed for main memory and registers
 function change_base() {
     if (document.getElementById("base_value").value == "decimal_input") {

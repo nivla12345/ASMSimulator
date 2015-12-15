@@ -957,7 +957,6 @@ function assemble() {
         errors.push(ERROR_INSUFFICIENT_MEMORY);
     }
 
-    var end_message;
     if (errors.length) {
         write_to_console("Assembled unsuccessfully. Errors:");
         for (var i = 0; i < errors.length; i++) {

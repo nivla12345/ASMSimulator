@@ -1206,6 +1206,8 @@ $("#step_button").keyup(function (event) {
     }
 });
 
+$('td[rowspan]').addClass('hasRowSpan');
+
 document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
 document.getElementById("assemble_button").addEventListener("click", assemble);
 document.getElementById("run_button").addEventListener("click", run);

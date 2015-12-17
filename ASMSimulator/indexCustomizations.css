@@ -13,3 +13,7 @@ table.fixed td { overflow: hidden; }
 #main_memory {
     position: relative;
 }
+
+tbody tr:hover td.hasRowSpan {
+    background-color: white; /* or whatever color you want */
+}

@@ -1,12 +1,14 @@
 /**
  * Created by Alvin on 12/9/15.
  */
+
 <!-- TODO Create my own autocomplete for this ISA -->
 var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
     lineNumbers: true,
     lineWrapping: true,
-    extraKeys: {"Ctrl-Space": "autocomplete"},
-    mode: {name: "javascript", globalVars: true}, // TODO Change from javascript to something else.
+    //extraKeys: {"Ctrl-Space": "autocomplete"}, // TODO Change from javascript to something else.
+    mode: {name: "javascript"}, // TODO Change from javascript to something else.
+    //mode: "simplemode",
     styleActiveLine: true,
     theme: "blackboard",
     gutters: ["CodeMirror-linenumbers", "breakpoints"]

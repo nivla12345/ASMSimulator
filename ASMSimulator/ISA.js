@@ -14,7 +14,7 @@ const HEX_LENGTH = 16;
 // HTML Globals
 const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
 const PC_TRACKING_COLOR = "pink";
-const HALF_TABLE_LENGTH = 6 * 31;
+const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel length of row
 
 // Code syntax
 const COMMENT = ";";
@@ -343,12 +343,12 @@ function format_addr(n) {
     n &= MAX_ADDRESS;
     var str_n = convert_to_proper_string_base(n);
     if (n < BASE_VERSION) {
-        return "00" + str_n;
+        return "00" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION) {
-        return "0" + str_n;
+        return "0" + str_n.toUpperCase();
     }
-    return str_n;
+    return str_n.toUpperCase();
 }
 
 /*
@@ -358,15 +358,15 @@ function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
     if (n < BASE_VERSION) {
-        return "000" + str_n;
+        return "000" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION) {
-        return "00" + str_n;
+        return "00" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION) {
-        return "0" + str_n;
+        return "0" + str_n.toUpperCase();
     }
-    return str_n;
+    return str_n.toUpperCase();
 }
 
 /*
@@ -1181,6 +1181,7 @@ function remove_line2mem_mem2line() {
 function init() {
     init_mm();
     remove_line2mem_mem2line();
+    color_pc();
 }
 
 function clear_console() {

@@ -1,7 +1,4 @@
 TODO:
-- Scroll with pc
-- Link main memory location to line number in code to highlight section
-  of code hit in text editor
 - Save and load
 - Set up debug button (heed breakpoints)
 - Format the above 2 categories of buttons
@@ -9,7 +6,6 @@ TODO:
 - Use the twitter bootstrap button feature to blank out the button while 
   running
 - Implement JSR and RTN
-- Give code specific color + auto complete
 - Square bracket to dereference (this will need to be done in run time)
 - Write up tutorial
 - Have different CPU speeds
@@ -17,6 +13,7 @@ TODO:
 - Add a features page
 - Enable inputting negative numbers
 - Use the bootstrap glyphs
+- Give code specific color + auto complete
 
 Cool future ideas
 - Enable hardware customization
@@ -26,6 +23,8 @@ Cool future ideas
 - Enable search inside of the main memory box and jump to the
   appropriate address (only do this with a dropdown search).
 - Change main memory values to hex on hex change.
+- Link main memory location to line number in code to highlight section
+  of code hit in text editor (only do this if change to bytemode)
 
 DONE:
 - Clear console
@@ -40,4 +39,5 @@ DONE:
 - Look into panels to encapsulate objects
 - When breakpoint newline, update the breakpoint cookie
 - Go through TODOs in code
+- Scroll with pc
 

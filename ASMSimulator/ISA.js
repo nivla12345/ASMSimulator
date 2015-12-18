@@ -11,9 +11,10 @@ const BIT_MASK_SIGN = 0x8000;
 const DECIMAL_LENGTH = 10;
 const HEX_LENGTH = 16;
 
-// Colors
+// HTML Globals
 const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
 const PC_TRACKING_COLOR = "pink";
+const HALF_TABLE_LENGTH = 6 * 31;
 
 // Code syntax
 const COMMENT = ";";
@@ -469,6 +470,7 @@ function setPC(rIn) {
     new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
     color_pc();
+    jump2pc_in_mm();
 }
 
 function getSP() {
@@ -1118,9 +1120,22 @@ function write_error_to_console(string) {
     console_out.scrollTop = console_out.scrollHeight;
 }
 
+// Scrolls to the PC in the main memory table. Always scrolls to the midpoint.
 function jump2pc_in_mm() {
     var row_pos = $('#address' + getPC()).parent().position();
-    $('#div_main_memory').scrollTop(row_pos.top);
+    $('#div_main_memory').scrollTop(Math.max(0, row_pos.top - HALF_TABLE_LENGTH));
+}
+
+function scrollIntoView(element, container) {
+    var containerTop = $(container).scrollTop();
+    var containerBottom = containerTop + $(container).height();
+    var elemTop = element.offsetTop;
+    var elemBottom = elemTop + $(element).height();
+    if (elemTop < containerTop) {
+        $(container).scrollTop(elemTop);
+    } else if (elemBottom > containerBottom) {
+        $(container).scrollTop(elemBottom - $(container).height());
+    }
 }
 
 // Changed the base displayed for main memory and registers

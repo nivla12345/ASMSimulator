@@ -1162,6 +1162,16 @@ function change_base() {
     setSP(getSP());
 }
 
+function save_file() {
+    var program_text = editor.getValue();
+    var blob = new Blob([program_text], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "assembly_program.asm");
+}
+
+function load_file() {
+
+}
+
 // Colors pc in main memory
 function color_pc() {
     $("#addr" + getPC().toString()).parent().css({"backgroundColor": PC_TRACKING_COLOR});
@@ -1211,7 +1221,13 @@ $("#run_button").keyup(function (event) {
 
 $("#save_button").keyup(function (event) {
     if (event.keyCode == 13) {
-        save();
+        save_file();
+    }
+});
+
+$("#load_button").keyup(function (event) {
+    if (event.keyCode == 13) {
+        load_file();
     }
 });
 
@@ -1232,6 +1248,7 @@ $('td[rowspan]').addClass('hasRowSpan');
 document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
 document.getElementById("assemble_button").addEventListener("click", assemble);
 document.getElementById("run_button").addEventListener("click", run);
-//document.getElementById("save_button").addEventListener("click", save);
+document.getElementById("save_button").addEventListener("click", save_file);
+document.getElementById("load_button").addEventListener("click", load_file);
 document.getElementById("clear_console_button").addEventListener("click", clear_console);
 document.getElementById("step_button").addEventListener("click", step);

@@ -11,7 +11,7 @@
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
       -->
 
-    <title>Assembly Emulator Home</title>
+    <title>Assembly Emulator</title>
 
     <!-- Bootstrap -->
     <link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,8 +54,17 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading clearfix">
                         <b class="panel-title">Program Editor</b>
+                        <button class="btn btn-default btn-xs pull-right" id="save_button">
+                            <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                            Save
+                        </button>
+                        <button class="btn btn-default btn-xs pull-right" id="load_button">
+                            <span class="glyphicon glyphicon-floppy-open" aria-hidden="true">
+                            </span>
+                            Open
+                        </button>
                     </div>
                     <div class="panel-body" id="program_text" style="padding-top:1px">
                         <!-- TODO Change to save file in local disk -->
@@ -71,17 +80,17 @@
                                 Step
                             </button>
                             <button class="btn btn-default" id="init_memory_button">
-                                <span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green">
+                                <span class="glyphicon glyphicon-refresh" aria-hidden="true">
                                 </span>
                                 Refresh
                             </button>
                             <button class="btn btn-default" id="assemble_button">
-                                <span class="glyphicon glyphicon-download" aria-hidden="true" style="color:green">
+                                <span class="glyphicon glyphicon-download" aria-hidden="true">
                                 </span>
                                 Assemble
                             </button>
                         </div>
-                        <textarea id="editor_box">
+                        <textarea title="Editor" id="editor_box">
 ; Testing SET
 SET $0x000E, R0
 SET $2222, R1
@@ -141,12 +150,12 @@ POP R0
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <b class="panel-title">Register Table</b>
-                        <select class="pull-right" id="base_value" onchange="change_base()">
+                        <select title="Base" class="pull-right" id="base_value" onchange="change_base()">
                             <option value="decimal_input">Decimal</option>
                             <option value="hex_input">Hexadecimal</option>
                         </select>
                     </div>
-                    <div class="panel-body" style="padding-bottom:0px">
+                    <div class="panel-body" style="padding-bottom:0">
                         <table class="table table-bordered table-striped table-condensed fixed">
                             <tr>
                                 <td><b>Registers</b></td>
@@ -217,6 +226,8 @@ POP R0
     <script src="ISA.js"></script>
     <script src="asmMode.js"></script>
     <script src="codeMirrorConfiguration.js"></script>
+    <script src="FileSaver.js-master/FileSaver.js"></script>
+    <script src="FileSaver.js-master/FileSaver.min.js"></script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="jquery-1.11.3.js"></script>

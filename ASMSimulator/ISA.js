@@ -443,6 +443,9 @@ function setR(rNum, rIn) {
     var new_element = document.createElement("td");
     new_element.setAttribute("id", "R" + rNum + "content");
     new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
+    if (element == null) {
+        console.log("element is null\n");
+    }
     element.parentNode.replaceChild(new_element, element);
 }
 
@@ -451,6 +454,7 @@ function getPC() {
 }
 
 function setPC(rIn) {
+    uncolor_pc();
     if (rIn > MAX_ADDRESS || rIn < 0) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
@@ -464,6 +468,7 @@ function setPC(rIn) {
     new_element.setAttribute("id", "PCcontent");
     new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
     element.parentNode.replaceChild(new_element, element);
+    color_pc();
 }
 
 function getSP() {
@@ -966,7 +971,6 @@ function assemble() {
         write_to_console("Assembled successfully. Data now stored in main memory.");
         createCookieObject(LINE2MEM, line2args, COOKIE_LIFE_SPAN);
         createCookieObject(MEM2LINE, _.invert(line2args), COOKIE_LIFE_SPAN);
-        color_pc();
     }
 }
 
@@ -980,20 +984,17 @@ function assemble() {
 function run() {
     // assemble();
     clear_console();
-    uncolor_pc();
     write_to_console("Program started running...");
 
     var pc = getPC();
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
         write_to_console("Finished running program.");
-        color_pc();
         return;
     }
     var status = execute_program(MEM_SIZE);
     if (status) {
         write_to_console("Finished running program.");
-        color_pc();
     }
 }
 
@@ -1002,12 +1003,10 @@ function run() {
  */
 function step() {
     var pc = getPC();
-    uncolor_pc();
     write_to_console("Start step from address " + pc);
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
         write_to_console("End step at address " + pc);
-        color_pc();
         return;
     }
     var work_ins = get_memory(pc);
@@ -1035,7 +1034,6 @@ function step() {
     }
     pc = getPC();
     write_to_console("End step at address " + pc);
-    color_pc();
 }
 
 /*
@@ -1045,10 +1043,9 @@ function step() {
  * This program either executes to end, program completion or to breakpoint
  */
 function execute_program(end) {
-    uncolor_pc();
     var pc = getPC();
-    var work_ins = get_memory(pc);
     var mem2line = readCookieObject(MEM2LINE);
+    var work_ins = get_memory(pc);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS && pc != end) {
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];
@@ -1076,7 +1073,6 @@ function execute_program(end) {
         work_ins = get_memory(pc);
         if (pcAtBP(mem2line, pc)) {
             write_to_console("Breakpoint hit, main memory address: " + pc.toString());
-            color_pc();
             return false;
         }
     }
@@ -1085,11 +1081,16 @@ function execute_program(end) {
 
 function clear_memory_image() {
     var i;
-    uncolor_pc();
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
     }
-    do_ccl();
+
+    // Has the same effect as ccl() except no manipulation to PC.
+    setCCF("O", 0);
+    setCCF("C", 0);
+    setCCF("Z", 0);
+    setCCF("N", 0);
+
     for (i = 0; i < NUM_REGS; i++) {
         setR(i, 0);
     }
@@ -1117,6 +1118,11 @@ function write_error_to_console(string) {
     console_out.scrollTop = console_out.scrollHeight;
 }
 
+function jump2pc_in_mm() {
+    var row_pos = $('#address' + getPC()).parent().position();
+    $('#div_main_memory').scrollTop(row_pos.top);
+}
+
 // Changed the base displayed for main memory and registers
 function change_base() {
     if (document.getElementById("base_value").value == "decimal_input") {
@@ -1139,7 +1145,6 @@ function change_base() {
     // Rewrite PC and SP
     setPC(getPC());
     setSP(getSP());
-    color_pc();
 }
 
 // Colors pc in main memory

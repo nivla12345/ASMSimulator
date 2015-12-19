@@ -40,8 +40,7 @@ const ERROR_INCORRECT_SPACING = "ERROR: The number of tokens differs from your f
 const ERROR_INCORRECT_INS = "ERROR: The instruction does not exist.";
 const ERROR_INCORRECT_NUM_ARGS = "ERROR: The number of arguments does not match the instruction.";
 const ERROR_INCORRECT_ARG_TYPE = "ERROR: There is something wrong with the argument provided.";
-const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program. Upgrade to premium for " +
-    "more memory.";
+const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program.";
 const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input is out of bounds";
 const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack overflow has occurred.";
 
@@ -742,21 +741,50 @@ function init_mm() {
     }
 }
 
+function strip_label(code_line) {
+    if (code_line[0] == LABEL_INDICATOR) {
+        var label_arg_split = code_line.split(/\s+/g);
+
+        // There is some code or something after the label
+        if (label_arg_split.length > 1) {
+            var arg_no_comment_no_label = label_arg_split[1];
+            for (var j = 2; j < label_arg_split.length; j++) {
+                arg_no_comment_no_label += (" " + label_arg_split[j]);
+            }
+            return arg_no_comment_no_label;
+        }
+        // There is just the label in this line
+        else {
+            return ""
+        }
+    }
+    return code_line
+}
+
+function strip_whitespace_and_comment(code_line) {
+    // Checks if line is blank or whitespace
+    if (code_line == "" || /^\s+$/.test(code_line)) {
+        return "";
+    }
+
+    // Remove starting and ending whitespace and keep only first part of line of comment
+    var arg_no_comment = code_line.split(COMMENT)[0].trim();
+
+    // Remove if line is a whitespace
+    if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
+        return "";
+    }
+    return arg_no_comment
+}
+
 // Gets the assigned labels throughout the text editor.
 function get_labels(lines) {
     var line_number = 1;
     for (var i = 0; i < lines.length; i++) {
-        // Checks if line is blank or whitespace
-        if (lines[i] == "" || /^\s+$/.test(lines[i])) {
-            line_number++;
-            continue;
-        }
-
         // Remove starting and ending whitespace
-        var arg_no_comment = lines[i].split(COMMENT)[0].trim();
-
-        // Remove if line is a whitespace
-        if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
+        var arg_no_comment = strip_whitespace_and_comment(lines[i]);
+        // Remove if superfluous line
+        if (arg_no_comment == "") {
             line_number++;
             continue;
         }
@@ -823,44 +851,17 @@ function assemble() {
     var line2args = {};
 
     LABELS2LINES = {};
-
     get_labels(lines);
 
     // Line number refers to the line number in the editor
     var line_number = 1;
     for (i = 0; i < lines.length; i++) {
-        // Checks if line is blank or whitespace
-        if (lines[i] == "" || /^\s+$/.test(lines[i])) {
+        // Remove comment and appended whitespaces.
+        var arg_no_comment_no_label = strip_label(strip_whitespace_and_comment(lines[i]));
+        // Jump if superfluous line.
+        if (arg_no_comment_no_label == "") {
             line_number++;
             continue;
-        }
-
-        // Remove starting and ending whitespace
-        var arg_no_comment = lines[i].split(COMMENT)[0].trim();
-        // Remove if line is a whitespace
-        if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
-            line_number++;
-            continue;
-        }
-
-        var arg_no_comment_no_label = arg_no_comment;
-
-        // Check if there is a label and filter it out.
-        if (arg_no_comment[0] == LABEL_INDICATOR) {
-            var label_arg_split = arg_no_comment.split(/\s+/g);
-
-            // There is some code or something after the label
-            if (label_arg_split.length > 1) {
-                arg_no_comment_no_label = label_arg_split[1];
-                for (var j = 2; j < label_arg_split.length; j++) {
-                    arg_no_comment_no_label += (" " + label_arg_split[j]);
-                }
-            }
-            // There is just the label in this line
-            else {
-                line_number++;
-                continue;
-            }
         }
 
         var split_args = arg_no_comment_no_label.split(",");
@@ -1005,10 +1006,9 @@ function run() {
  */
 function step() {
     var pc = getPC();
-    write_to_console("Start step from address " + pc);
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        write_to_console("End step at address " + pc);
+        write_to_console("Stepped to address " + pc);
         return;
     }
     var work_ins = get_memory(pc);

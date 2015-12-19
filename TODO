@@ -1,7 +1,4 @@
 TODO:
-- Save and load
-- Set up debug button (heed breakpoints)
-- Format the above 2 categories of buttons
 - Make sure you can't set breakpoints on comments + blanklines
 - Use the twitter bootstrap button feature to blank out the button while 
   running
@@ -25,6 +22,7 @@ Cool future ideas
 - Change main memory values to hex on hex change.
 - Link main memory location to line number in code to highlight section
   of code hit in text editor (only do this if change to bytemode)
+- Set up debug button (heed breakpoints)
 
 DONE:
 - Clear console
@@ -40,4 +38,5 @@ DONE:
 - When breakpoint newline, update the breakpoint cookie
 - Go through TODOs in code
 - Scroll with pc
+- Save and load
 

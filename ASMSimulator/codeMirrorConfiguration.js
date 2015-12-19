@@ -16,6 +16,15 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
 
 editor.on("gutterClick", function(cm, n) {
     var info = cm.lineInfo(n);
+    // Placing the clearing checkpoint here because if placed together with the line status check, this would get
+    // skipped.
+    if (info.gutterMarkers) {
+        cm.setGutterMarker(n, "breakpoints", null);
+        return;
+    }
+    // Perform some checking to see if the attempted line to breakpoint is whitespace, comment, or address declaration.
+    if (strip_label(strip_whitespace_and_comment(editor.getValue().split("\n")[n])) == "")
+        return;
     cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
 });
 

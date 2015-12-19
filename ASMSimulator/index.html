@@ -7,9 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Assembly Simulator">
     <meta name="author" content="Alvin Mao">
-    <!-- TODO Update this icon to something more assembly oriented.
-    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
-      -->
+    <link rel="icon" href="Programming-Bug-icon.png">
 
     <title>Assembly Emulator</title>
 
@@ -18,7 +16,7 @@
     <link href="codemirror-5.9/theme/blackboard.css" rel="stylesheet">
 
     <link rel="stylesheet" href="codemirror-5.9/lib/codemirror.css">
-    <script src="jquery-1.11.3.js"></script>
+    <script src="lib/jquery-1.11.3.js"></script>
     <script src="codemirror-5.9/lib/codemirror.js"></script>
     <script src="codemirror-5.9/mode/javascript/javascript.js"></script>
     <script src="codemirror-5.9/addon/selection/active-line.js"></script>
@@ -37,9 +35,6 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <!-- TODO Fill icon picture with something.
-                <a class="navbar-brand"><img alt="Brand" src="..."></a>
-                  -->
                 <a class="navbar-brand" href="#">Assembly Simulator</a>
             </div>
 
@@ -69,7 +64,6 @@
                         </div>
                     </div>
                     <div class="panel-body" id="program_text" style="padding-top:1px">
-                        <!-- TODO Change to save file in local disk -->
                         <!-- TODO Stop (stop last and implement)-->
                         <div class="btn-group">
                             <button class="btn btn-default" id="run_button">
@@ -233,11 +227,8 @@ POP R0
     <script src="codeMirrorConfiguration.js"></script>
     <script src="FileSaver.js-master/FileSaver.js"></script>
     <script src="FileSaver.js-master/FileSaver.min.js"></script>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="jquery-1.11.3.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-    <script src="underscore-min.js"></script>
+    <script src="lib/underscore-min.js"></script>
 </body>
 </html>

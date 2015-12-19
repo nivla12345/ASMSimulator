@@ -56,20 +56,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading clearfix">
                         <b class="panel-title">Program Editor</b>
-                        <button class="btn btn-default btn-xs pull-right" id="save_button">
-                            <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
-                            Save
-                        </button>
-                        <button class="btn btn-default btn-xs pull-right" id="load_button">
-                            <span class="glyphicon glyphicon-floppy-open" aria-hidden="true">
+
+                        <div class="btn-group pull-right">
+                            <span class="btn btn-default btn-file btn-xs">
+                                <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>
+                                Open <input type="file" id="load_button">
                             </span>
-                            Open
-                        </button>
+                            <button class="btn btn-default btn-xs" id="save_button">
+                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                Save
+                            </button>
+                        </div>
                     </div>
                     <div class="panel-body" id="program_text" style="padding-top:1px">
                         <!-- TODO Change to save file in local disk -->
                         <!-- TODO Stop (stop last and implement)-->
-                        <div class="btn-toolbar">
+                        <div class="btn-group">
                             <button class="btn btn-default" id="run_button">
                                 <span class="glyphicon glyphicon-play" aria-hidden="true" style="color:green"></span>
                                 Run
@@ -147,6 +149,7 @@ POP R0
             </div>
 
             <div class="col-md-6" >
+                <!-- Registers -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <b class="panel-title">Register Table</b>
@@ -186,6 +189,7 @@ POP R0
                         </table>
                     </div>
                 </div>
+                <!-- Main Memory -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <b class="panel-title">Main Memory</b>
@@ -203,6 +207,7 @@ POP R0
                 </div>
             </div>
         </div>
+        <!-- Console -->
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">

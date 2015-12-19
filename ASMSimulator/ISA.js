@@ -1169,7 +1169,24 @@ function save_file() {
 }
 
 function load_file() {
+    var fileInput = document.getElementById('load_button');
 
+    fileInput.addEventListener('change', function (e) {
+        var file = fileInput.files[0];
+        var textType = /text.*/;
+
+        if (file.type.match(textType)) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                editor.setValue(reader.result);
+            };
+
+            reader.readAsText(file);
+        } else {
+            alert("File not supported.");
+        }
+    });
 }
 
 // Colors pc in main memory

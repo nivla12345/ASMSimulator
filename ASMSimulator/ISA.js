@@ -839,13 +839,10 @@ function assemble() {
 
     // Gets the contents of the text box and stores the lines in a list
     var lines = editor.getValue().split("\n");
-
     // This holds the error messages that will be output to the console
     var errors = [];
-
     // This list holds what should be input to main memory
     var args = [];
-
     // This dict maps the instructions to their respective line numbers, this will be used for breakpoints
     // to map line numbers to their respective locations in main memory.
     var line2args = {};
@@ -887,16 +884,12 @@ function assemble() {
                 else {
                     errors.push("Line " + line_number + " " + state["error"]);
                     args = [];
-                    line_number = line_number + 1;
-                    continue;
                 }
             }
             // The spacing here indicates there's some unnecessary icons here
             else {
                 errors.push("Line " + line_number + " " + ERROR_INCORRECT_SPACING);
                 args = [];
-                line_number++;
-                continue;
             }
         }
         // There are either 1 or no arguments
@@ -913,8 +906,6 @@ function assemble() {
                 else {
                     errors.push(line_number + " " + state["error"]);
                     args = [];
-                    line_number++;
-                    continue;
                 }
             }
             // 1 argument
@@ -930,23 +921,17 @@ function assemble() {
                 else {
                     errors.push("Line " + line_number + " " + state["error"]);
                     args = [];
-                    line_number++;
-                    continue;
                 }
             }
             else {
                 errors.push("Line " + line_number + " " + ERROR_INCORRECT_SPACING);
                 args = [];
-                line_number++;
-                continue;
             }
         }
         else {
             // There is some error here as there cannot be more than 2 arguments per line
             errors.push("Line " + line_number + " " + ERROR_INCORRECT_ARGS);
             args = [];
-            line_number++;
-            continue;
         }
         line_number++;
     }

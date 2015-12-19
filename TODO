@@ -1,5 +1,4 @@
 TODO:
-- Make sure you can't set breakpoints on comments + blanklines
 - Use the twitter bootstrap button feature to blank out the button while 
   running
 - Implement JSR and RTN
@@ -25,6 +24,7 @@ Cool future ideas
 - Set up debug button (heed breakpoints)
 
 DONE:
+- Make sure you can't set breakpoints on comments + blanklines
 - Clear console
 - Run and step
 - Format registers to look pretty 

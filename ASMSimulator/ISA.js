@@ -12,7 +12,6 @@ const DECIMAL_LENGTH = 10;
 const HEX_LENGTH = 16;
 
 // HTML Globals
-const MAIN_MEMORY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0)";
 const PC_TRACKING_COLOR = "pink";
 const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel length of row
 
@@ -1176,12 +1175,13 @@ function load_file() {
 
 // Colors pc in main memory
 function color_pc() {
-    $("#addr" + getPC().toString()).parent().css({"backgroundColor": PC_TRACKING_COLOR});
+    $("#addr" + getPC()).parent().css({"backgroundColor": PC_TRACKING_COLOR});
 }
 
 // Uncolors pc in main memory
 function uncolor_pc() {
-    $("#addr" + getPC().toString()).parent().css({"backgroundColor": MAIN_MEMORY_BACKGROUND_COLOR});
+    // Its important to remove the attr otherwise the hover stops working.
+    $("#addr" + getPC()).parent().removeAttr("style");
 }
 
 function remove_line2mem_mem2line() {

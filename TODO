@@ -1,11 +1,12 @@
 TODO:
-- Use the twitter bootstrap button feature to blank out the button while 
-  running
+- Add label column to main memory
 - Implement JSR and RTN
 - Square bracket to dereference (this will need to be done in run time)
-- Write up tutorial
 - Have different CPU speeds
+- Use the twitter bootstrap button feature to blank out the button while 
+  running
 - Pause program button
+- Write up tutorial
 - Add a features page
 - Enable inputting negative numbers
 - Use the bootstrap glyphs

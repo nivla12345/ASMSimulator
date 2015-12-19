@@ -15,7 +15,7 @@ table.fixed td { overflow: hidden; }
 }
 
 tbody tr:hover td.hasRowSpan {
-    background-color: white; /* or whatever color you want */
+    background-color: white;
 }
 
 .btn-file {

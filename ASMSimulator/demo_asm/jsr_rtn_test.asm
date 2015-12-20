@@ -1,0 +1,14 @@
+; Testing JSR and RTN calls.
+SET $0xF, R0
+SET $0xF, R1
+JSR .SUM
+JSR .TIMES
+STP
+
+.SUM
+ADD R0, R1
+RTN
+
+.TIMES
+MUL R0, R1
+RTN

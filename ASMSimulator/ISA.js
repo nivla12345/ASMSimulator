@@ -59,8 +59,9 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  * IRM stands for immediate, register, memory
  * I - delimited by a "$" sign, must be less than 0x10000
  * R - must be: R0, R1, R2, R3
- * M - stands for memory and may be dereferenced with square brackets: "["
+ * M - stands for memory and may be de-referenced with square brackets: "["
  *     M must also be bound as: [0 < M < MAX_ADDRESS]
+ * L - stands for labels which are synonymous with M
  */
 const INS_DESCRIPTION = {
     "SET": {"nargs": 2, "arg0": "IRM", "arg1": "R", "f": do_set},
@@ -82,7 +83,8 @@ const INS_DESCRIPTION = {
     "RTN": {"nargs": 0, "arg0": "", "arg1": "", "f": do_rtn},
     "POP": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_pop},
     "PSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_psh},
-    "CCL": {"nargs": 0, "arg0": "", "arg1": "", "f": do_ccl}
+    "CCL": {"nargs": 0, "arg0": "", "arg1": "", "f": do_ccl},
+    "STP": {"nargs": 0, "arg0": "", "arg1": "", "f": do_stp},
 };
 
 /**********************************************************************************************************************/
@@ -289,20 +291,27 @@ function do_brg(arg0) {
 }
 
 function do_jsr(arg0) {
-    setPC(getPC() + 2);
-    console.log("JSR instruction called.");
+    var sp = getSP();
+    var pc = getPC();
+    write_memory(sp, pc + 2);
+    setSP(sp - 1);
+    setPC(arg0);
 }
 
-// Return value to R3
 function do_rtn() {
-    setPC(getPC() + 1);
-    console.log("RTN instruction called.");
+    var sp = getSP();
+    if (sp >= MAX_ADDRESS) {
+        write_error_to_console("ERROR: The sp is already at top of stack.");
+        return;
+    }
+    setPC(get_memory(sp + 1));
+    setSP(sp + 1);
 }
 
 function do_pop(arg0) {
     var sp = getSP();
-    if (sp >= 511) {
-        console.log("ERROR: The sp is already at top of stack.");
+    if (sp >= MAX_ADDRESS) {
+        write_error_to_console("ERROR: The sp is already at top of stack.");
         return;
     }
     setR(arg0[1], get_memory(sp + 1));
@@ -310,13 +319,10 @@ function do_pop(arg0) {
     setSP(sp + 1);
 }
 
+// No need to do stack overflow checks given they are already implemented in the setSP/PC commands.
 function do_psh(arg0) {
     var sp = getSP();
     var pc = getPC();
-    if (sp <= pc) {
-        console.log("ERROR: Stack overflow is about to occur as sp is about to enter SP region.");
-        return;
-    }
     write_memory(sp, getR(arg0[1]));
     setSP(sp - 1);
     setPC(pc + 2);
@@ -328,6 +334,10 @@ function do_ccl() {
     setCCF("Z", 0);
     setCCF("N", 0);
     setPC(getPC() + 1);
+}
+
+// Stops the program execution.
+function do_stp() {
 }
 
 /**********************************************************************************************************************/
@@ -984,11 +994,14 @@ function step() {
     var pc = getPC();
     // Checks that first instruction makes sense
     if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        write_to_console("Stepped to address " + pc);
+        write_to_console("Stepped to end of program.");
         return;
     }
     var work_ins = get_memory(pc);
-
+    if (work_ins === "STP") {
+        write_to_console("Stepped to end of program.");
+        return;
+    }
     var nargs = INS_DESCRIPTION[work_ins]["nargs"];
     var arg0;
     // No args
@@ -1026,6 +1039,8 @@ function execute_program(end) {
     var work_ins = get_memory(pc);
     // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
     while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS && pc != end) {
+        if (work_ins === "STP")
+            return true;
         var nargs = INS_DESCRIPTION[work_ins]["nargs"];
         var arg0;
         // No args
@@ -1160,19 +1175,13 @@ function load_file() {
 
     fileInput.addEventListener('change', function (e) {
         var file = fileInput.files[0];
-        var textType = /text.*/;
+        var reader = new FileReader();
 
-        if (file.type.match(textType)) {
-            var reader = new FileReader();
+        reader.onload = function (e) {
+            editor.setValue(reader.result);
+        };
 
-            reader.onload = function (e) {
-                editor.setValue(reader.result);
-            };
-
-            reader.readAsText(file);
-        } else {
-            alert("File not supported.");
-        }
+        reader.readAsText(file);
     });
 }
 

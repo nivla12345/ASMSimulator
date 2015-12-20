@@ -1,16 +1,16 @@
 TODO:
-- Add label column to main memory
-- Implement JSR and RTN
+- Implement saving in JSR and RTN
+- Add stack pointer highlighting, given my implementation the SP and PC should never collide
 - Square bracket to dereference (this will need to be done in run time)
 - Have different CPU speeds
 - Use the twitter bootstrap button feature to blank out the button while 
   running
 - Pause program button
+- Give code specific color + auto complete
+- Enable inputting negative numbers
+- Change main memory values to hex on hex change.
 - Write up tutorial
 - Add a features page
-- Enable inputting negative numbers
-- Use the bootstrap glyphs
-- Give code specific color + auto complete
 
 Cool future ideas
 - Enable hardware customization
@@ -19,10 +19,10 @@ Cool future ideas
   back to back runs
 - Enable search inside of the main memory box and jump to the
   appropriate address (only do this with a dropdown search).
-- Change main memory values to hex on hex change.
 - Link main memory location to line number in code to highlight section
   of code hit in text editor (only do this if change to bytemode)
 - Set up debug button (heed breakpoints)
+- Allow labelling of specific memory locations.
 
 DONE:
 - Make sure you can't set breakpoints on comments + blanklines
@@ -40,4 +40,6 @@ DONE:
 - Go through TODOs in code
 - Scroll with pc
 - Save and load
+- Add label column to main memory
+- Use the bootstrap glyphs
 

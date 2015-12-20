@@ -1,7 +1,5 @@
 TODO:
-- Implement saving in JSR and RTN
 - Add stack pointer highlighting, given my implementation the SP and PC should never collide
-- Square bracket to dereference (this will need to be done in run time)
 - Have different CPU speeds
 - Use the twitter bootstrap button feature to blank out the button while 
   running
@@ -13,16 +11,18 @@ TODO:
 - Add a features page
 
 Cool future ideas
+- Allow labelling of specific memory locations.
+- Square bracket to dereference (this will need to be done in run time)
+- Link main memory location to line number in code to highlight section
+  of code hit in text editor (only do this if change to bytemode)
 - Enable hardware customization
 - Enable choosing textarea editor
 - Before running, re-program memory if not at breakpoint. This allows for 
-  back to back runs
+  back to back runs. The problem here is that after stepping, a run would reprogram the whole
+  program.
+- Set up debug button (heed breakpoints)
 - Enable search inside of the main memory box and jump to the
   appropriate address (only do this with a dropdown search).
-- Link main memory location to line number in code to highlight section
-  of code hit in text editor (only do this if change to bytemode)
-- Set up debug button (heed breakpoints)
-- Allow labelling of specific memory locations.
 
 DONE:
 - Make sure you can't set breakpoints on comments + blanklines
@@ -42,4 +42,5 @@ DONE:
 - Save and load
 - Add label column to main memory
 - Use the bootstrap glyphs
+- Implement saving in JSR and RTN
 

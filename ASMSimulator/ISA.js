@@ -13,6 +13,7 @@ const HEX_LENGTH = 16;
 
 // HTML Globals
 const PC_TRACKING_COLOR = "pink";
+const SP_TRACKING_COLOR = "lightgreen";
 const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel length of row
 
 // Code syntax
@@ -472,6 +473,7 @@ function getSP() {
 }
 
 function setSP(rIn) {
+    uncolor_sp();
     if (rIn > MAX_ADDRESS || rIn < 0) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
@@ -482,6 +484,7 @@ function setSP(rIn) {
     }
     var element = document.getElementById("SPcontent");
     element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
+    color_sp();
 }
 
 function getCCF(flag) {
@@ -1196,6 +1199,18 @@ function uncolor_pc() {
     $("#addr" + getPC()).parent().removeAttr("style");
 }
 
+// Colors pc in main memory
+function color_sp() {
+    $("#addr" + getSP()).parent().css({"backgroundColor": SP_TRACKING_COLOR});
+}
+
+// Uncolors pc in main memory
+function uncolor_sp() {
+    // Its important to remove the attr otherwise the hover stops working.
+    $("#addr" + getSP()).parent().removeAttr("style");
+}
+
+
 function remove_line2mem_mem2line() {
     eraseCookie(LINE2MEM);
     eraseCookie(MEM2LINE);
@@ -1206,6 +1221,7 @@ function init() {
     init_mm();
     remove_line2mem_mem2line();
     color_pc();
+    color_sp();
 }
 
 function clear_console() {

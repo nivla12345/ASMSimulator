@@ -409,11 +409,7 @@ function write_memory(address, value) {
         return;
     }
     var element = document.getElementById("addr" + address);
-    var new_element = document.createElement("td");
-    new_element.setAttribute("id", "addr" + address);
-
-    new_element.innerHTML = value;
-    element.parentNode.replaceChild(new_element, element);
+    element.innerHTML = value;
 }
 
 /*
@@ -425,7 +421,6 @@ function get_memory(address) {
         console.error(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return -1;
     }
-
     var element = document.getElementById("addr" + address);
     return element.innerHTML;
 }
@@ -439,13 +434,7 @@ function getR(rNum) {
 
 function setR(rNum, rIn) {
     var element = document.getElementById("R" + rNum + "content");
-    var new_element = document.createElement("td");
-    new_element.setAttribute("id", "R" + rNum + "content");
-    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
-    if (element == null) {
-        console.log("element is null\n");
-    }
-    element.parentNode.replaceChild(new_element, element);
+    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
 }
 
 function getPC() {
@@ -459,14 +448,11 @@ function setPC(rIn) {
         return;
     }
     if (getPC() > getSP()) {
-        console.log(ERROR_STACK_OVERFLOW);
+        write_error_to_console(ERROR_STACK_OVERFLOW);
         return;
     }
     var element = document.getElementById("PCcontent");
-    var new_element = document.createElement("td");
-    new_element.setAttribute("id", "PCcontent");
-    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
-    element.parentNode.replaceChild(new_element, element);
+    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
     color_pc();
     jump2pc_in_mm();
 }
@@ -481,14 +467,11 @@ function setSP(rIn) {
         return;
     }
     if (getPC() > getSP()) {
-        console.log(ERROR_STACK_OVERFLOW);
+        write_error_to_console(ERROR_STACK_OVERFLOW);
         return;
     }
     var element = document.getElementById("SPcontent");
-    var new_element = document.createElement("td");
-    new_element.setAttribute("id", "SPcontent");
-    new_element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x": "") + format_numbers(rIn);
-    element.parentNode.replaceChild(new_element, element);
+    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
 }
 
 function getCCF(flag) {
@@ -500,12 +483,9 @@ function getCCF(flag) {
  */
 function setCCF(flag, set_to) {
     var element = document.getElementById("CCcontent");
-    var new_element = document.createElement("td");
-    new_element.setAttribute("id", "CCcontent");
     var status = element.innerHTML;
     status = status.substring(0, ZCNO_MAPPINGS[flag]) + set_to + status.substring(ZCNO_MAPPINGS[flag] + 1, HEX_LENGTH);
-    new_element.innerHTML = status;
-    element.parentNode.replaceChild(new_element, element);
+    element.innerHTML = status;
 }
 
 /**********************************************************************************************************************/
@@ -730,12 +710,15 @@ function init_mm() {
         var table_row = document.createElement("tr");
         var addr_col = document.createElement("td");
         var value_col = document.createElement("td");
+        var label_col = document.createElement("td");
         addr_col.setAttribute("id", "address" + i);
         value_col.setAttribute("id", "addr" + i);
+        label_col.setAttribute("id", "label" + i);
         addr_col.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i);
         value_col.innerHTML = format_numbers(0);
         $(table_row).append(addr_col);
         $(table_row).append(value_col);
+        $(table_row).append(label_col);
         $(main_memory).append(table_row);
     }
 }
@@ -948,6 +931,7 @@ function assemble() {
     }
     // Assembled successfully
     else {
+        // Write the program to main memory
         for (i = 0; i < args.length; i++) {
             var arg = args[i];
             if (arg[0] === ".") {
@@ -955,9 +939,17 @@ function assemble() {
             }
             write_memory(i, arg);
         }
-        write_to_console("Assembled successfully. Data now stored in main memory.");
+
         createCookieObject(LINE2MEM, line2args, COOKIE_LIFE_SPAN);
         createCookieObject(MEM2LINE, _.invert(line2args), COOKIE_LIFE_SPAN);
+
+        var line2mem = readCookieObject(LINE2MEM);
+        // Write labels to main memory table
+        for (var label in LABELS2LINES) {
+            write_label2mm(label, line2mem);
+        }
+
+        write_to_console("Assembled successfully. Data now stored in main memory.");
     }
 }
 
@@ -1069,6 +1061,7 @@ function clear_memory_image() {
     var i;
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
+        document.getElementById("label" + i).innerHTML = "";
     }
 
     // Has the same effect as ccl() except no manipulation to PC.
@@ -1087,6 +1080,16 @@ function clear_memory_image() {
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
+function write_label2mm(label, line2mem) {
+    var address = line2mem[LABELS2LINES[label]];
+    // error checking
+    if (address > MAX_ADDRESS || address < 0) {
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        return;
+    }
+    document.getElementById("label" + address).innerHTML = label.slice(1);
+}
+
 function write_to_console(string) {
     var console_out = document.getElementById("console");
     var running = document.createElement("p");

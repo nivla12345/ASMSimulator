@@ -2,9 +2,6 @@
  * Created by Alvin on 11/13/2014.
  */
 
-// Define ISA Namespace
-var ISA = ISA || {};
-
 /**********************************************************************************************************************/
 /********************************************** CONSTANT VALUES *******************************************************/
 /**********************************************************************************************************************/
@@ -1017,18 +1014,18 @@ function step() {
  * If there is an error, we need to check the checks section.
  */
 function run() {
-    // assemble();
     clear_console();
     write_to_console("Program started running...");
-    RUNNING = true;
-    execute_program();
+    resume_program_running();
 }
 
 /*
  * The objective of this program is to be a generic function that executes an assembly program from PC to an
- * end point. Endpoint is a location in main memory.
+ * end point.
  *
- * This program either executes to end, program completion or to breakpoint
+ * This program either executes to STP, program completion or to breakpoint.
+ *
+ * The setInterval is there to enable having various clock rates.
  */
 function execute_program() {
     PROGRAM_INTERVAL_ID = setInterval(function() {
@@ -1067,14 +1064,18 @@ function execute_program() {
     }, CLOCK_PERIOD);
 }
 
+// TODO Add enabling buttons.
 function stop_program_running() {
     if (RUNNING) {
+        enable_buttons_when_run();
         clearInterval(PROGRAM_INTERVAL_ID);
         RUNNING = false;
     }
 }
 
+// TODO Add disabling buttons.
 function resume_program_running() {
+    disable_buttons_when_run();
     RUNNING = true;
     execute_program();
 }
@@ -1102,9 +1103,16 @@ function clear_memory_image() {
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
-// Disables step,
-function disable_buttons() {
+function disable_buttons_when_run() {
+    document.getElementById("load_button").disabled = true;
+    document.getElementById("step_button").disabled = true;
+    document.getElementById("assemble_button").disabled = true;
+}
 
+function enable_buttons_when_run() {
+    document.getElementById("run_button").disabled = false;
+    document.getElementById("step_button").disabled = false;
+    document.getElementById("assemble_button").disabled = false;
 }
 
 function write_to_console(string) {

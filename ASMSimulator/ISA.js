@@ -1139,6 +1139,12 @@ function jump2pc_in_mm() {
     $('#div_main_memory').scrollTop(Math.max(0, row_pos.top - HALF_TABLE_LENGTH));
 }
 
+// Scrolls to the SP in the main memory table. Always scrolls to the midpoint.
+function jump2sp_in_mm() {
+    var row_pos = $('#address' + getSP()).parent().position();
+    $('#div_main_memory').scrollTop(Math.max(0, row_pos.top - HALF_TABLE_LENGTH));
+}
+
 function scrollIntoView(element, container) {
     var containerTop = $(container).scrollTop();
     var containerBottom = containerTop + $(container).height();
@@ -1213,11 +1219,11 @@ function save_file() {
 function load_file() {
     var fileInput = document.getElementById('load_button');
 
-    fileInput.addEventListener('change', function () {
+    fileInput.addEventListener('change', function (e) {
         var file = fileInput.files[0];
         var reader = new FileReader();
 
-        reader.onload = function () {
+        reader.onload = function (e) {
             editor.setValue(reader.result);
         };
 

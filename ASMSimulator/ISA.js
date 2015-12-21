@@ -19,8 +19,6 @@ const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel 
 // Code syntax
 const COMMENT = ";";
 const LABEL_INDICATOR = ".";
-const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memory address.
-const MEM2LINE = "mem2line";
 
 /**********************************************************************************************************************/
 /*********************************************** MALLEABLE STATE VALUES ***********************************************/
@@ -29,7 +27,8 @@ const MEM2LINE = "mem2line";
 var BASE_VERSION = 10;
 // Indicates clock rate
 var CLOCK_PERIOD = 0;
-var COOKIE_LIFE_SPAN = 100;
+var LINE2MEM = {};
+var MEM2LINE = {};
 var LABELS2LINES = {};
 
 /**********************************************************************************************************************/
@@ -67,27 +66,27 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  * L - stands for labels which are synonymous with M
  */
 const INS_DESCRIPTION = {
-    "SET": {"nargs": 2, "arg0": "IRM", "arg1": "R", "f": do_set},
-    "MOV": {"nargs": 2, "arg0": "IRM", "arg1": "M", "f": do_mov},
-    "ADD": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_add},
-    "SUB": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_sub},
-    "MUL": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_mul},
-    "DIV": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_div},
-    "RSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_rsh},
-    "LSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_lsh},
-    "AND": {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_and},
-    "OR" : {"nargs": 2, "arg0": "R", "arg1": "R", "f": do_or},
-    "CMP": {"nargs": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
-    "BRN": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brn},
-    "BRA": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_bra},
-    "BRZ": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brz},
-    "BRG": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_brg},
-    "JSR": {"nargs": 1, "arg0": "ML", "arg1": "", "f": do_jsr},
-    "RTN": {"nargs": 0, "arg0": "", "arg1": "", "f": do_rtn},
-    "POP": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_pop},
-    "PSH": {"nargs": 1, "arg0": "R", "arg1": "", "f": do_psh},
-    "CCL": {"nargs": 0, "arg0": "", "arg1": "", "f": do_ccl},
-    "STP": {"nargs": 0, "arg0": "", "arg1": "", "f": do_stp},
+    "SET": {"n_args": 2, "arg0": "IRM", "arg1": "R", "f": do_set},
+    "MOV": {"n_args": 2, "arg0": "IRM", "arg1": "M", "f": do_mov},
+    "ADD": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_add},
+    "SUB": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_sub},
+    "MUL": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_mul},
+    "DIV": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_div},
+    "RSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_rsh},
+    "LSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_lsh},
+    "AND": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_and},
+    "OR": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or},
+    "CMP": {"n_args": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
+    "BRN": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brn},
+    "BRA": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_bra},
+    "BRZ": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brz},
+    "BRG": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brg},
+    "JSR": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_jsr},
+    "RTN": {"n_args": 0, "arg0": "", "arg1": "", "f": do_rtn},
+    "POP": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_pop},
+    "PSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_psh},
+    "CCL": {"n_args": 0, "arg0": "", "arg1": "", "f": do_ccl},
+    "STP": {"n_args": 0, "arg0": "", "arg1": "", "f": do_stp}
 };
 
 /**********************************************************************************************************************/
@@ -687,7 +686,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
         return state;
     }
     // The number of arguments is incorrect
-    if (INS_DESCRIPTION[ins]["nargs"] != n_args) {
+    if (INS_DESCRIPTION[ins]["n_args"] != n_args) {
         state["state"] = false;
         state["error"] = ERROR_INCORRECT_NUM_ARGS;
         return state;
@@ -955,13 +954,12 @@ function assemble() {
             write_memory(i, arg);
         }
 
-        createCookieObject(LINE2MEM, line2args, COOKIE_LIFE_SPAN);
-        createCookieObject(MEM2LINE, _.invert(line2args), COOKIE_LIFE_SPAN);
+        LINE2MEM = jQuery.extend(true, {}, line2args);
+        MEM2LINE = _.invert(line2args);
 
-        var line2mem = readCookieObject(LINE2MEM);
         // Write labels to main memory table
         for (var label in LABELS2LINES) {
-            write_label2mm(label, line2mem);
+            write_label2mm(label);
         }
 
         write_to_console("Assembled successfully. Data now stored in main memory.");
@@ -1039,7 +1037,6 @@ function execute_program() {
     // TODO May need to add some change that updates the CLOCK_PERIOD
     var run_program_interval = setInterval(function() {
         var pc = getPC();
-        var mem2line = readCookieObject(MEM2LINE);
         var work_ins = get_memory(pc);
 
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
@@ -1066,7 +1063,7 @@ function execute_program() {
             INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
         }
         pc = getPC();
-        if (pcAtBP(mem2line, pc)) {
+        if (pcAtBP(MEM2LINE, pc)) {
             clearInterval(run_program_interval);
             write_to_console("Breakpoint hit, main memory address: " + pc.toString());
         }
@@ -1096,8 +1093,8 @@ function clear_memory_image() {
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
-function write_label2mm(label, line2mem) {
-    var address = line2mem[LABELS2LINES[label]];
+function write_label2mm(label) {
+    var address = LINE2MEM[LABELS2LINES[label]];
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
@@ -1234,8 +1231,8 @@ function uncolor_sp() {
 
 
 function remove_line2mem_mem2line() {
-    eraseCookie(LINE2MEM);
-    eraseCookie(MEM2LINE);
+    LINE2MEM = {};
+    MEM2LINE = {};
 }
 
 // Functions to call on page load

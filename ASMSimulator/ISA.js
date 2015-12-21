@@ -1002,7 +1002,7 @@ function step() {
         write_to_console("Stepped to end of program.");
         return;
     }
-    var nargs = INS_DESCRIPTION[work_ins]["nargs"];
+    var nargs = INS_DESCRIPTION[work_ins]["n_args"];
     var arg0;
     // No args
     if (nargs == 0) {
@@ -1018,10 +1018,6 @@ function step() {
         arg0 = get_memory(pc + 1);
         var arg1 = get_memory(pc + 2);
         INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
-    }
-    else {
-        console.error("ERROR: I have no idea how it got here. Basically the INS_DESCRIPTION dict got corrupted");
-        return;
     }
     pc = getPC();
     write_to_console("End step at address " + pc);

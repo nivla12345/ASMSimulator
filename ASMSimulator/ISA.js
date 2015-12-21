@@ -30,6 +30,8 @@ var CLOCK_PERIOD = 0;
 var LINE2MEM = {};
 var MEM2LINE = {};
 var LABELS2LINES = {};
+var RUNNING = false;
+var PROGRAM_INTERVAL_ID;
 
 /**********************************************************************************************************************/
 /********************************************** ERROR MESSAGES ********************************************************/
@@ -1014,6 +1016,7 @@ function run() {
     // assemble();
     clear_console();
     write_to_console("Program started running...");
+    RUNNING = true;
     execute_program();
 }
 
@@ -1025,14 +1028,15 @@ function run() {
  */
 function execute_program() {
     // TODO May need to add some change that updates the CLOCK_PERIOD
-    var run_program_interval = setInterval(function() {
+    PROGRAM_INTERVAL_ID = setInterval(function() {
         var pc = getPC();
         var work_ins = get_memory(pc);
 
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
         if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
             write_to_console("Finished running program.");
-            clearInterval(run_program_interval);
+            RUNNING = false;
+            clearInterval(PROGRAM_INTERVAL_ID);
             return;
         }
 
@@ -1055,7 +1059,7 @@ function execute_program() {
         }
         pc = getPC();
         if (pcAtBP(MEM2LINE, pc)) {
-            clearInterval(run_program_interval);
+            clearInterval(PROGRAM_INTERVAL_ID);
             write_to_console("Breakpoint hit, main memory address: " + pc);
         }
     }, CLOCK_PERIOD);
@@ -1138,6 +1142,11 @@ function change_clock_rate() {
         default:
             CLOCK_PERIOD = 0;
             break;
+    }
+
+    if (RUNNING) {
+        clearInterval(PROGRAM_INTERVAL_ID);
+        execute_program();
     }
 }
 

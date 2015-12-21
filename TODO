@@ -1,6 +1,12 @@
 TODO:
 - Give code specific color + auto complete
+- Make everything object oriented in order to break up ISA.js into multiple files
 - Enable inputting negative numbers
+  o I might wanna mask instead of reject numbers > 16 bits.
+  o I also probably wanna compare the negative limits when checking immediate.
+  o I'll need to go through the various assembly operations to see if negative values are
+    implemented properly.
+  o The option to display signed vs unsigned can be added to the Decimal section
 - Change main memory values to hex on hex change.
 - Write up tutorial
 - Add a features page
@@ -17,7 +23,8 @@ Cool future ideas
 - Before running, re-program memory if not at breakpoint. This allows for 
   back to back runs. The problem here is that after stepping, a run would reprogram the whole
   program.
-- Set up debug button (heed breakpoints)
+- Set up debug button or should it be checkbox? (heed breakpoints)
+  If I do this, the functionality will be: press debug to keep debugging if paused.
 - Enable search inside of the main memory box and jump to the
   appropriate address (only do this with a dropdown search).
 

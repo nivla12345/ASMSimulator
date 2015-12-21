@@ -585,56 +585,51 @@ function checkR(reg) {
  */
 function checkI(imm) {
     var state = {"state": false, "arg": 0};
-    if (imm.length < 2)
+    if (imm.length < 2 || imm[0] != "$")
         return state;
-    else {
-        if (imm[0] != "$")
-            return state;
-        var i;
-        // Immediate value may be hex
-        if (imm.length > 3) {
-            // Value is hex
-            var immParsed;
-            if (imm.substring(1, 3) == "0x") {
-                // Check all digits are valid hex
-                for (i = 3; i < imm.length; i++) {
-                    if (!(imm[i] in LEGAL_BASE_10_NUMBERS || imm[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
-                        return state;
-                    }
-                }
-                // Check size constraints
-                immParsed = parseInt(imm.substring(1, imm.length));
-                if (immParsed > BIT_MASK_16) {
+    var i;
+    // Immediate value may be hex
+    if (imm.length > 3) {
+        // Value is hex
+        var immParsed;
+        if (imm.substring(1, 3) == "0x") {
+            // Check all digits are valid hex
+            for (i = 3; i < imm.length; i++) {
+                if (!(imm[i] in LEGAL_BASE_10_NUMBERS || imm[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
                     return state;
                 }
-                state["arg"] = immParsed;
             }
-            // Value is decimal
-            else {
-                for (i = 1; i < imm.length; i++) {
-                    if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
-                        return false;
-                    }
-                }
-                immParsed = parseInt(imm.substring(1, imm.length));
-                if (immParsed > BIT_MASK_16 || immParsed < 0) {
-                    return state;
-                }
-                state["arg"] = immParsed;
+            // Check size constraints
+            immParsed = parseInt(imm.substring(1, imm.length));
+            if (immParsed > BIT_MASK_16) {
+                return state;
             }
         }
-        // Number is length 2 or 3
+        // Value is decimal
         else {
             for (i = 1; i < imm.length; i++) {
                 if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
                     return state;
                 }
             }
-            state["arg"] = imm.substring(1, 3);
+            immParsed = parseInt(imm.substring(1, imm.length));
+            if (immParsed > BIT_MASK_16 || immParsed < 0) {
+                return state;
+            }
         }
-        state["state"] = true;
-        return state;
+        state["arg"] = immParsed;
     }
+    // Number is length 2 or 3
+    else {
+        for (i = 1; i < imm.length; i++) {
+            if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
+                return state;
+            }
+        }
+        state["arg"] = imm.substring(1, 3);
+    }
+    state["state"] = true;
+    return state;
 }
 
 /*
@@ -1070,7 +1065,6 @@ function execute_program() {
     }, CLOCK_PERIOD);
 }
 
-// TODO Add enabling buttons.
 function stop_program_running() {
     if (RUNNING) {
         enable_buttons_when_run();
@@ -1079,7 +1073,6 @@ function stop_program_running() {
     }
 }
 
-// TODO Add disabling buttons.
 function resume_program_running() {
     disable_buttons_when_run();
     RUNNING = true;

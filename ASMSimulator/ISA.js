@@ -1006,6 +1006,10 @@ function step() {
     write_to_console("End step at address " + pc);
 }
 
+function pause_program() {
+    stop_program_running();
+}
+
 /*
  * The run function is basically the processor and will do the actual running of the program that is stored in main
  * memory. The contract we have at this point is that the values in main memory are valid hence we do not need to
@@ -1044,19 +1048,21 @@ function execute_program() {
         // No args
         if (n_args == 0) {
             INS_DESCRIPTION[work_ins]["f"]();
+            pc += 1;
         }
         // 1 arg
         else if (n_args == 1) {
             arg0 = get_memory(pc + 1);
             INS_DESCRIPTION[work_ins]["f"](arg0);
+            pc += 2;
         }
         // 2 args
         else if (n_args == 2) {
             arg0 = get_memory(pc + 1);
             var arg1 = get_memory(pc + 2);
             INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
+            pc += 3;
         }
-        pc = getPC();
         if (pcAtBP(MEM2LINE, pc)) {
             write_to_console("Breakpoint hit, main memory address: " + pc);
             stop_program_running();
@@ -1107,12 +1113,14 @@ function disable_buttons_when_run() {
     document.getElementById("load_button").disabled = true;
     document.getElementById("step_button").disabled = true;
     document.getElementById("assemble_button").disabled = true;
+    document.getElementById("pause_button").disabled = false;
 }
 
 function enable_buttons_when_run() {
     document.getElementById("run_button").disabled = false;
     document.getElementById("step_button").disabled = false;
     document.getElementById("assemble_button").disabled = false;
+    document.getElementById("pause_button").disabled = true;
 }
 
 function write_to_console(string) {
@@ -1309,7 +1317,13 @@ $("#step_button").keyup(function (event) {
     }
 });
 
-$('td[rowspan]').addClass('hasRowSpan');
+$("#pause_button").keyup(function (event) {
+    if (event.keyCode == 13) {
+        pause_program();
+    }
+});
+
+$("td[rowspan]").addClass('hasRowSpan');
 
 document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
 document.getElementById("assemble_button").addEventListener("click", assemble);
@@ -1318,3 +1332,4 @@ document.getElementById("save_button").addEventListener("click", save_file);
 document.getElementById("load_button").addEventListener("click", load_file);
 document.getElementById("clear_console_button").addEventListener("click", clear_console);
 document.getElementById("step_button").addEventListener("click", step);
+document.getElementById("pause_button").addEventListener("click", pause_program);

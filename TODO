@@ -1,7 +1,4 @@
 TODO:
-- Use the twitter bootstrap button feature to blank out the button while 
-  running
-- Pause program button
 - Give code specific color + auto complete
 - Enable inputting negative numbers
 - Change main memory values to hex on hex change.
@@ -45,4 +42,7 @@ DONE:
 - Implement saving in JSR and RTN
 - Add stack pointer highlighting, given my implementation the SP and PC should never collide
 - Have different CPU speeds
+- Use the twitter bootstrap button feature to blank out the button while 
+  running
+- Pause program button
 

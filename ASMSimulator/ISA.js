@@ -75,7 +75,7 @@ const INS_DESCRIPTION = {
     "RSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_rsh},
     "LSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_lsh},
     "AND": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_and},
-    "OR": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or},
+    "OR" : {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or},
     "CMP": {"n_args": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
     "BRN": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brn},
     "BRA": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_bra},
@@ -959,11 +959,48 @@ function assemble() {
 
         // Write labels to main memory table
         for (var label in LABELS2LINES) {
-            write_label2mm(label);
+            var address = LINE2MEM[LABELS2LINES[label]];
+            // error checking
+            if (address > MAX_ADDRESS || address < 0) {
+                write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+                return;
+            }
+            document.getElementById("label" + address).innerHTML = label.slice(1);
         }
-
         write_to_console("Assembled successfully. Data now stored in main memory.");
     }
+}
+
+/**
+ * Performs a single assembly instruction step.
+ */
+function step() {
+    var pc = getPC();
+    var work_ins = get_memory(pc);
+    // Checks that first instruction makes sense
+    if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
+        write_to_console("Stepped to end of program.");
+        return;
+    }
+    var n_args = INS_DESCRIPTION[work_ins]["n_args"];
+    var arg0;
+    // No args
+    if (n_args == 0) {
+        INS_DESCRIPTION[work_ins]["f"]();
+    }
+    // 1 arg
+    else if (n_args == 1) {
+        arg0 = get_memory(pc + 1);
+        INS_DESCRIPTION[work_ins]["f"](arg0);
+    }
+    // 2 args
+    else if (n_args == 2) {
+        arg0 = get_memory(pc + 1);
+        var arg1 = get_memory(pc + 2);
+        INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
+    }
+    pc = getPC();
+    write_to_console("End step at address " + pc);
 }
 
 /*
@@ -977,50 +1014,7 @@ function run() {
     // assemble();
     clear_console();
     write_to_console("Program started running...");
-
-    var pc = getPC();
-    // Checks that first instruction makes sense
-    if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        write_to_console("Finished running program.");
-        return;
-    }
     execute_program();
-}
-
-/**
- * Performs a single assembly instruction step.
- */
-function step() {
-    var pc = getPC();
-    // Checks that first instruction makes sense
-    if (!(get_memory(pc) in INS_DESCRIPTION)) {
-        write_to_console("Stepped to end of program.");
-        return;
-    }
-    var work_ins = get_memory(pc);
-    if (work_ins === "STP") {
-        write_to_console("Stepped to end of program.");
-        return;
-    }
-    var nargs = INS_DESCRIPTION[work_ins]["n_args"];
-    var arg0;
-    // No args
-    if (nargs == 0) {
-        INS_DESCRIPTION[work_ins]["f"]();
-    }
-    // 1 arg
-    else if (nargs == 1) {
-        arg0 = get_memory(pc + 1);
-        INS_DESCRIPTION[work_ins]["f"](arg0);
-    }
-    // 2 args
-    else if (nargs == 2) {
-        arg0 = get_memory(pc + 1);
-        var arg1 = get_memory(pc + 2);
-        INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
-    }
-    pc = getPC();
-    write_to_console("End step at address " + pc);
 }
 
 /*
@@ -1037,8 +1031,9 @@ function execute_program() {
 
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
         if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
-            clearInterval(run_program_interval);
             write_to_console("Finished running program.");
+            clearInterval(run_program_interval);
+            return;
         }
 
         var n_args = INS_DESCRIPTION[work_ins]["n_args"];
@@ -1061,7 +1056,7 @@ function execute_program() {
         pc = getPC();
         if (pcAtBP(MEM2LINE, pc)) {
             clearInterval(run_program_interval);
-            write_to_console("Breakpoint hit, main memory address: " + pc.toString());
+            write_to_console("Breakpoint hit, main memory address: " + pc);
         }
     }, CLOCK_PERIOD);
 }
@@ -1072,13 +1067,11 @@ function clear_memory_image() {
         write_memory(i, "0000");
         document.getElementById("label" + i).innerHTML = "";
     }
-
     // Has the same effect as ccl() except no manipulation to PC.
     setCCF("O", 0);
     setCCF("C", 0);
     setCCF("Z", 0);
     setCCF("N", 0);
-
     for (i = 0; i < NUM_REGS; i++) {
         setR(i, 0);
     }
@@ -1089,16 +1082,6 @@ function clear_memory_image() {
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
-function write_label2mm(label) {
-    var address = LINE2MEM[LABELS2LINES[label]];
-    // error checking
-    if (address > MAX_ADDRESS || address < 0) {
-        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
-        return;
-    }
-    document.getElementById("label" + address).innerHTML = label.slice(1);
-}
-
 function write_to_console(string) {
     var console_out = document.getElementById("console");
     var running = document.createElement("p");
@@ -1191,11 +1174,11 @@ function save_file() {
 function load_file() {
     var fileInput = document.getElementById('load_button');
 
-    fileInput.addEventListener('change', function (e) {
+    fileInput.addEventListener('change', function () {
         var file = fileInput.files[0];
         var reader = new FileReader();
 
-        reader.onload = function (e) {
+        reader.onload = function () {
             editor.setValue(reader.result);
         };
 
@@ -1208,7 +1191,7 @@ function color_pc() {
     $("#addr" + getPC()).parent().css({"backgroundColor": PC_TRACKING_COLOR});
 }
 
-// Uncolors pc in main memory
+// Un-colors pc in main memory
 function uncolor_pc() {
     // Its important to remove the attr otherwise the hover stops working.
     $("#addr" + getPC()).parent().removeAttr("style");
@@ -1219,7 +1202,7 @@ function color_sp() {
     $("#addr" + getSP()).parent().css({"backgroundColor": SP_TRACKING_COLOR});
 }
 
-// Uncolors pc in main memory
+// Un-colors pc in main memory
 function uncolor_sp() {
     // Its important to remove the attr otherwise the hover stops working.
     $("#addr" + getSP()).parent().removeAttr("style");

@@ -1,5 +1,4 @@
 TODO:
-- Have different CPU speeds
 - Use the twitter bootstrap button feature to blank out the button while 
   running
 - Pause program button
@@ -8,6 +7,7 @@ TODO:
 - Change main memory values to hex on hex change.
 - Write up tutorial
 - Add a features page
+- minify my stuff using google minify
 
 Cool future ideas
 - Allow labelling of specific memory locations. This will also mean expanding labels to other
@@ -44,4 +44,5 @@ DONE:
 - Use the bootstrap glyphs
 - Implement saving in JSR and RTN
 - Add stack pointer highlighting, given my implementation the SP and PC should never collide
+- Have different CPU speeds
 

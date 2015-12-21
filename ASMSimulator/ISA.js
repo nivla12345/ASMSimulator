@@ -393,6 +393,42 @@ function convert_to_proper_string_base(n) {
     }
 }
 
+function strip_label(code_line) {
+    if (code_line[0] == LABEL_INDICATOR) {
+        var label_arg_split = code_line.split(/\s+/g);
+
+        // There is some code or something after the label
+        if (label_arg_split.length > 1) {
+            var arg_no_comment_no_label = label_arg_split[1];
+            for (var j = 2; j < label_arg_split.length; j++) {
+                arg_no_comment_no_label += (" " + label_arg_split[j]);
+            }
+            return arg_no_comment_no_label;
+        }
+        // There is just the label in this line
+        else {
+            return ""
+        }
+    }
+    return code_line
+}
+
+function strip_whitespace_and_comment(code_line) {
+    // Checks if line is blank or whitespace
+    if (code_line == "" || /^\s+$/.test(code_line)) {
+        return "";
+    }
+
+    // Remove starting and ending whitespace and keep only first part of line of comment
+    var arg_no_comment = code_line.split(COMMENT)[0].trim();
+
+    // Remove if line is a whitespace
+    if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
+        return "";
+    }
+    return arg_no_comment
+}
+
 /**********************************************************************************************************************/
 /**************************************** ISA GETTERS AND SETTERS *****************************************************/
 /**********************************************************************************************************************/
@@ -739,42 +775,6 @@ function init_mm() {
     }
 }
 
-function strip_label(code_line) {
-    if (code_line[0] == LABEL_INDICATOR) {
-        var label_arg_split = code_line.split(/\s+/g);
-
-        // There is some code or something after the label
-        if (label_arg_split.length > 1) {
-            var arg_no_comment_no_label = label_arg_split[1];
-            for (var j = 2; j < label_arg_split.length; j++) {
-                arg_no_comment_no_label += (" " + label_arg_split[j]);
-            }
-            return arg_no_comment_no_label;
-        }
-        // There is just the label in this line
-        else {
-            return ""
-        }
-    }
-    return code_line
-}
-
-function strip_whitespace_and_comment(code_line) {
-    // Checks if line is blank or whitespace
-    if (code_line == "" || /^\s+$/.test(code_line)) {
-        return "";
-    }
-
-    // Remove starting and ending whitespace and keep only first part of line of comment
-    var arg_no_comment = code_line.split(COMMENT)[0].trim();
-
-    // Remove if line is a whitespace
-    if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
-        return "";
-    }
-    return arg_no_comment
-}
-
 // Gets the assigned labels throughout the text editor.
 function get_labels(lines) {
     var line_number = 1;
@@ -1027,7 +1027,6 @@ function run() {
  * This program either executes to end, program completion or to breakpoint
  */
 function execute_program() {
-    // TODO May need to add some change that updates the CLOCK_PERIOD
     PROGRAM_INTERVAL_ID = setInterval(function() {
         var pc = getPC();
         var work_ins = get_memory(pc);

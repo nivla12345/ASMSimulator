@@ -1,6 +1,10 @@
 /**
  * Created by Alvin on 11/13/2014.
  */
+
+// Define ISA Namespace
+var ISA = ISA || {};
+
 /**********************************************************************************************************************/
 /********************************************** CONSTANT VALUES *******************************************************/
 /**********************************************************************************************************************/
@@ -1034,8 +1038,7 @@ function execute_program() {
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
         if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
             write_to_console("Finished running program.");
-            RUNNING = false;
-            clearInterval(PROGRAM_INTERVAL_ID);
+            stop_program_running();
             return;
         }
 
@@ -1058,13 +1061,26 @@ function execute_program() {
         }
         pc = getPC();
         if (pcAtBP(MEM2LINE, pc)) {
-            clearInterval(PROGRAM_INTERVAL_ID);
             write_to_console("Breakpoint hit, main memory address: " + pc);
+            stop_program_running();
         }
     }, CLOCK_PERIOD);
 }
 
+function stop_program_running() {
+    if (RUNNING) {
+        clearInterval(PROGRAM_INTERVAL_ID);
+        RUNNING = false;
+    }
+}
+
+function resume_program_running() {
+    RUNNING = true;
+    execute_program();
+}
+
 function clear_memory_image() {
+    stop_program_running();
     var i;
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
@@ -1080,11 +1096,17 @@ function clear_memory_image() {
     }
     setPC(0);
     setSP(MAX_ADDRESS);
+    clear_console();
 }
 
 /**********************************************************************************************************************/
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
+// Disables step,
+function disable_buttons() {
+
+}
+
 function write_to_console(string) {
     var console_out = document.getElementById("console");
     var running = document.createElement("p");
@@ -1144,8 +1166,8 @@ function change_clock_rate() {
     }
 
     if (RUNNING) {
-        clearInterval(PROGRAM_INTERVAL_ID);
-        execute_program();
+        stop_program_running();
+        resume_program_running();
     }
 }
 

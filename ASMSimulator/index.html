@@ -148,7 +148,7 @@ POP R0
                         <b class="panel-title">Register Table</b>
                         <select title="Base" class="pull-right" id="base_value" onchange="change_base()">
                             <option value="decimal_input">Decimal</option>
-                            <option value="hex_input">Hexadecimal</option>
+                            <option value="hex_input">Hex</option>
                         </select>
                     </div>
                     <div class="panel-body" style="padding-bottom:0">
@@ -194,6 +194,13 @@ POP R0
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <b class="panel-title">Main Memory</b>
+                        <select title="Speed" class="pull-right" id="program_speed" onchange="change_clock_rate()">
+                            <option value="no_Hz">No delay</option>
+                            <option value="1_Hz">1 Hz</option>
+                            <option value="2_Hz">2 Hz</option>
+                            <option value="4_Hz">4 Hz</option>
+                            <option value="8_Hz">8 Hz</option>
+                        </select>
                     </div>
                     <div class="panel-body">
                         <div id="div_main_memory" style="height:405px;border-bottom:1px solid #ccc;overflow:auto">

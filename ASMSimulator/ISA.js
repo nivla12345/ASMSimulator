@@ -23,10 +23,12 @@ const LINE2MEM = "line2mem"; // Cookie name mapping text area lines to main memo
 const MEM2LINE = "mem2line";
 
 /**********************************************************************************************************************/
-/*********************************************** GLOBAL VALUES ********************************************************/
+/*********************************************** MALLEABLE STATE VALUES ***********************************************/
 /**********************************************************************************************************************/
 // Indicates what base I'm in, gets changed by the select tag
 var BASE_VERSION = 10;
+// Indicates clock rate
+var CLOCK_PERIOD = 0;
 var COOKIE_LIFE_SPAN = 100;
 var LABELS2LINES = {};
 
@@ -984,10 +986,7 @@ function run() {
         write_to_console("Finished running program.");
         return;
     }
-    var status = execute_program(MEM_SIZE);
-    if (status) {
-        write_to_console("Finished running program.");
-    }
+    execute_program();
 }
 
 /**
@@ -1036,43 +1035,42 @@ function step() {
  *
  * This program either executes to end, program completion or to breakpoint
  */
-function execute_program(end) {
-    var pc = getPC();
-    var mem2line = readCookieObject(MEM2LINE);
-    var work_ins = get_memory(pc);
-    // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
-    while (work_ins in INS_DESCRIPTION && pc < MAX_ADDRESS && pc != end) {
-        if (work_ins === "STP")
-            return true;
-        var nargs = INS_DESCRIPTION[work_ins]["nargs"];
+function execute_program() {
+    // TODO May need to add some change that updates the CLOCK_PERIOD
+    var run_program_interval = setInterval(function() {
+        var pc = getPC();
+        var mem2line = readCookieObject(MEM2LINE);
+        var work_ins = get_memory(pc);
+
+        // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
+        if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
+            clearInterval(run_program_interval);
+            write_to_console("Finished running program.");
+        }
+
+        var n_args = INS_DESCRIPTION[work_ins]["n_args"];
         var arg0;
         // No args
-        if (nargs == 0) {
+        if (n_args == 0) {
             INS_DESCRIPTION[work_ins]["f"]();
         }
         // 1 arg
-        else if (nargs == 1) {
+        else if (n_args == 1) {
             arg0 = get_memory(pc + 1);
             INS_DESCRIPTION[work_ins]["f"](arg0);
         }
         // 2 args
-        else if (nargs == 2) {
+        else if (n_args == 2) {
             arg0 = get_memory(pc + 1);
             var arg1 = get_memory(pc + 2);
             INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
         }
-        else {
-            console.log("ERROR: I have no idea how it got here. Basically the INS_DESCRIPTION dict got corrupted");
-            return;
-        }
         pc = getPC();
-        work_ins = get_memory(pc);
         if (pcAtBP(mem2line, pc)) {
+            clearInterval(run_program_interval);
             write_to_console("Breakpoint hit, main memory address: " + pc.toString());
-            return false;
         }
-    }
-    return true;
+    }, CLOCK_PERIOD);
 }
 
 function clear_memory_image() {
@@ -1140,6 +1138,30 @@ function scrollIntoView(element, container) {
         $(container).scrollTop(elemTop);
     } else if (elemBottom > containerBottom) {
         $(container).scrollTop(elemBottom - $(container).height());
+    }
+}
+
+function change_clock_rate() {
+    var hz = document.getElementById("program_speed").value;
+    switch (hz) {
+        case "no_Hz":
+            CLOCK_PERIOD = 0;
+            break;
+        case "1_Hz":
+            CLOCK_PERIOD = 1000;
+            break;
+        case "2_Hz":
+            CLOCK_PERIOD = 500;
+            break;
+        case "4_Hz":
+            CLOCK_PERIOD = 250;
+            break;
+        case "8_Hz":
+            CLOCK_PERIOD = 125;
+            break;
+        default:
+            CLOCK_PERIOD = 0;
+            break;
     }
 }
 

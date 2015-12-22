@@ -12,14 +12,19 @@
     <title>Assembly Emulator</title>
 
     <!-- Bootstrap -->
-    <link href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="lib/codemirror-5.9/theme/blackboard.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/codemirror-5.9/theme/blackboard.css">
     <link rel="stylesheet" href="lib/codemirror-5.9/lib/codemirror.css">
+    <link rel="stylesheet" href="lib/codemirror-5.9/addon/hint/show-hint.css">
+
+
     <script src="lib/jquery-1.11.3.js"></script>
     <script src="lib/codemirror-5.9/lib/codemirror.js"></script>
-    <script src="lib/codemirror-5.9/mode/javascript/javascript.js"></script>
+    <script src="lib/codemirror-5.9/addon/hint/show-hint.js"></script>
+    <!--<script src="lib/codemirror-5.9/mode/javascript/javascript.js"></script>-->
+    <!--<script src="lib/codemirror-5.9/addon/hint/javascript-hint.js"></script>-->
     <script src="lib/codemirror-5.9/addon/selection/active-line.js"></script>
+    <script src="lib/codemirror-grammar/build/codemirror_grammar.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,13 +68,22 @@
                         </div>
                     </div>
                     <div class="panel-body" id="program_text" style="padding-top:1px">
-                        <!-- TODO Stop (stop last and implement)-->
                         <div class="btn-group">
-                            <button class="btn btn-default" id="run_button">
-                                <span class="glyphicon glyphicon-play" aria-hidden="true" style="color:green"></span>
-                                Run
-                            </button>
-                            <button class="btn btn-default" id="pause_button" disabled="true">
+                            <div class="btn-group">
+                                <button class="btn btn-default" id="run_button">
+                                    <span class="glyphicon glyphicon-play" aria-hidden="true" style="color:green"></span>
+                                    Run
+                                </button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" id="run_ignore_bp_button">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:run_program_noBP()">Run (Ignore Breakpoints)</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-default" id="pause_button" disabled="disabled">
                                 <span class="glyphicon glyphicon-pause" aria-hidden="true" style="color:red">
                                 </span>
                                 Pause

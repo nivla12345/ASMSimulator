@@ -1,27 +1,77 @@
-//CodeMirror.defineMode("simplemode", function() {
-//    return {
-//        startState: function() {return {inString: false};},
-//        token: function(stream, state) {
+//CodeMirror.defineSimpleMode("simplemode", {
+//    // The start state contains the rules that are intially used
+//    start: [
+//        // The regex matches the token, the token property contains the type
+//        {regex: /"(?:[^\\]|\\.)*?"/, token: "string"},
+//        // You can match multiple tokens at once. Note that the captured
+//        // groups must span the whole string in this case
+//        {regex: /(function)(\s+)([a-z$][\w$]*)/,
+//            token: ["keyword", null, "variable-2"]},
+//        // Rules are matched in the order in which they appear, so there is
+//        // no ambiguity between this one and the one above
+//        {regex: /\b(?:function|var|return|if|for|while|else|do|this)\b/,
+//            token: "keyword"},
+//        {regex: /true|false|null|undefined/, token: "atom"},
+//        {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
+//            token: "number"},
+//        {regex: /\/\/.*/, token: "comment"},
+//        {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
+//        // A next property will cause the mode to move to a different state
+//        {regex: /\/\*/, token: "comment", next: "comment"},
+//        {regex: /[-+\/*=<>!]+/, token: "operator"},
+//        // indent and dedent properties guide autoindentation
+//        {regex: /[\{\[\(]/, indent: true},
+//        {regex: /[\}\]\)]/, dedent: true},
+//        {regex: /[a-z$][\w$]*/, token: "variable"},
+//        // You can embed other modes with the mode property. This rule
+//        // causes all code between << and >> to be highlighted with the XML
+//        // mode.
+//        {regex: /<</, token: "meta", mode: {spec: "xml", end: />>/}}
+//    ],
+//    // The multi-line comment state.
+//    comment: [
+//        {regex: /.*?\*\//, token: "comment", next: "start"},
+//        {regex: /.*/, token: "comment"}
+//    ],
+//    // The meta property contains global information about the mode. It
+//    // can contain properties like lineComment, which are supported by
+//    // all modes, and also directives like dontIndentStates, which are
+//    // specific to simple modes.
+//    meta: {
+//        dontIndentStates: ["comment"],
+//        lineComment: "//"
+//    }
+//});
+
+
+/* Example definition of a simple mode that understands a subset of
+ * JavaScript:
+ */
 //
-//            // If a string starts here
-//            if (!state.inString && stream.peek() == '"') {
-//                stream.next();            // Skip quote
-//                state.inString = true;    // Update state
-//            }
-//
-//            if (state.inString) {
-//                if (stream.skipTo('"')) { // Quote found on this line
-//                    stream.next();          // Skip quote
-//                    state.inString = false; // Clear flag
-//                } else {
-//                    stream.skipToEnd();    // Rest of line is string
-//                }
-//                return "comment";          // Token style
-//            } else {
-//                stream.skipTo('"') || stream.skipToEnd();
-//                return null;              // Unstyled token
-//            }
-//        }
-//
-//    };
+//CodeMirror.defineSimpleMode("simplemode", {
+//    // The start state contains the rules that are intially used
+//    start: [
+//        // Rules are matched in the order in which they appear, so there is
+//        // no ambiguity between this one and the one above
+//        {regex: /\b(STP|CCL|PSH|POP|RTN|JSR|BRG|BRZ|BRA|BRN|CMP|OR|AND|LSH|RSH|DIV|MUL|SUB|ADD|MOV|SET)\b/,
+//            token: "keyword"},
+//        {regex: /(^|\s)(R0|R1|R2|R3)\b/, token: "atom"},
+//        //{regex: /0x[a-f\d]+|[-]?(?:\d+|\d+\.?\d*)/i,
+//        //    token: "number"},
+//        {regex: /;.*/, token: "comment"},
+//        {regex: /(^|\s)(\.\w+)/, token: "variable"}
+//        //{regex: /[a-z$][\w+\$]*/, token: "variable"}
+//    ],
+//    comment: [
+//        //{regex: /.*?\*\//, token: "comment", next: "start"},
+//        //{regex: /.*/, token: "comment"}
+//    ],
+//    // The meta property contains global information about the mode. It
+//    // can contain properties like lineComment, which are supported by
+//    // all modes, and also directives like dontIndentStates, which are
+//    // specific to simple modes.
+//    meta: {
+//        dontIndentStates: ["comment"],
+//        lineComment: ";"
+//    }
 //});

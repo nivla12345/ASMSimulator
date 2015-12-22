@@ -28,6 +28,7 @@ const LABEL_INDICATOR = ".";
 var BASE_VERSION = 10;
 // Indicates clock rate
 var CLOCK_PERIOD = 0;
+var IGNORE_BREAKPOINTS = false;
 var LINE2MEM = {};
 var MEM2LINE = {};
 var LABELS2LINES = {};
@@ -1012,11 +1013,17 @@ function pause_program() {
  *
  * If there is an error, we need to check the checks section.
  */
-function run() {
-    clear_console();
+function run_program_noBP() {
+    write_to_console("Program started running...");
+    IGNORE_BREAKPOINTS = true;
+    resume_program_running();
+}
+
+function run_program() {
     write_to_console("Program started running...");
     resume_program_running();
 }
+
 
 /*
  * The objective of this program is to be a generic function that executes an assembly program from PC to an
@@ -1058,7 +1065,7 @@ function execute_program() {
             INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
             pc += 3;
         }
-        if (pcAtBP(MEM2LINE, pc)) {
+        if (!IGNORE_BREAKPOINTS && pcAtBP(MEM2LINE, pc)) {
             write_to_console("Breakpoint hit, main memory address: " + pc);
             stop_program_running();
         }
@@ -1070,6 +1077,7 @@ function stop_program_running() {
         enable_buttons_when_run();
         clearInterval(PROGRAM_INTERVAL_ID);
         RUNNING = false;
+        IGNORE_BREAKPOINTS = false;
     }
 }
 
@@ -1106,6 +1114,8 @@ function disable_buttons_when_run() {
     document.getElementById("load_button").disabled = true;
     document.getElementById("step_button").disabled = true;
     document.getElementById("assemble_button").disabled = true;
+    document.getElementById("run_button").disabled = true;
+    document.getElementById("run_ignore_bp_button").disabled = true;
     document.getElementById("pause_button").disabled = false;
 }
 
@@ -1113,6 +1123,8 @@ function enable_buttons_when_run() {
     document.getElementById("run_button").disabled = false;
     document.getElementById("step_button").disabled = false;
     document.getElementById("assemble_button").disabled = false;
+    document.getElementById("run_button").disabled = false;
+    document.getElementById("run_ignore_bp_button").disabled = false;
     document.getElementById("pause_button").disabled = true;
 }
 
@@ -1326,7 +1338,7 @@ $("td[rowspan]").addClass('hasRowSpan');
 
 document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
 document.getElementById("assemble_button").addEventListener("click", assemble);
-document.getElementById("run_button").addEventListener("click", run);
+document.getElementById("run_button").addEventListener("click", run_program);
 document.getElementById("save_button").addEventListener("click", save_file);
 document.getElementById("load_button").addEventListener("click", load_file);
 document.getElementById("clear_console_button").addEventListener("click", clear_console);

@@ -7,6 +7,7 @@ for free, I'm currently making changes to make this a purely front end web appli
 This project uses the following code from other sources:
 - CodeMirror for syntax highlighting + line editor
   https://codemirror.net/
+- Use codemirror-grammar to generate autocomplete + syntax highlighting.
 - Twitter bootstrap to make things pretty.
 - Uses eligrey/FileSaver.js to save
 - Uses underscore js to do mapping

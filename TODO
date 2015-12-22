@@ -13,20 +13,19 @@ TODO:
 - minify my stuff using google minify
 
 Cool future ideas
+- Enable search inside of the main memory box (probably in the title bar) and jump to the
+  appropriate address (search with both label name and address).
 - Allow labelling of specific memory locations. This will also mean expanding labels to other
   instructions that reference addresses. Will have to check that nothing gets overriden here.
 - Square bracket to dereference (this will need to be done in run time)
 - Link main memory location to line number in code to highlight section
   of code hit in text editor (only do this if change to bytemode)
+  If I do this, the functionality will be: press debug to keep debugging if paused.
 - Enable hardware customization
 - Enable choosing textarea editor
 - Before running, re-program memory if not at breakpoint. This allows for 
   back to back runs. The problem here is that after stepping, a run would reprogram the whole
   program.
-- Set up debug button or should it be checkbox? (heed breakpoints)
-  If I do this, the functionality will be: press debug to keep debugging if paused.
-- Enable search inside of the main memory box and jump to the
-  appropriate address (only do this with a dropdown search).
 
 DONE:
 - Make sure you can't set breakpoints on comments + blanklines
@@ -53,4 +52,5 @@ DONE:
   running
 - Pause program button
 - Add click on PC to jump to PC and click on SP to jump to SP
+- Set up debug button with a drop down to reveal ignore breakpoints
 

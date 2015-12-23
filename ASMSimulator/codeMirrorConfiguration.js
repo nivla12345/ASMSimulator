@@ -55,14 +55,6 @@ var asm_grammar = {
             // just zero
             "RE::/0(?![\\dx])/"
         ]
-        ,"operator"             : {"combine":false,"tokens":[
-            "\\", "+", "-", "*", "/", "%", "&", "|", "^", "~", "<", ">" , "!",
-            "==", "!=", "<=", ">=", "<>", "<<", ">>", "//", "**",
-            "and", "or", "not", "is", "in"]}
-        ,"delimiter"            : {"combine":false,"tokens":[
-            "(", ")", "[", "]", "{", "}", ",", ":", "`", "=", ";", ".",
-            "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=",
-            ">>=", "<<=", "//=", "**=", "@"]}
         ,"Instruction"          : {"autocomplete":true,"tokens":[
             "STP", "CCL", "PSH", "POP", "RTN", "JSR", "BRG", "BRZ", "BRA", "BRN", "CMP",
             "OR" , "AND", "LSH", "RSH", "DIV", "MUL", "SUB", "ADD", "MOV", "SET"
@@ -76,7 +68,7 @@ var asm_grammar = {
 // Syntax model (optional)
     "Syntax"                    : {
 
-        "asm"                    : "comment | number | label | decorator | operator | delimiter | Instruction | Registers | identifier"
+        "asm": "comment | number | label | decorator | Instruction | Registers | identifier"
 
     },
 
@@ -114,10 +106,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
     lineWrapping: true,
     styleActiveLine: true,
     theme: "blackboard",
-    extraKeys: {"Ctrl-Space": 'my_autocompletion'},
-
-    //mode: {name: "javascript", globalVars: true},
-    //extraKeys: {"Ctrl-Space": "autocomplete"},
+    extraKeys: {"Ctrl-Space": 'my_autocompletion', "Ctrl-K": "toggleComment"},
 
     gutters: ["CodeMirror-linenumbers", "breakpoints"]
 });

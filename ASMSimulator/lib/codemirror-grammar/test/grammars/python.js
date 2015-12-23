@@ -14,7 +14,7 @@ var python_grammar = {
 
      "comment"              : "comment"
     ,"decorator"            : "meta"
-    ,"keyword"              : "keyword"
+    , "keywor": "keyword"
     ,"builtin"              : "builtin"
     ,"operator"             : "operator"
     ,"identifier"           : "variable"
@@ -57,11 +57,12 @@ var python_grammar = {
                             "(", ")", "[", "]", "{", "}", ",", ":", "`", "=", ";", ".",
                             "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", 
                             ">>=", "<<=", "//=", "**=", "@"]}
-    ,"keyword"              : {"autocomplete":true,"tokens":[
+    , "keywor": {
+        "autocomplete": true, "tokens": [
                             "assert", "break", "class", "continue",
                             "def", "del", "elif", "else", "except", "finally",
                             "for", "from", "global", "if", "import",
-                            "lambda", "pass", "raise", "return",
+            "lambda", "pass", "SET", "raise", "return",
                             "try", "while", "with", "yield", "as"
                             ]}
     ,"builtin"              : {"autocomplete":true,"tokens":[
@@ -82,8 +83,8 @@ var python_grammar = {
 
 // Syntax model (optional)
 "Syntax"                    : {
-    
-    "py"                    : "comment | heredoc | number | string | decorator | operator | delimiter | keyword | builtin | identifier"
+
+    "py": "comment | heredoc | number | string | decorator | operator | delimiter | keywor | builtin | identifier"
     
 },
     

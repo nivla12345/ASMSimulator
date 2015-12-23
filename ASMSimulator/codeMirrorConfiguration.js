@@ -2,25 +2,11 @@
  * Created by Alvin on 12/9/15.
  */
 
-// TODO
-// The things that my languages is composed of:
-// - Labels, \.\w+\b
-// - Comments, ;\w+\b
-    // - Instructions, \b(SET|...)\b
-    // - Registers, \b(SET|...)\b
-// - Immediate values, \$\w+\b
-
-
-// 1. an almost complete asm grammar in simple JSON format
+// 1. an almost complete python grammar in simple JSON format
 var asm_grammar = {
 
 // prefix ID for regular expressions, represented as strings, used in the grammar
     "RegExpID"                  : "RE::",
-
-    "Extra"                     : {
-
-        "fold"                  : "indent"
-    },
 
 // Style model
     "Style"                     : {
@@ -28,38 +14,52 @@ var asm_grammar = {
         "comment"               : "comment"
         ,"decorator"            : "meta"
         ,"Instruction"          : "keyword"
-        ,"Registers"            : "builtin"
-        ,"operator"             : "operator"
-        ,"identifier"           : "variable"
+        , "builtin": "builtin"
+        //,"operator"             : "operator"
+        , "identifier": ""
         ,"number"               : "number"
-        ,"label"               : "string"
+        , "string": "string"
     },
 
 // Lexical model
     "Lex"                       : {
 
-         "comment:comment"      : [";", null]
-        ,"label"                : "RE::/[\.][_A-Za-z0-9]+/"
-        ,"identifier"           : [
+        "comment:comment": [";", null]
+        , "string": "RE::/[\.][_A-Za-z0-9]+/" // in my case label
+        , "identifier": "RE::/[_A-Za-z][_A-Za-z0-9]*/"
+        , "decorator": [
+            // integers
             // hex
             "RE::/[\$]0x[0-9a-fA-F]+/",
             // decimal
-            "RE::/[\$][0-9]+/"
-            ]
+            "RE::/[\$][1-9]\\d*/",
+            // just zero
+            "RE::/[\$]0(?![\\dx])/"
+        ]
         ,"number"               : [
             // integers
             // hex
             "RE::/0x[0-9a-fA-F]+/",
             // decimal
-            "RE::/[0-9]+/",
+            "RE::/[1-9]\\d*/",
             // just zero
             "RE::/0(?![\\dx])/"
         ]
-        ,"Instruction"          : {"autocomplete":true,"tokens":[
+        //,"operator"             : {"combine":false,"tokens":[
+        //    "\\", "+", "-", "*", "/", "%", "&", "|", "^", "~", "<", ">" , "!",
+        //    "==", "!=", "<=", ">=", "<>", "<<", ">>", "//", "**",
+        //    "and", "or", "not", "is", "in"]}
+        //,"delimiter"            : {"combine":false,"tokens":[
+        //    "(", ")", "[", "]", "{", "}", ",", ":", "`", "=", ";", ".",
+        //    "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=",
+        //    ">>=", "<<=", "//=", "**=", "@"]}
+        , "Instruction": {
+            "autocomplete": true, "tokens": [
             "STP", "CCL", "PSH", "POP", "RTN", "JSR", "BRG", "BRZ", "BRA", "BRN", "CMP",
             "OR" , "AND", "LSH", "RSH", "DIV", "MUL", "SUB", "ADD", "MOV", "SET"
         ]}
-        ,"Registers"            : {"autocomplete":true,"tokens":[
+        , "builtin": {
+            "autocomplete": true, "tokens": [
             "R0", "R1", "R2", "R3"
         ]}
 
@@ -68,7 +68,7 @@ var asm_grammar = {
 // Syntax model (optional)
     "Syntax"                    : {
 
-        "asm": "comment | number | label | decorator | Instruction | Registers | identifier"
+        "asm": "comment | decorator | number | string | operator | Instruction | builtin | identifier"
 
     },
 
@@ -78,16 +78,78 @@ var asm_grammar = {
 
 };
 
+//// 1. an almost complete asm grammar in simple JSON format
+//var asm_grammar = {
+//
+//// prefix ID for regular expressions, represented as strings, used in the grammar
+//    "RegExpID"                  : "RE::",
+//
+//    "Extra"                     : {
+//
+//        "fold"                  : "indent"
+//    },
+//
+//// Style model
+//    "Style"                     : {
+//
+//        "comment"               : "comment"
+//        ,"identifier"           : "variable"
+//        ,"Instruction"          : "keyword"
+//        ,"Registers"            : "builtin"
+//        ,"Immediate"            : "meta"
+//        ,"number"               : "number"
+//        ,"Label"                : "string"
+//    },
+//
+//// Lexical model
+//    "Lex"                       : {
+//
+//         "comment:comment"      : [";", null]
+//        ,"identifier"            : "RE::/[_A-Za-z][_A-Za-z0-9]*/"
+//        ,"Instruction"          : {"autocomplete":true, "tokens":[
+//            "STP", "CCL", "PSH", "POP", "RTN", "JSR", "BRG", "BRZ", "BRA", "BRN", "CMP",
+//            "OR" , "AND", "LSH", "RSH", "DIV", "MUL", "SUB", "ADD", "MOV", "SET"
+//        ]}
+//        ,"Registers"            : {"autocomplete":true, "tokens":[
+//            "R0", "R1", "R2", "R3"
+//        ]}
+//        ,"Immediate"           : [
+//            // hex
+//            "RE::/[\$]0x[0-9a-fA-F]+/",
+//            // decimal
+//            "RE::/[\$][0-9]+/"
+//            ]
+//        ,"number"               : [
+//            // integers
+//            // hex
+//            "RE::/0x[0-9a-fA-F]+/",
+//            // decimal
+//            "RE::/[0-9]+/",
+//            // just zero
+//            "RE::/0(?![\\dx])/"
+//        ]
+//        ,"Label"                : "RE::/[\.][_A-Za-z0-9]+/"
+//    },
+//
+//// Syntax model (optional)
+//    "Syntax"                    : {
+//
+//        "asm": "comment | identifier | Instruction | Registers | Immediate | number | Label"
+//
+//    },
+//
+//// what to parse and in what order
+//// an array i.e ["asm"], instead of single token i.e "asm", is a shorthand for an "ngram"-type syntax token (for parser use)
+//    "Parser"                    : [ ["asm"] ]
+//
+//};
+
 // 2. parse the grammar into a Codemirror syntax-highlight mode
 var asm_mode = CodeMirrorGrammar.getMode( asm_grammar );
 
 
 // 3. use it with Codemirror
 CodeMirror.defineMode("asm", asm_mode);
-
-// enable syntax lint-like validation in the grammar
-asm_mode.supportGrammarAnnotations = true;
-CodeMirror.registerHelper("lint", "asm", asm_mode.validator);
 
 // enable user-defined autocompletion (if defined)
 asm_mode.supportAutoCompletion = true;
@@ -105,7 +167,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
     indentWithTabs: false,
     lineWrapping: true,
     styleActiveLine: true,
-    theme: "blackboard",
+    //theme: "blackboard",
     extraKeys: {"Ctrl-Space": 'my_autocompletion', "Ctrl-K": "toggleComment"},
 
     gutters: ["CodeMirror-linenumbers", "breakpoints"]

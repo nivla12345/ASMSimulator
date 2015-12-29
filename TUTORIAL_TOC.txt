@@ -1,0 +1,129 @@
+My Goal - Describe what my webapp does.
+
+Overall Summary
+    - This is an assembly simulator.
+
+    Overview of Assembly
+    - Assembly is a language that can easily be interpretted by a 
+      processor. Generally, the only only change that's needed for the 
+      processor to understand assembly is to directly convert the assembly 
+      program from text form to a sequence of bytes. This form is
+      generally known as bytecode and is generated through an assembler.
+
+    - Assembly is closely associated with the hardware it is running on.
+      Generally at a bare minimum, the assembly language at hand interacts
+      with the following 3 hardware components.
+
+      1) The CPU (processor) which is the brain of the computer. All CPUs in reality
+         recognize a fixed set of assembly instructions and recognize no
+         other instructions. The CPU is capable of executing these
+         instructions and interacting with any other hardware components to
+         ensure execution is completed as planned.
+         
+         While in the application you can see sections for registers and
+         main memory, the CPU in this application is what's responsible for
+         filling in the registers and memory. Hence, there is no physical
+         CPU section to be seen.
+
+      2) Registers are a small set of memory located in the CPU.
+         Registers are able to be accessed extremely quickly. There are
+         generally only a small number of registers, in this case four
+         (R0-R3 inclusive, PC, SP, and ZCNO). 
+         
+         The PC is the program counter which specifies where in main memory 
+         the current program execution is. 
+         ~ See W PC for more information
+         
+         The SP stack pointer points to the next free spot on the stack. 
+         ~ See the wikipedia entry of stack for more information.
+
+         ZCNO are the 
+
+         Neither the PC nor the SP are directly accessible and instead get
+         indirectly manipulated by other instruction commands.
+
+      3) Main memory is a much larger set of memory which in this simulator 
+         has the following functions:
+
+         3.1) Stores assembly program itself.
+         3.2) Features a stack at the bottom. The stack is generally used for 
+              function calls but can also be used to store temporary data.
+              ~ See hardware stack description of wikipedia.
+         3.3) Can be used by the program at run time to store values.
+
+         This emulator has 512 memory addresses.
+
+    - Given how closely associated assembly is with hardware, the purpose of 
+      this application is to allow users to practice writing
+      assembly without having the physical hardware.
+
+    ~ Look at Wiki entry on assembly language plus a variety of other sources.
+
+ISA Definitions
+
+    - Each computer has its own set of hardware hence there are
+      many distinct assembly languages in existence that match their respective 
+      hardware. The assembly language used here is a homebrew assembly that 
+      features the most commonly seen instructions.
+
+    - Syntax
+
+      Tokens:
+
+      - Instruction - a command that gets issued to the processor.
+        Instructions sometimes require anywhere from 0 to 2 arguments to
+        complete the command.
+
+        The instructions is found in the Instruction Set section. 
+        
+      - Argument Types
+          - Register - Any of R0, R1, R2, and R3. 
+          - Immediate - A constant numeric value. Can be any 16 bit value.
+          - Address
+
+      - Label - a way to label the beginning of a code block. If the label
+        is placed directly a block of control flow without a STP the control
+        flow will continue to run through the labeled code block.
+
+        Example:
+
+        Description of example.
+
+      - Comment - a way to annotate code.
+
+      Token Formats:
+      - To issue an instruction:
+        label (< optional) instruction argument(s 2-4) comment (< optional)
+      - Comment - can be placed anywhere.
+      - Label - must be placed before the block of code it is meant to
+        label.
+
+Instruction Set
+
+    Memory Access
+        set
+        mov
+        pop
+        psh
+        ccl
+
+    Logical
+        rsh
+        lsh
+        and
+        or
+
+    Arithmetic
+        add
+        sub
+        mul
+        div
+
+    Branching
+        cmp
+        brn
+        bra
+        brz
+        jsr
+        rtn
+        stp

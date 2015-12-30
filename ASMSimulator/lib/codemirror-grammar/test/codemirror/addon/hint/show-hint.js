@@ -26,7 +26,7 @@
 
   CodeMirror.defineExtension("showHint", function(options) {
     options = parseOptions(this, this.getCursor("start"), options);
-    var selections = this.listSelections()
+    var selections = this.listSelections();
     if (selections.length > 1) return;
     // By default, don't allow completion when something is selected.
     // A hint function can have a `supportsSelection` property to
@@ -145,7 +145,7 @@
       if (editor[prop] !== undefined) out[prop] = editor[prop];
     if (options) for (var prop in options)
       if (options[prop] !== undefined) out[prop] = options[prop];
-    if (out.hint.resolve) out.hint = out.hint.resolve(cm, pos)
+    if (out.hint.resolve) out.hint = out.hint.resolve(cm, pos);
     return out;
   }
 
@@ -348,48 +348,48 @@
   };
 
   function applicableHelpers(cm, helpers) {
-    if (!cm.somethingSelected()) return helpers
-    var result = []
+    if (!cm.somethingSelected()) return helpers;
+    var result = [];
     for (var i = 0; i < helpers.length; i++)
-      if (helpers[i].supportsSelection) result.push(helpers[i])
+      if (helpers[i].supportsSelection) result.push(helpers[i]);
     return result
   }
 
   function resolveAutoHints(cm, pos) {
-    var helpers = cm.getHelpers(pos, "hint"), words
+    var helpers = cm.getHelpers(pos, "hint"), words;
     if (helpers.length) {
-      var async = false, resolved
-      for (var i = 0; i < helpers.length; i++) if (helpers[i].async) async = true
+      var async = false, resolved;
+      for (var i = 0; i < helpers.length; i++) if (helpers[i].async) async = true;
       if (async) {
         resolved = function(cm, callback, options) {
-          var app = applicableHelpers(cm, helpers)
+          var app = applicableHelpers(cm, helpers);
           function run(i, result) {
-            if (i == app.length) return callback(null)
-            var helper = app[i]
+            if (i == app.length) return callback(null);
+            var helper = app[i];
             if (helper.async) {
               helper(cm, function(result) {
-                if (result) callback(result)
+                if (result) callback(result);
                 else run(i + 1)
               }, options)
             } else {
-              var result = helper(cm, options)
-              if (result) callback(result)
+              var result = helper(cm, options);
+              if (result) callback(result);
               else run(i + 1)
             }
           }
           run(0)
-        }
+        };
         resolved.async = true
       } else {
         resolved = function(cm, options) {
-          var app = applicableHelpers(cm, helpers)
+          var app = applicableHelpers(cm, helpers);
           for (var i = 0; i < app.length; i++) {
-            var cur = app[i](cm, options)
+            var cur = app[i](cm, options);
             if (cur && cur.list.length) return cur
           }
         }
       }
-      resolved.supportsSelection = true
+      resolved.supportsSelection = true;
       return resolved
     } else if (words = cm.getHelper(cm.getCursor(), "hintWords")) {
       return function(cm) { return CodeMirror.hint.fromList(cm, {words: words}) }

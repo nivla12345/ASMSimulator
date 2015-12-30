@@ -5,13 +5,13 @@
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object")
-    mod(require("../../lib/codemirror"))
+    mod(require("../../lib/codemirror"));
   else if (typeof define == "function" && define.amd)
-    define(["../../lib/codemirror"], mod)
+    define(["../../lib/codemirror"], mod);
   else
     mod(CodeMirror)
 })(function(CodeMirror) {
-  "use strict"
+  "use strict";
   var reserve = "><+-.,[]".split("");
   /*
   comments can be either:
@@ -37,7 +37,7 @@
         }
       },
       token: function(stream, state) {
-        if (stream.eatSpace()) return null
+        if (stream.eatSpace()) return null;
         if(stream.sol()){
           state.commentLine = false;
         }

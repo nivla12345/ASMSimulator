@@ -142,8 +142,7 @@ CodeMirror.defineMode('mathematica', function(_config, _parserConfig) {
       state.tokenize = tokenBase;
     }
     return 'string';
-  };
-
+  }
   function tokenComment(stream, state) {
     var prev, next;
     while(state.commentLevel > 0 && (next = stream.next()) != null) {

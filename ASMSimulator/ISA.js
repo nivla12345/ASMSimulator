@@ -468,6 +468,7 @@ function write_memory(address, value) {
  * Gets the value stored at the address in memory.
  */
 function get_memory(address) {
+    address = parseInt(address);
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
         console.error(ERROR_ADDRESS_OUT_OF_BOUNDS);

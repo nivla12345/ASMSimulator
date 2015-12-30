@@ -433,9 +433,13 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
           curPunc = (/\\TLV_version/.test(stream.string))
             ? "\\TLV_version" : stream.string;
           stream.skipToEnd();
-          if (curPunc == "\\SV" && state.vxCodeActive) {state.vxCodeActive = false;};
+          if (curPunc == "\\SV" && state.vxCodeActive) {
+            state.vxCodeActive = false;
+          }
           if ((/\\TLV/.test(curPunc) && !state.vxCodeActive)
-            || (curPunc=="\\TLV_version" && state.vxCodeActive)) {state.vxCodeActive = true;};
+              || (curPunc == "\\TLV_version" && state.vxCodeActive)) {
+            state.vxCodeActive = true;
+          }
           style = "keyword";
           state.tlvCurCtlFlowChar  = state.tlvPrevPrevCtlFlowChar
             = state.tlvPrevCtlFlowChar = "";

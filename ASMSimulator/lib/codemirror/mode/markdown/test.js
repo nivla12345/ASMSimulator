@@ -854,7 +854,7 @@
     "[override-hr * * *]");
 
   TokenTypeOverrideTest("overrideImage",
-    "[override-image ![[foo]]][override-link-href&url (http://example.com/)]")
+    "[override-image ![[foo]]][override-link-href&url (http://example.com/)]");
 
   TokenTypeOverrideTest("overrideLinkText",
     "[override-link-text [[foo]]][override-link-href&url (http://example.com)]");

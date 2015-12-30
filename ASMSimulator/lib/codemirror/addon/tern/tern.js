@@ -124,7 +124,7 @@
       var self = this;
       var doc = findDoc(this, cm.getDoc());
       var request = buildRequest(this, doc, query, pos);
-      var extraOptions = request.query && this.options.queryOptions && this.options.queryOptions[request.query.type]
+      var extraOptions = request.query && this.options.queryOptions && this.options.queryOptions[request.query.type];
       if (extraOptions) for (var prop in extraOptions) request.query[prop] = extraOptions[prop];
 
       this.server.request(request, function (error, data) {
@@ -135,7 +135,7 @@
     },
 
     destroy: function () {
-      closeArgHints(this)
+      closeArgHints(this);
       if (this.worker) {
         this.worker.terminate();
         this.worker = null;
@@ -488,7 +488,7 @@
       (perFile[ch.file] || (perFile[ch.file] = [])).push(ch);
     }
     for (var file in perFile) {
-      var known = ts.docs[file], chs = perFile[file];;
+      var known = ts.docs[file], chs = perFile[file];
       if (!known) continue;
       chs.sort(function(a, b) { return cmpPos(b.start, a.start); });
       var origin = "*rename" + (++nextChangeOrig);

@@ -110,8 +110,7 @@
         state.localState = CodeMirror.startState(mode, htmlMode.indent(state.htmlState, ""));
       }
       return style;
-    };
-
+    }
     return {
       startState: function () {
         var state = htmlMode.startState();

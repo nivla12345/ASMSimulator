@@ -1204,8 +1204,7 @@
     // Used to work around IE issue with selection being forgotten when focus moves away from textarea
     this.hasSelection = false;
     this.composing = null;
-  };
-
+  }
   function hiddenTextarea() {
     var te = elt("textarea", null, null, "position: absolute; padding: 0; width: 1px; height: 1em; outline: none");
     var div = elt("div", [te], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
@@ -1287,7 +1286,7 @@
 
       on(te, "compositionstart", function() {
         var start = cm.getCursor("from");
-        if (input.composing) input.composing.range.clear()
+        if (input.composing) input.composing.range.clear();
         input.composing = {
           start: start,
           range: cm.markText(start, cm.getCursor("to"), {className: "CodeMirror-composing"})
@@ -1560,7 +1559,7 @@
       var div = input.div = display.lineDiv;
       disableBrowserMagic(div);
 
-      on(div, "paste", function(e) { handlePaste(e, cm); })
+      on(div, "paste", function(e) { handlePaste(e, cm); });
 
       on(div, "compositionstart", function(e) {
         var data = e.data;
@@ -1824,7 +1823,7 @@
     },
     applyComposition: function(composing) {
       if (isReadOnly(this.cm))
-        operation(this.cm, regChange)(this.cm)
+        operation(this.cm, regChange)(this.cm);
       else if (composing.data && composing.data != composing.startData)
         operation(this.cm, applyTextInput)(this.cm, composing.data, 0, composing.sel);
     },
@@ -3396,7 +3395,7 @@
         prevTouch = d.activeTouch;
         prevTouch.end = +new Date;
       }
-    };
+    }
     function isMouseLikeTouchEvent(e) {
       if (e.touches.length != 1) return false;
       var touch = e.touches[0];
@@ -6262,7 +6261,7 @@
 
   function detachSharedMarkers(markers) {
     for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i], linked = [marker.primary.doc];;
+      var marker = markers[i], linked = [marker.primary.doc];
       linkedDocs(marker.primary.doc, function(d) { linked.push(d); });
       for (var j = 0; j < marker.markers.length; j++) {
         var subMarker = marker.markers[j];
@@ -8119,10 +8118,10 @@
     }
   };
 
-  var noHandlers = []
+  var noHandlers = [];
   function getHandlers(emitter, type, copy) {
-    var arr = emitter._handlers && emitter._handlers[type]
-    if (copy) return arr && arr.length > 0 ? arr.slice() : noHandlers
+    var arr = emitter._handlers && emitter._handlers[type];
+    if (copy) return arr && arr.length > 0 ? arr.slice() : noHandlers;
     else return arr || noHandlers
   }
 
@@ -8132,14 +8131,14 @@
     else if (emitter.detachEvent)
       emitter.detachEvent("on" + type, f);
     else {
-      var handlers = getHandlers(emitter, type, false)
+      var handlers = getHandlers(emitter, type, false);
       for (var i = 0; i < handlers.length; ++i)
         if (handlers[i] == f) { handlers.splice(i, 1); break; }
     }
   };
 
   var signal = CodeMirror.signal = function(emitter, type /*, values...*/) {
-    var handlers = getHandlers(emitter, type, true)
+    var handlers = getHandlers(emitter, type, true);
     if (!handlers.length) return;
     var args = Array.prototype.slice.call(arguments, 2);
     for (var i = 0; i < handlers.length; ++i) handlers[i].apply(null, args);
@@ -8155,7 +8154,7 @@
   // them to be executed when the last operation ends, or, if no
   // operation is active, when a timeout fires.
   function signalLater(emitter, type /*, values...*/) {
-    var arr = getHandlers(emitter, type, false)
+    var arr = getHandlers(emitter, type, false);
     if (!arr.length) return;
     var args = Array.prototype.slice.call(arguments, 2), list;
     if (operationGroup) {
@@ -8166,7 +8165,11 @@
       list = orphanDelayedCallbacks = [];
       setTimeout(fireOrphanDelayed, 0);
     }
-    function bnd(f) {return function(){f.apply(null, args);};};
+    function bnd(f) {
+      return function () {
+        f.apply(null, args);
+      };
+    }
     for (var i = 0; i < arr.length; ++i)
       list.push(bnd(arr[i]));
   }
@@ -8255,7 +8258,7 @@
       pos = nextTab + 1;
       if (col >= goal) return pos;
     }
-  }
+  };
 
   var spaceStrs = [""];
   function spaceStr(n) {
@@ -8295,8 +8298,7 @@
     }
     if (props) copyObj(props, inst);
     return inst;
-  };
-
+  }
   function copyObj(obj, target, overwrite) {
     if (!target) target = {};
     for (var prop in obj)

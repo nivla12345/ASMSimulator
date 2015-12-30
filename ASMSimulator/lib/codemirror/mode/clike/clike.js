@@ -49,8 +49,8 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       return null;
     }
     if (numberStart.test(ch)) {
-      stream.backUp(1)
-      if (stream.match(number)) return "number"
+      stream.backUp(1);
+      if (stream.match(number)) return "number";
       stream.next()
     }
     if (ch == "/") {
@@ -223,7 +223,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       var closing = firstChar == ctx.type;
       var switchBlock = ctx.prev && ctx.prev.type == "switchstatement";
       if (parserConfig.allmanIndentation && /[{(]/.test(firstChar)) {
-        while (ctx.type != "top" && ctx.type != "}") ctx = ctx.prev
+        while (ctx.type != "top" && ctx.type != "}") ctx = ctx.prev;
         return ctx.indented
       }
       if (isStatement(ctx.type))

@@ -3,8 +3,9 @@
 
 /* Just enough of CodeMirror to run runMode under node.js */
 
-function splitLines(string){return string.split(/\r\n?|\n/);};
-
+function splitLines(string) {
+  return string.split(/\r\n?|\n/);
+}
 // Counts the column offset in a string, taking tabs into account.
 // Used mostly to find indentation.
 var countColumn = function(string, end, tabSize, startIndex, startValue) {
@@ -28,8 +29,7 @@ function StringStream(string, tabSize) {
   this.tabSize = tabSize || 8;
   this.lastColumnPos = this.lastColumnValue = 0;
   this.lineStart = 0;
-};
-
+}
 StringStream.prototype = {
   eol: function() {return this.pos >= this.string.length;},
   sol: function() {return this.pos == this.lineStart;},

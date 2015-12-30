@@ -129,8 +129,8 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
     state.trailingSpace = 0;
     state.trailingSpaceNewLine = false;
     // Mark this line as blank
-    state.prevLine = state.thisLine
-    state.thisLine = null
+    state.prevLine = state.thisLine;
+    state.thisLine = null;
     return null;
   }
 
@@ -209,7 +209,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       if (modeCfg.highlightFormatting) state.formatting = ["list", "list-" + listType];
       return getType(state);
     } else if (modeCfg.fencedCodeBlocks && (match = stream.match(fencedCodeRE, true))) {
-      state.fencedChars = match[1]
+      state.fencedChars = match[1];
       // try switching mode
       state.localMode = getMode(match[2]);
       if (state.localMode) state.localState = state.localMode.startState();
@@ -757,12 +757,12 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
         if (stream.match(/^\s*$/, true) || forceBlankLine) {
           blankLine(state);
-          if (!forceBlankLine) return null
+          if (!forceBlankLine) return null;
           state.prevLine = null
         }
 
-        state.prevLine = state.thisLine
-        state.thisLine = stream
+        state.prevLine = state.thisLine;
+        state.thisLine = stream;
 
         // Reset state.taskList
         state.taskList = false;

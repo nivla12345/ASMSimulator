@@ -3,6 +3,7 @@ TODO:
 - Add a features page
 - Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
   prompt once. Or just open in new tab
+- Allow running values in hex when stored in memory.
 - minify my stuff using google minify
 - Enable inputting negative numbers
   o I might wanna mask instead of reject numbers > 16 bits.

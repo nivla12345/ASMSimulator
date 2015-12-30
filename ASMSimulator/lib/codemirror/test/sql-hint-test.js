@@ -176,7 +176,7 @@
            {text: "t.name", displayText: "name | The name"}],
     from: Pos(0, 7),
     to: Pos(0, 9)
-  })
+  });
 
   function deepCompare(a, b) {
     if (!a || typeof a != "object")

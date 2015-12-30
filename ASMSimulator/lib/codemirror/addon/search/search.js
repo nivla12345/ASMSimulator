@@ -78,8 +78,8 @@
 
   function parseString(string) {
     return string.replace(/\\(.)/g, function(_, ch) {
-      if (ch == "n") return "\n"
-      if (ch == "r") return "\r"
+      if (ch == "n") return "\n";
+      if (ch == "r") return "\r";
       return ch
     })
   }
@@ -117,14 +117,14 @@
     if (state.query) return findNext(cm, rev);
     var q = cm.getSelection() || state.lastQuery;
     if (persistent && cm.openDialog) {
-      var hiding = null
+      var hiding = null;
       persistentDialog(cm, queryDialog, q, function(query, event) {
         CodeMirror.e_stop(event);
         if (!query) return;
         if (query != state.queryText) startSearch(cm, state, query);
-        if (hiding) hiding.style.opacity = 1
+        if (hiding) hiding.style.opacity = 1;
         findNext(cm, event.shiftKey, function(_, to) {
-          var dialog
+          var dialog;
           if (to.line < 3 && document.querySelector &&
               (dialog = cm.display.wrapper.querySelector(".CodeMirror-dialog")) &&
               dialog.getBoundingClientRect().bottom - 4 > cm.cursorCoords(to, "window").top)
@@ -183,12 +183,12 @@
   function replace(cm, all) {
     if (cm.getOption("readOnly")) return;
     var query = cm.getSelection() || getSearchState(cm).lastQuery;
-    var dialogText = all ? "Replace all:" : "Replace:"
+    var dialogText = all ? "Replace all:" : "Replace:";
     dialog(cm, dialogText + replaceQueryDialog, dialogText, query, function(query) {
       if (!query) return;
       query = parseQuery(query);
       dialog(cm, replacementQueryDialog, "Replace with:", "", function(text) {
-        text = parseString(text)
+        text = parseString(text);
         if (all) {
           replaceAll(cm, query, text)
         } else {

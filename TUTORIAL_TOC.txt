@@ -63,7 +63,7 @@ ISA Definitions
 
     - Each computer has its own set of hardware hence there are
       many distinct assembly languages in existence that match their respective 
-      hardware. The assembly language used here is a homebrew assembly that 
+      hardware. The assembly language used here is a 16-bit homebrew assembly that 
       features the most commonly seen instructions.
 
     - Syntax
@@ -127,3 +127,5 @@ Instruction Set
         jsr
         rtn
         stp
+
+References

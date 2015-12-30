@@ -12,7 +12,7 @@
     <title>Tutorial</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="lib/docs.css">
 
@@ -37,9 +37,9 @@
         </div>
 
         <ul class="nav navbar-nav">
-                <li><a href="index.html">Home<span class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="#">Tutorial<span class="sr-only">(current)</span></a></li>
-                <li><a href="features.html">Features<span class="sr-only">(current)</span></a></li>
+            <li><a href="index.html">Home<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#">Tutorial<span class="sr-only">(current)</span></a></li>
+            <li><a href="features.html">Features<span class="sr-only">(current)</span></a></li>
         </ul>
     </div>
 </nav>
@@ -47,93 +47,353 @@
     <div class="row">
         <div class="col-md-9" role="main">
             <div class="bs-docs-section">
-                <h1 id="license-faqs" class="page-header"><a
-                    style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
-                    class="anchorjs-link" href="#license-faqs" aria-label="Anchor link for: license faqs"></a>
-                    License FAQs
-                </h1>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
+                <h2 id="overview" class="page-header"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link" href="#overview" aria-label="Anchor link for: overview"></a>
+                    Overview
+                </h2>
+
+                <p>
+                    This web application is a JavaScript based assembly simulator. In this section, you will find a
+                    mile high overview of assembly. For those already familiar with assembly, jump ahead to the
+                    <a href="#ISA_def">instruction definitions</a> section. For a more in-depth and complete
+                    understanding of assembly try the <a href="https://en.wikipedia.org/wiki/Assembly_language">
+                    wikipedia entry</a> or a variety of the many resources available online.
+                </p>
+
+                <h3 id="assembly_overview"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#assembly_overview"
+                        aria-label="Anchor link for: Assembly Overview"></a>
+                    Assembly Overview
+                </h3>
+
+                <p>
+                    Assembly is a programming language that can be easily converted to a computer processor's language.
+                    Generally, the conversion consists of a direct one to one mapping from text form to a sequence of
+                    bytes.
+                    This sequence of bytes is generally known as <b>machine code</b> which the processor can read
+                    directly.
+                </p>
+
+                <p>
+                    Generally, assembly is dynamically generated via a compiler that transforms some other low level
+                    source code such as C to a given assembly language such as ARM or x86. Modern compilers do a really
+                    good job of generating optimized assembly code so there are few opportunities where it is truly
+                    necessary to write assembly.
+                </p>
+
+                <h3 id="why_learn_assembly"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#why_learn_assembly"
+                        aria-label="Anchor link for: Why Learn Assembly"></a>
+                    Why Learn Assembly?
+                </h3>
+
+                <p>
+                    So why learn assembly? Learning assembly will provide you with an in depth knowledge of how programs
+                    operate within the constraints of hardware. To name a few specific reasons:
+                </p>
+                <ul>
+                    <li>Assembly reveals the performance penalty of function calls and the potential risk of stack
+                        overflow.
+                    </li>
+                    <li>The presence of condition registers that consequently determine branching and conditionals.
+                    </li>
+                    <li>The challenges and necessity of memory management.</li>
+                    <li>And <a
+                            href="http://programmers.stackexchange.com/questions/156722/how-does-learning-assembly-aid-in-programming">
+                        more...</a></li>
+                </ul>
+
+                <h3 id="hardware_overview"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#hardware_overview"
+                        aria-label="Anchor link for: Hardware Overview"></a>
+                    Hardware Overview
+                </h3>
+
+                <p>
+                    Assembly is intimately associated with the hardware it is running on. At a bare minimum,
+                    a majority of assembly languages typically interact with the following three hardware components:
+                </p>
+                <ol>
+                    <li>
+                        <p>
+                            The <b>central processing unit</b> (CPU) is the brain behind the computer (referred to throughout this tutorial as simply the
+                            processor). In reality, the CPU recognizes a fixed number of instructions and rotely matches an instruction from the stream of machine coded
+                            instructions being fed to it with one of its recognized instructions and executes that
+                            instruction.
+                        </p>
+
+                        <p>
+                            For this simulator, the CPU is abstracted away in
+                            JavaScript and isn't directly visible to you. For more information on CPU's
+                            reference the <a href="https://en.wikipedia.org/wiki/Central_processing_unit">
+                            wikipedia entry</a>.
+                        </p>
+
+                        <p>There are a wide variety of processors present hence there is an equally diverse set of
+                            assembly languages present. The assembly language used in this emulator is a 16-bit home
+                            brew assembly that resembles those used in basic micro controllers.
+                        </p>
+                    </li>
+                    <li>
+                        <b>Main memory</b> is the set of memory in which the machine code is stored. Main memory
+                        generally has the following features/purposes:
+                        <br><br>
+                        <ol>
+                            <li>Stores the assembly program itself.</li>
+                            <li>Features a <a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29">stack
+                            </a> at the bottom. The stack is used for function calls and can be used to store temporary
+                                data. Stack overflow is when the stack gets too large and overflows into the program or
+                                stored data values.
+                            </li>
+                            <li>
+                                Can be used by the assembly program to store data while the program is being run.
+                            </li>
+                        </ol>
+                        <br>
+                        On your personal machine, this memory is your computers' RAM and the memory management
+                        techniques become much more <a href="https://en.wikipedia.org/wiki/Memory_management">
+                        complicated</a>.
+
+                        This simulator has 512 16-bit memory slots.
+                    </li>
+                    <li>
+                        <p>
+                            <b>Registers</b> are a small set of memory that reside in the processor. In this simulator
+                            there are four types of registers and seven registers total:
+                        </p>
+                        <ol>
+                            <li>
+                                The <b>Program Counter</b> (PC) which points to the location in memory where the next
+                                assembly instruction to execute resides. The SP is bound by the main memory size which
+                                in this case is 9 bits wide.
+                            </li>
+                            <li>
+                                The <b>Stack Pointer</b> (SP) which points to the location in memory where to deposit
+                                the next value in the stack. The SP is bound by the main memory size which in this case
+                                is 9 bits wide.
+                            </li>
+                            <li>
+                                The registers <b>R0, R1, R2</b> and <b>R3</b> are 16-bit general purpose registers that are
+                                used to store or output data.
+                            </li>
+                            <li>
+                                The <b>ZCNO</b> register is a four bit condition register which has conditionals that
+                                get set as a result of given instructions. The conditions are detailed in the table
+                                below:
+
+                                <table class="table table-bordered">
+                                    <tr style="background-color: lightgray">
+                                        <td><b>Flag</b></td>
+                                        <td><b>Purpose</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Z</td>
+                                        <td>
+                                            Z stands for zero and gets asserted for given instructions that result in
+                                            zero.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>
+                                            C stands for carry and gets asserted for given instructions where an
+                                            arithmetic or logical carry get generated. Logical carry includes left
+                                            shifting a value who's most significant bit is one and arithmetic carry
+                                            includes adding two values which exceeds the given 16 bit limit.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>N</td>
+                                        <td>
+                                            N stands for negative and gets asserted for given instructions who's
+                                            results' most significant bit is one. See
+                                            <a href="https://en.wikipedia.org/wiki/Two's_complement">2's complement</a>
+                                            for explanation.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>O</td>
+                                        <td>
+                                            O stands for overflow and gets asserted for given instructions that result
+                                            in arithmetic overflow.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ol>
+                        <br>
+                        <p>
+                            The PC and SP are not directly accessible and can only be manipulated as the result of other
+                            instructions that require modifying the PC or SP.
+                        </p>
+                    </li>
+                </ol>
+
             </div>
             <div class="bs-docs-section">
-                <h1 id="license-faq" class="page-header"><a
+                <h2 id="ISA_def" class="page-header"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
-                        class="anchorjs-link" href="#license-faq" aria-label="Anchor link for: license faq"></a>
-                    License FAQ
-                </h1>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
-                <p>a</p>
+                        class="anchorjs-link" href="#ISA_def" aria-label="Anchor link for: Instruction Definitions"></a>
+                    Instruction Syntax
+                </h2>
+
+                <p>
+                    Every assembly language has its own, albeit similar, syntax. The syntax of an assembly language is
+                    the grammar the assembly program must be written in accordance to in order for the program to be
+                    legally transformed into machine code. The syntax is defined in the following two sections.
+                </p>
+
+                <h3 id="syntax_definitions"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#syntax_definitions"
+                        aria-label="Anchor link for: Syntax definitions"></a>Syntax Tokens</h3>
+
+                <p>
+                    This assembly programming language (as with all programming languages) is composed entirely from a
+                    combination of a set of tokens. Tokens are the building blocks of a programming language. The six
+                    different token types used here are detailed in the table below:
+                </p>
+
+                <table class="table table-bordered">
+                    <tr style="background-color: lightgray">
+                        <td><b>Name</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>Instruction</td>
+                        <td>
+                            The instruction is one of the commands that the processor recognizes. Instructions sometimes
+                            requires anywhere from 0 to 2 arguments to complete the command. A list of instructions can
+                            be found below in the <a href="#instruction_set">Instruction Set</a> section.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Register</td>
+                        <td>
+                            This consists of any of R0, R1, R2, and R3. The register can only be used as an argument.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Immediate</td>
+                        <td>
+                            <p>
+                            Immediates are started with a dollar sign "$" and are followed immediately by a number.
+                            An immediate is a constant numeric value in either hexadecimal (prepended with a 0x) or
+                            decimal form. Given values exceeding 16 bits in size, the emulator will take the 16 least
+                            significant bits.
+                            </p>
+                            <p>For example:</p>
+                            <p><code>$1234</code></p>
+                            <p>and in hexadecimal:</p>
+                            <p><code>$0xBEAF</code></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>
+                            Addresses are represented as numbers without any decorations. Addresses are available in
+                            both hexadecimal and decimal format. Addresses are bound at address 0 at the minimum and 511
+                            as the maximum.
+                            <p>For example:</p>
+                            <p><code>123</code></p>
+                            <p>and in hexadecimal:</p>
+                            <p><code>0x00AF</code></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Label</td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Comment</td>
+                        <td>
+                            Comments are started with a semicolon ";" and continue until the of the line. Comments are
+                            used to annotate and describe the code at hand.
+                        </td>
+                    </tr>
+                </table>
+
+                <h3 id="syntax_format"><a
+                style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                class="anchorjs-link " href="#syntax_format"
+                aria-label="Anchor link for: Syntax format"></a>Syntax Format</h3>
+
+                <p>
+
+                </p>
             </div>
 
+            <div class="bs-docs-section">
+                <h2 id="instruction_set" class="page-header"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link" href="#ISA_def" aria-label="Anchor link for: Instruction Set"></a>
+                    Instruction Set
+                </h2>
+
+                <h3 id="memory_access"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#memory_access"
+                        aria-label="Anchor link for: Memory Access"></a>
+                    Memory Access
+                </h3>
+
+                <h3 id="logical"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#logical"
+                        aria-label="Anchor link for: Logical"></a>
+                    Logical
+                </h3>
+
+                <h3 id="arithmetic"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#arithmetic"
+                        aria-label="Anchor link for: Arithmetic"></a>
+                    Arithmetic
+                </h3>
+
+                <h3 id="branching"><a
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#branching"
+                        aria-label="Anchor link for: Branching"></a>
+                    Branching
+                </h3>
+            </div>
         </div>
         <div class="col-md-3" role="complementary">
             <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
                 <ul class="nav bs-docs-sidenav">
-                    <li><a href="#license-faqs">License Faqs</a></li>
-                    <li><a href="#license-faq">License Faq</a></li>
+                    <li>
+                        <a href="#overview">Overview</a>
+                        <ul class="nav">
+                            <li><a href="#assembly_overview">Assembly Overview</a></li>
+                            <li><a href="#why_learn_assembly">Why Learn Assembly?</a></li>
+                            <li><a href="#hardware_overview">Hardware Overview</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#ISA_def">Instruction Definitions</a>
+                        <ul class="nav">
+                            <li><a href="#syntax_definitions">Syntax Definitions</a></li>
+                            <li><a href="#syntax_format">Syntax Format</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#instruction_set">Instruction Set</a>
+                        <ul class="nav">
+                            <li><a href="#memory_access">Memory Access</a></li>
+                            <li><a href="#logical">Bitwise Logical</a></li>
+                            <li><a href="#arithmetic">Arithmetic</a></li>
+                            <li><a href="#branching">Branching</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
-
-                <!--If there are sub li's do to:-->
-                <!--<ul class="nav">-->
-                    <!--<li><a href="#examples-framework">Using the framework</a></li>-->
-                    <!--<li><a href="#examples-navbars">Navbars in action</a></li>-->
-                    <!--<li><a href="#examples-custom">Custom components</a></li>-->
-                    <!--<li><a href="#examples-experiments">Experiments</a></li>-->
-                <!--</ul>-->
-
-
             </nav>
         </div>
     </div>

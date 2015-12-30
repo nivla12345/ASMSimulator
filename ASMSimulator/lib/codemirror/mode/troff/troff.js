@@ -67,8 +67,7 @@ CodeMirror.defineMode('troff', function() {
 
   function tokenize(stream, state) {
     return (state.tokens[0] || tokenBase) (stream, state);
-  };
-
+  }
   return {
     startState: function() {return {tokens:[]};},
     token: function(stream, state) {

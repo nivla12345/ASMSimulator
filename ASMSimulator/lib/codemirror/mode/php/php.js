@@ -160,7 +160,7 @@
       if (!isPHP) {
         if (stream.match(/^<\?\w*/)) {
           state.curMode = phpMode;
-          if (!state.php) state.php = CodeMirror.startState(phpMode, htmlMode.indent(state.html, ""))
+          if (!state.php) state.php = CodeMirror.startState(phpMode, htmlMode.indent(state.html, ""));
           state.curState = state.php;
           return "meta";
         }
@@ -193,8 +193,8 @@
 
     return {
       startState: function() {
-        var html = CodeMirror.startState(htmlMode)
-        var php = parserConfig.startOpen ? CodeMirror.startState(phpMode) : null
+        var html = CodeMirror.startState(htmlMode);
+        var php = parserConfig.startOpen ? CodeMirror.startState(phpMode) : null;
         return {html: html,
                 php: php,
                 curMode: parserConfig.startOpen ? phpMode : htmlMode,

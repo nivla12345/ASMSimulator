@@ -50,10 +50,10 @@
       "singlecomment" : ["//", "#"],
       "operators" : ["="]
     }
-  }
+  };
 
   CodeMirror.defineMode("mscgen", function(_, modeConfig) {
-    var language = languages[modeConfig && modeConfig.language || "mscgen"]
+    var language = languages[modeConfig && modeConfig.language || "mscgen"];
     return {
       startState: startStateFn,
       copyState: copyStateFn,

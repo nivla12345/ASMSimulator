@@ -70,27 +70,34 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  * L - stands for labels which are synonymous with M
  */
 const INS_DESCRIPTION = {
-    "SET": {"n_args": 2, "arg0": "IRM", "arg1": "R", "f": do_set},
-    "MOV": {"n_args": 2, "arg0": "IRM", "arg1": "M", "f": do_mov},
-    "ADD": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_add},
-    "SUB": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_sub},
-    "MUL": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_mul},
-    "DIV": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_div},
-    "RSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_rsh},
-    "LSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_lsh},
-    "AND": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_and},
-    "OR" : {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or},
-    "CMP": {"n_args": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp},
-    "BRN": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brn},
-    "BRA": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_bra},
-    "BRZ": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brz},
-    "BRG": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brg},
-    "JSR": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_jsr},
-    "RTN": {"n_args": 0, "arg0": "", "arg1": "", "f": do_rtn},
-    "POP": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_pop},
-    "PSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_psh},
-    "CCL": {"n_args": 0, "arg0": "", "arg1": "", "f": do_ccl},
-    "STP": {"n_args": 0, "arg0": "", "arg1": "", "f": do_stp}
+    // Memory Access
+    "SET": {"n_args": 2, "arg0": "IRM", "arg1": "R", "f": do_set, OP_CODES: [1, 2, 3]},
+    "MOV": {"n_args": 2, "arg0": "IRM", "arg1": "M", "f": do_mov, OP_CODES: [4, 5, 6]},
+    "POP": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_pop, OP_CODES: [7]},
+    "PSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_psh, OP_CODES: [8]},
+    "CCL": {"n_args": 0, "arg0": "", "arg1": "", "f": do_ccl, OP_CODES: [9]},
+
+    // Logical
+    "RSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_rsh, OP_CODES: [10]},
+    "LSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_lsh, OP_CODES: [11]},
+    "AND": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_and, OP_CODES: [12]},
+    "OR" : {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or, OP_CODES: [13]},
+
+    // Arithmetic
+    "ADD": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_add, OP_CODES: [14]},
+    "SUB": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_sub, OP_CODES: [15]},
+    "MUL": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_mul, OP_CODES: [16]},
+    "DIV": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_div, OP_CODES: [17]},
+
+    // Branching
+    "CMP": {"n_args": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]},
+    "BRN": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brn, OP_CODES: [27, 28]},
+    "BRA": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_bra, OP_CODES: [29, 30]},
+    "BRZ": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brz, OP_CODES: [31, 32]},
+    "BRG": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brg, OP_CODES: [33, 34]},
+    "JSR": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_jsr, OP_CODES: [35, 36]},
+    "RTN": {"n_args": 0, "arg0": "", "arg1": "", "f": do_rtn, OP_CODES: [37]},
+    "STP": {"n_args": 0, "arg0": "", "arg1": "", "f": do_stp, OP_CODES: [38]}
 };
 
 /**********************************************************************************************************************/

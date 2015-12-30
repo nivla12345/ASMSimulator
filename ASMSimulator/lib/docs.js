@@ -1169,7 +1169,7 @@ var anchors = new AnchorJS;
         }), a(".bs-docs-activate-animated-progressbar").on("click", function () {
             a(this).siblings(".progress").find(".progress-bar-striped").toggleClass("active")
         }), ZeroClipboard.config({
-            moviePath: "/assets/flash/ZeroClipboard.swf",
+            moviePath: "lib/ZeroClipboard.swf",
             hoverClass: "btn-clipboard-hover"
         }), a(".highlight").each(function () {
             var b = '<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>';

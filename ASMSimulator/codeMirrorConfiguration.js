@@ -86,7 +86,6 @@ asm_mode.autocompleter.options = {prefixMatch:true, caseInsensitiveMatch:true};
 
 <!-- TODO Create my own autocomplete for this ISA -->
 var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
-    //mode: "asm",
     lineNumbers: true,
     indentUnit: 4,
     indentWithTabs: false,

@@ -38,7 +38,7 @@
 </head>
 
 <body onload="init()">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse" style="border-radius: 0">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Assembly Simulator</a>
@@ -196,12 +196,12 @@ POP R0
                                 <td><b>Registers</b></td>
                                 <td id="PC"><a id="PC_anchor" href="javascript:jump2pc_in_mm();">PC</a>
                                     <span class="glyphicon glyphicon-stop pull-right" aria-hidden="true"
-                                          style="color:pink">
+                                          style="color:pink; font-size: large">
                                     </span>
                                 </td>
                                 <td id="SP"><a id="SP_anchor" href="javascript:jump2sp_in_mm();">SP</a>
                                     <span class="glyphicon glyphicon-stop pull-right" aria-hidden="true"
-                                          style="color:lightgreen">
+                                          style="color:lightgreen; font-size: large">
                                     </span>
                                 </td>
                                 <td id="CC">ZCNO</td>

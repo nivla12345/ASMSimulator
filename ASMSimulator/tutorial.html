@@ -30,7 +30,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="border-radius: 0">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="index.html">Assembly Simulator</a>
@@ -186,7 +186,7 @@
                                 below:
 
                                 <table class="table table-bordered">
-                                    <tr style="background-color: lightgray">
+                                    <tr class="active">
                                         <td><b>Flag</b></td>
                                         <td><b>Purpose</b></td>
                                     </tr>
@@ -258,8 +258,30 @@
                     different token types used here are detailed in the table below:
                 </p>
 
+                <table>
+                <tr>
+                    <td>
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"
+                          style="color:#dff0d8; font-size: x-large">
+                                    </span>
+                        </td>
+                    <td>
+                    Green indicates that the token can only be used for arguments.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"
+                          style="color:#f2dede; font-size: x-large">
+                                    </span>
+                        </td>
+                    <td>
+                    Pink indicates that the token is optional and does not impact run time.
+                    </td>
+                </tr>
+                </table>
                 <table class="table table-bordered">
-                    <tr style="background-color: lightgray">
+                    <tr class="active">
                         <td><b>Name</b></td>
                         <td><b>Description</b></td>
                     </tr>
@@ -271,13 +293,13 @@
                             be found below in the <a href="#instruction_set">Instruction Set</a> section.
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="success">
                         <td>Register</td>
                         <td>
                             This consists of any of R0, R1, R2, and R3. The register can only be used as an argument.
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="success">
                         <td>Immediate</td>
                         <td>
                             <p>
@@ -292,7 +314,7 @@
                             <p><code>$0xBEAF</code></p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="success">
                         <td>Address</td>
                         <td>
                             Addresses are represented as numbers without any decorations. Addresses are available in
@@ -304,13 +326,17 @@
                             <p><code>0x00AF</code></p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="danger">
                         <td>Label</td>
                         <td>
-
+                            Labels are started with a period sign ".", are followed immediately by a name, and must be
+                            placed at the beginning of a line. Labels act as a way of naming subroutines or chunks of
+                            code to be jumped to.
+                            <p>For example:</p>
+                            <p><code>.SUM_FUNCTION</code></p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="danger">
                         <td>Comment</td>
                         <td>
                             Comments are started with a semicolon ";" and continue until the of the line. Comments are
@@ -323,19 +349,70 @@
                 style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                 class="anchorjs-link " href="#syntax_format"
                 aria-label="Anchor link for: Syntax format"></a>Syntax Format</h3>
-
+                <h4>Line Delimited</h4>
                 <p>
-
+                    This assembly language is line delimited meaning that each new line indicates that there's a new
+                    instruction. In other words, putting multiple instructions on a single line will fail to assemble.
+                    It is also generally considered to be bad style to have multiple instructions per line.
                 </p>
+                <h4>Comma Delimited Arguments</h4>
+                <p>
+                    For instructions that have greater than one argument, a comma is used to separate the arguments.
+                </p>
+                <h4>Examples</h4>
+                <p>
+                    Here is a generic template for all instructions:
+                </p>
+                <p>
+                    <pre>.optional_label INSTRUCTION arguments_if, present ; Comment which is optional</pre>
+                </p>
+                <h5>Register Uses</h5>
+                <pre>
+    POP R0
+    SET R0, R1</pre>
+                <h5>Immediate Uses</h5>
+                <pre>
+    SET $1234  , R0
+    SET $0xBEAF, R1</pre>
+                <h5>Address Uses</h5>
+                <pre>
+    MOV R0    , 500
+    MOV $0x123, 0x100</pre>
+                <h5>Label Uses</h5>
+                <p>
+                    To declare a label, it is also acceptable to place the label in the line above the target code.
+                </p>
+                <pre>
+    .LABEL       ; Label being set
+    SET 0xA, R0  ; Ensuing instruction(s)
+    ...</pre>
+                <p>Labels can then be used as addresses when branching, for instance:</p>
+                <pre>
+    .MUL_FUNCTION
+    MUL R0, R1
+    RTN
+    ... ; A couple lines later...
+    BRN .MUL_FUNCTION</pre>
+                <p>Labels can be branched to even if they are declared after the branching instruction for instance:</p>
+                <pre>
+    BRN .MUL_FUNCTION
+    ... ; A couple lines later...
+    .MUL_FUNCTION
+    MUL R0, R1
+    RTN</pre>
             </div>
-
             <div class="bs-docs-section">
                 <h2 id="instruction_set" class="page-header"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link" href="#ISA_def" aria-label="Anchor link for: Instruction Set"></a>
                     Instruction Set
                 </h2>
-
+                <h4>Legend</h4>
+                <p>Argument: I (immediate), L (label), R (register), and A (address).</p>
+                <p>*A combination of the letters indicates the argument could be any of the listed argument types.</p>
+                <p>The PC, SP and CCF field indicates what happens to those registers <b>upon completion</b> of the
+                    instruction.
+                </p>
                 <h3 id="memory_access"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#memory_access"

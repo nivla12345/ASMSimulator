@@ -474,8 +474,20 @@ function check_if_I(val) {
     return val[0] === "$";
 }
 
+// Checks if a vlaue is address by checking if the first digit is [0-9], works for hex given hex are prefixed by 0x.
 function check_if_A(val) {
     return /^\d+$/.test(val[0]);
+}
+
+// This function checks if a number is immediate or address, formats accordingly and returns. Otherwise it does nothing.
+function format_number_check_type(val) {
+    if (check_if_A(val)) {
+        return format_numbers(val);
+    }
+    else if (check_if_I(val)) {
+        return "$" + format_numbers(val.substring(1));
+    }
+    return val;
 }
 
 /*
@@ -487,8 +499,7 @@ function write_memory(address, value) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
-    var element = document.getElementById("addr" + address);
-    element.innerHTML = value;
+    $("#addr" + address).html(format_number_check_type(value));
 }
 
 // Given a list of arguments, returns the index of the argument.
@@ -506,6 +517,7 @@ function return_arg_type(value) {
 }
 
 function write_op_code(address) {
+    address = parseInt(address);
     var opcode = document.getElementById("opCode" + address);
     var str_value = get_memory(address);
     // Immediate
@@ -584,7 +596,7 @@ function getPC() {
     return parseInt(document.getElementById("PCcontent").innerHTML);
 }
 
-function setPC(rIn) {
+function setPC_no_jump(rIn) {
     uncolor_pc();
     if (rIn > MAX_ADDRESS || rIn < 0) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
@@ -597,6 +609,10 @@ function setPC(rIn) {
     var element = document.getElementById("PCcontent");
     element.innerHTML = format_numbers(rIn);
     color_pc();
+}
+
+function setPC(rIn) {
+    setPC_no_jump(rIn);
     jump2pc_in_mm();
 }
 
@@ -1310,10 +1326,14 @@ function change_base() {
     var i;
     // Rewrite main memory
     for (i = 0; i < MEM_SIZE; i++) {
+        // Format the address label
         $("#address" + i).html(format_addr(i));
+        // Format the opcodes
         var opCode_dom = $("#opCode" + i);
         var opCode = opCode_dom[0].innerHTML;
         opCode_dom.html(format_numbers(opCode));
+        // Format the address value
+        write_memory(i, $("#addr" + i)[0].innerHTML);
     }
 
     // Rewrite registers
@@ -1322,7 +1342,7 @@ function change_base() {
     }
 
     // Rewrite PC and SP
-    setPC(getPC());
+    setPC_no_jump(getPC());
     setSP(getSP());
 }
 

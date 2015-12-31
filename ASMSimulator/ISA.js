@@ -390,15 +390,19 @@ function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
     var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
+    var decimal_zero = (BASE_VERSION == HEX_LENGTH) ? "" : "0";
 
     if (n < BASE_VERSION) {
-        return suffix + "000" + str_n.toUpperCase();
+        return suffix + "000" + decimal_zero + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION) {
-        return suffix + "00" + str_n.toUpperCase();
+        return suffix + "00" + decimal_zero  + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION) {
-        return suffix + "0" + str_n.toUpperCase();
+        return suffix + "0" + decimal_zero  + str_n.toUpperCase();
+    }
+    else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION * BASE_VERSION) {
+        return suffix + decimal_zero  + str_n.toUpperCase();
     }
     return suffix + str_n.toUpperCase();
 }

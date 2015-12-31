@@ -14,12 +14,18 @@ const HEX_LENGTH = 16;
 
 // HTML Globals
 const PC_TRACKING_COLOR = "pink";
-const SP_TRACKING_COLOR = "lightgreen";
+const SP_TRACKING_COLOR = "light_green";
 const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel length of row
 
 // Code syntax
 const COMMENT = ";";
 const LABEL_INDICATOR = ".";
+
+// ISA Constants
+const OP_CODES = "OP_CODES";
+const N_ARGS = "N_ARGS";
+const ARG0 = "ARG0";
+const ARG1 = "ARG1";
 
 /**********************************************************************************************************************/
 /*********************************************** MALLEABLE STATE VALUES ***********************************************/
@@ -71,33 +77,33 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  */
 const INS_DESCRIPTION = {
     // Memory Access
-    "SET": {"n_args": 2, "arg0": "IRM", "arg1": "R", "f": do_set, OP_CODES: [1, 2, 3]},
-    "MOV": {"n_args": 2, "arg0": "IRM", "arg1": "M", "f": do_mov, OP_CODES: [4, 5, 6]},
-    "POP": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_pop, OP_CODES: [7]},
-    "PSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_psh, OP_CODES: [8]},
-    "CCL": {"n_args": 0, "arg0": "", "arg1": "", "f": do_ccl, OP_CODES: [9]},
+    "SET": {N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3]},
+    "MOV": {N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6]},
+    "POP": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_pop, OP_CODES: [7]},
+    "PSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_psh, OP_CODES: [8]},
+    "CCL": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_ccl, OP_CODES: [9]},
 
     // Logical
-    "RSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_rsh, OP_CODES: [10]},
-    "LSH": {"n_args": 1, "arg0": "R", "arg1": "", "f": do_lsh, OP_CODES: [11]},
-    "AND": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_and, OP_CODES: [12]},
-    "OR" : {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_or, OP_CODES: [13]},
+    "RSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_rsh, OP_CODES: [10]},
+    "LSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_lsh, OP_CODES: [11]},
+    "AND": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12]},
+    "OR" : {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [13]},
 
     // Arithmetic
-    "ADD": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_add, OP_CODES: [14]},
-    "SUB": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_sub, OP_CODES: [15]},
-    "MUL": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_mul, OP_CODES: [16]},
-    "DIV": {"n_args": 2, "arg0": "R", "arg1": "R", "f": do_div, OP_CODES: [17]},
+    "ADD": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14]},
+    "SUB": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15]},
+    "MUL": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16]},
+    "DIV": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17]},
 
     // Branching
-    "CMP": {"n_args": 2, "arg0": "IRM", "arg1": "IRM", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]},
-    "BRN": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brn, OP_CODES: [27, 28]},
-    "BRA": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_bra, OP_CODES: [29, 30]},
-    "BRZ": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brz, OP_CODES: [31, 32]},
-    "BRG": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_brg, OP_CODES: [33, 34]},
-    "JSR": {"n_args": 1, "arg0": "ML", "arg1": "", "f": do_jsr, OP_CODES: [35, 36]},
-    "RTN": {"n_args": 0, "arg0": "", "arg1": "", "f": do_rtn, OP_CODES: [37]},
-    "STP": {"n_args": 0, "arg0": "", "arg1": "", "f": do_stp, OP_CODES: [38]}
+    "CMP": {N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]},
+    "BRN": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brn, OP_CODES: [27]},
+    "BRA": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_bra, OP_CODES: [28]},
+    "BRZ": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brz, OP_CODES: [29]},
+    "BRG": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brg, OP_CODES: [30]},
+    "JSR": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_jsr, OP_CODES: [31]},
+    "RTN": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_rtn, OP_CODES: [32]},
+    "STP": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_stp, OP_CODES: [33]}
 };
 
 /**********************************************************************************************************************/
@@ -458,6 +464,18 @@ function get_arg_val(arg) {
     }
 }
 
+function check_if_R(val) {
+    return val === "R0" || val === "R1" || val === "R2" || val === "R3";
+}
+
+function check_if_I(val) {
+    return val[0] === "$";
+}
+
+function check_if_A(val) {
+    return /^\d+$/.test(val[0]);
+}
+
 /*
  * Performs a write to the address with the given value.
  */
@@ -469,6 +487,69 @@ function write_memory(address, value) {
     }
     var element = document.getElementById("addr" + address);
     element.innerHTML = value;
+}
+
+// Given a list of arguments, returns the index of the argument.
+function index_op_codes(arg_list, arg) {
+    return arg_list.indexOf(arg);
+}
+
+// Returns the argument type
+function return_arg_type(value) {
+    if (check_if_R(value))
+        return "R";
+    if (check_if_I(value))
+        return "I";
+    return "M";
+}
+
+function write_op_code(address) {
+    var opcode = document.getElementById("opCode" + address);
+    var str_value = get_memory(address);
+    // Immediate
+    if (check_if_I(str_value)) {
+        opcode.innerHTML = format_numbers(str_value.substring(1));
+    }
+    // Register
+    else if (check_if_R(str_value)) {
+        opcode.innerHTML = format_numbers(str_value[1]);
+    }
+    // Address
+    else if (check_if_A(str_value)) {
+        opcode.innerHTML = format_numbers(str_value);
+    }
+    // Instruction
+    else {
+        var ins = INS_DESCRIPTION[str_value];
+        var op_codes = ins[OP_CODES];
+        var op_code_length = op_codes.length;
+        if (op_code_length < 2) {
+            opcode.innerHTML = format_numbers(op_codes[0]);
+            return;
+        }
+        var n_args = ins[N_ARGS];
+        var arg0_value = get_memory(address + 1);
+        var arg0_type = return_arg_type(arg0_value);
+        var arg0_op_index = index_op_codes(ins[ARG0], arg0_type);
+        if (n_args === 1) {
+            opcode.innerHTML = format_numbers(op_codes[arg0_op_index]);
+            return;
+        }
+        var arg0_options = ins[ARG0].length;
+        var arg1_value = get_memory(address + 2);
+        var arg1_type = return_arg_type(arg1_value);
+        var arg1_op_index = index_op_codes(ins[ARG1], arg1_type);
+        var arg1_options = ins[ARG1].length;
+        if (arg0_options === 1) {
+            opcode.innerHTML = format_numbers(op_codes[arg1_op_index]);
+            return;
+        }
+        if (arg1_options === 1) {
+            opcode.innerHTML = format_numbers(op_codes[arg0_op_index]);
+            return;
+        }
+        opcode.innerHTML = format_numbers(op_codes[arg0_op_index * arg0_options + arg1_op_index]);
+    }
 }
 
 /*
@@ -729,7 +810,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
         return state;
     }
     // The number of arguments is incorrect
-    if (INS_DESCRIPTION[ins]["n_args"] != n_args) {
+    if (INS_DESCRIPTION[ins][N_ARGS] != n_args) {
         state["state"] = false;
         state["error"] = ERROR_INCORRECT_NUM_ARGS;
         return state;
@@ -737,8 +818,8 @@ function check_instruction(ins, arg0, arg1, n_args) {
     var arg0allowable;
     // Check the argument state
     if (n_args == 2) {
-        arg0allowable = INS_DESCRIPTION[ins]["arg0"];
-        var arg1allowable = INS_DESCRIPTION[ins]["arg1"];
+        arg0allowable = INS_DESCRIPTION[ins][ARG0];
+        var arg1allowable = INS_DESCRIPTION[ins][ARG1];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -747,7 +828,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
             return state;
     }
     else if (n_args == 1) {
-        arg0allowable = INS_DESCRIPTION[ins]["arg0"];
+        arg0allowable = INS_DESCRIPTION[ins][ARG0];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -767,14 +848,18 @@ function init_mm() {
         var table_row = document.createElement("tr");
         var addr_col = document.createElement("td");
         var value_col = document.createElement("td");
+        var opcode_col = document.createElement("td");
         var label_col = document.createElement("td");
         addr_col.setAttribute("id", "address" + i);
         value_col.setAttribute("id", "addr" + i);
+        opcode_col.setAttribute("id", "opCode" + i);
         label_col.setAttribute("id", "label" + i);
         addr_col.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i);
         value_col.innerHTML = format_numbers(0);
+        opcode_col.innerHTML = format_numbers(0);
         $(table_row).append(addr_col);
         $(table_row).append(value_col);
+        $(table_row).append(opcode_col);
         $(table_row).append(label_col);
         $(main_memory).append(table_row);
     }
@@ -952,13 +1037,18 @@ function assemble() {
     }
     // Assembled successfully
     else {
+        var arg_length = args.length;
         // Write the program to main memory
-        for (i = 0; i < args.length; i++) {
+        for (i = 0; i < arg_length; i++) {
             var arg = args[i];
             if (arg[0] === ".") {
                 arg = line2args[LABELS2LINES[arg]];
             }
             write_memory(i, arg);
+        }
+
+        for (i = 0; i < arg_length; i++) {
+            write_op_code(i);
         }
 
         LINE2MEM = jQuery.extend(true, {}, line2args);
@@ -989,7 +1079,7 @@ function step() {
         write_to_console("Stepped to end of program.");
         return;
     }
-    var n_args = INS_DESCRIPTION[work_ins]["n_args"];
+    var n_args = INS_DESCRIPTION[work_ins][N_ARGS];
     var arg0;
     // No args
     if (n_args == 0) {
@@ -1053,7 +1143,7 @@ function execute_program() {
             return;
         }
 
-        var n_args = INS_DESCRIPTION[work_ins]["n_args"];
+        var n_args = INS_DESCRIPTION[work_ins][N_ARGS];
         var arg0;
         // No args
         if (n_args == 0) {

@@ -14,7 +14,7 @@ const HEX_LENGTH = 16;
 
 // HTML Globals
 const PC_TRACKING_COLOR = "pink";
-const SP_TRACKING_COLOR = "light_green";
+const SP_TRACKING_COLOR = "lightgreen";
 const HALF_TABLE_LENGTH = 6 * 31; // 6 is # of rows in table/2; 31 is the pixel length of row
 
 // Code syntax
@@ -118,6 +118,7 @@ function do_set(arg0, arg1) {
 function do_mov(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
     write_memory(arg1, arg0_val);
+    write_op_code(arg1);
     setPC(getPC() + 3);
 }
 
@@ -313,6 +314,7 @@ function do_jsr(arg0) {
     var sp = getSP();
     var pc = getPC();
     write_memory(sp, pc + 2);
+    write_op_code(sp);
     setSP(sp - 1);
     setPC(arg0);
 }
@@ -343,6 +345,7 @@ function do_psh(arg0) {
     var sp = getSP();
     var pc = getPC();
     write_memory(sp, getR(arg0[1]));
+    write_op_code(sp);
     setSP(sp - 1);
     setPC(pc + 2);
 }
@@ -384,6 +387,7 @@ function format_addr(n) {
 function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
+
     if (n < BASE_VERSION) {
         return "000" + str_n.toUpperCase();
     }
@@ -1191,6 +1195,7 @@ function clear_memory_image() {
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
         document.getElementById("label" + i).innerHTML = "";
+        write_op_code(i);
     }
     // Has the same effect as ccl() except no manipulation to PC.
     setCCF("O", 0);
@@ -1308,6 +1313,8 @@ function change_base() {
     // Rewrite main memory
     for (i = 0; i < MEM_SIZE; i++) {
         $("#address" + i).html(((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i));
+        var opCode = $("#opCode" + i)[0].innerHTML;
+        $("#opCode" + i).html(((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(opCode));
     }
 
     // Rewrite registers

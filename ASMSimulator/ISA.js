@@ -372,13 +372,15 @@ function do_stp() {
 function format_addr(n) {
     n &= MAX_ADDRESS;
     var str_n = convert_to_proper_string_base(n);
+    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
+
     if (n < BASE_VERSION) {
-        return "00" + str_n.toUpperCase();
+        return suffix + "00" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION) {
-        return "0" + str_n.toUpperCase();
+        return suffix + "0" + str_n.toUpperCase();
     }
-    return str_n.toUpperCase();
+    return suffix + str_n.toUpperCase();
 }
 
 /*
@@ -387,29 +389,25 @@ function format_addr(n) {
 function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
+    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
 
     if (n < BASE_VERSION) {
-        return "000" + str_n.toUpperCase();
+        return suffix + "000" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION) {
-        return "00" + str_n.toUpperCase();
+        return suffix + "00" + str_n.toUpperCase();
     }
     else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION) {
-        return "0" + str_n.toUpperCase();
+        return suffix + "0" + str_n.toUpperCase();
     }
-    return str_n.toUpperCase();
+    return suffix + str_n.toUpperCase();
 }
 
 /*
  * This function converts to the new base. The contract is that it only gets invoked when a change of base occurs.
  */
 function convert_to_proper_string_base(n) {
-    if (BASE_VERSION === 10) {
-        return n.toString(DECIMAL_LENGTH);
-    }
-    else {
-        return n.toString(HEX_LENGTH);
-    }
+    return (BASE_VERSION === 10) ? n.toString(DECIMAL_LENGTH) : n.toString(HEX_LENGTH);
 }
 
 function strip_label(code_line) {
@@ -579,7 +577,7 @@ function getR(rNum) {
 
 function setR(rNum, rIn) {
     var element = document.getElementById("R" + rNum + "content");
-    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
+    element.innerHTML = format_numbers(rIn);
 }
 
 function getPC() {
@@ -597,7 +595,7 @@ function setPC(rIn) {
         return;
     }
     var element = document.getElementById("PCcontent");
-    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
+    element.innerHTML = format_numbers(rIn);
     color_pc();
     jump2pc_in_mm();
 }
@@ -617,7 +615,7 @@ function setSP(rIn) {
         return;
     }
     var element = document.getElementById("SPcontent");
-    element.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(rIn);
+    element.innerHTML = format_numbers(rIn);
     color_sp();
 }
 
@@ -858,7 +856,7 @@ function init_mm() {
         value_col.setAttribute("id", "addr" + i);
         opcode_col.setAttribute("id", "opCode" + i);
         label_col.setAttribute("id", "label" + i);
-        addr_col.innerHTML = ((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i);
+        addr_col.innerHTML = format_addr(i);
         value_col.innerHTML = format_numbers(0);
         opcode_col.innerHTML = format_numbers(0);
         $(table_row).append(addr_col);
@@ -1312,9 +1310,10 @@ function change_base() {
     var i;
     // Rewrite main memory
     for (i = 0; i < MEM_SIZE; i++) {
-        $("#address" + i).html(((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_addr(i));
-        var opCode = $("#opCode" + i)[0].innerHTML;
-        $("#opCode" + i).html(((BASE_VERSION == HEX_LENGTH) ? "0x" : "") + format_numbers(opCode));
+        $("#address" + i).html(format_addr(i));
+        var opCode_dom = $("#opCode" + i);
+        var opCode = opCode_dom[0].innerHTML;
+        opCode_dom.html(format_numbers(opCode));
     }
 
     // Rewrite registers

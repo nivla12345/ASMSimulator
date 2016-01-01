@@ -50,7 +50,7 @@
                 <h2 id="overview" class="page-header"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link" href="#overview" aria-label="Anchor link for: overview"></a>
-                    Overview
+                    Tutorial
                 </h2>
 
                 <p>
@@ -121,8 +121,10 @@
                 <ol>
                     <li>
                         <p>
-                            The <b>central processing unit</b> (CPU) is the brain behind the computer (referred to throughout this tutorial as simply the
-                            processor). In reality, the CPU recognizes a fixed number of instructions and rotely matches an instruction from the stream of byte coded
+                            The <b>central processing unit</b> (CPU) is the brain behind the computer (referred to
+                            throughout this tutorial as simply the
+                            processor). In reality, the CPU recognizes a fixed number of instructions and rotely matches
+                            an instruction from the stream of byte coded
                             instructions being fed to it with one of its recognized instructions and executes that
                             instruction.
                         </p>
@@ -178,7 +180,8 @@
                                 is 9 bits wide.
                             </li>
                             <li>
-                                The registers <b>R0, R1, R2</b> and <b>R3</b> are 16-bit general purpose registers that are
+                                The registers <b>R0, R1, R2</b> and <b>R3</b> are 16-bit general purpose registers that
+                                are
                                 used to store or output data.
                             </li>
                             <li>
@@ -227,6 +230,7 @@
                             </li>
                         </ol>
                         <br>
+
                         <p>
                             The PC and SP are not directly accessible and can only be manipulated as the result of other
                             instructions that require modifying the PC or SP.
@@ -260,26 +264,26 @@
                 </p>
 
                 <table>
-                <tr>
-                    <td>
+                    <tr>
+                        <td>
                     <span class="glyphicon glyphicon-stop" aria-hidden="true"
                           style="color:#dff0d8; font-size: x-large">
                                     </span>
                         </td>
-                    <td>
-                    Green indicates that the token can only be used for arguments.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
+                        <td>
+                            Green indicates that the token can only be used for arguments.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                     <span class="glyphicon glyphicon-stop" aria-hidden="true"
                           style="color:#f2dede; font-size: x-large">
                                     </span>
                         </td>
-                    <td>
-                    Pink indicates that the token is optional and does not impact run time.
-                    </td>
-                </tr>
+                        <td>
+                            Pink indicates that the token is optional and does not impact run time.
+                        </td>
+                    </tr>
                 </table>
                 <table class="table table-bordered">
                     <tr class="active">
@@ -304,14 +308,19 @@
                         <td>Immediate</td>
                         <td>
                             <p>
-                            Immediates are started with a dollar sign "$" and are followed immediately by a number.
-                            An immediate is a constant numeric value in either hexadecimal (prepended with a 0x) or
-                            decimal form. Given values exceeding 16 bits in size, the emulator will take the 16 least
-                            significant bits.
+                                Immediates are started with a dollar sign "$" and are followed immediately by a number.
+                                An immediate is a constant numeric value in either hexadecimal (prepended with a 0x) or
+                                decimal form. Given values exceeding 16 bits in size, the emulator will take the 16
+                                least
+                                significant bits.
                             </p>
+
                             <p>For example:</p>
+
                             <p><code>$1234</code></p>
+
                             <p>and in hexadecimal:</p>
+
                             <p><code>$0xBEAF</code></p>
                         </td>
                     </tr>
@@ -322,8 +331,11 @@
                             both hexadecimal and decimal format. Addresses are bound at address 0 at the minimum and 511
                             as the maximum.
                             <p>For example:</p>
+
                             <p><code>123</code></p>
+
                             <p>and in hexadecimal:</p>
+
                             <p><code>0x00AF</code></p>
                         </td>
                     </tr>
@@ -334,6 +346,7 @@
                             placed at the beginning of a line. Labels act as a way of naming subroutines or chunks of
                             code to be jumped to.
                             <p>For example:</p>
+
                             <p><code>.SUM_FUNCTION</code></p>
                         </td>
                     </tr>
@@ -347,26 +360,29 @@
                 </table>
 
                 <h3 id="syntax_format"><a
-                style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
-                class="anchorjs-link " href="#syntax_format"
-                aria-label="Anchor link for: Syntax format"></a>Syntax Format</h3>
+                        style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#syntax_format"
+                        aria-label="Anchor link for: Syntax format"></a>Syntax Format</h3>
                 <h4>Line Delimited</h4>
+
                 <p>
                     This assembly language is line delimited meaning that each new line indicates that there's a new
                     instruction. In other words, putting multiple instructions on a single line will fail to assemble.
                     It is also generally considered to be bad style to have multiple instructions per line.
                 </p>
                 <h4>Comma Delimited Arguments</h4>
+
                 <p>
                     For instructions that have greater than one argument, a comma is used to separate the arguments.
                 </p>
                 <h4>Examples</h4>
+
                 <p>
                     Here is a generic template for all instructions:
                 </p>
-                <p>
-                    <pre>.optional_label INSTRUCTION arguments_if, present ; Comment which is optional</pre>
-                </p>
+
+                <pre>.optional_label INSTRUCTION arguments_if, present ; Comment which is optional</pre>
+
                 <h5>Register Uses</h5>
                 <pre>
     POP R0
@@ -380,6 +396,7 @@
     MOV R0    , 500
     MOV $0x123, 0x100</pre>
                 <h5>Label Uses</h5>
+
                 <p>
                     To declare a label, it is also acceptable to place the label in the line above the target code.
                 </p>
@@ -409,11 +426,81 @@
                     Instruction Set
                 </h2>
                 <h4>Legend</h4>
-                <p>Argument: I (immediate), L (label), R (register), and A (address).</p>
+
+                <p>Argument Types: I (immediate), L (label), R (register), and A (address).</p>
+
                 <p>*A combination of the letters indicates the argument could be any of the listed argument types.</p>
+
                 <p>The PC, SP and CCF field indicates what happens to those registers <b>upon completion</b> of the
-                    instruction.
+                    instruction.</p>
+                <h5>Byte Code</h5>
+
+                <p>
+                    There is also a field indicating the byte code(s) of the instruction. A single instruction will have
+                    multiple byte codes when it accepts more than a single argument type for any of its arguments.
+                    The number of byte codes that such an instruction has is detailed in the table below:
                 </p>
+                <table class="table table-bordered table-condensed">
+                    <tr class="active">
+                        <td><b># of Argument(s)</b></td>
+                        <td><b># of Byte Code(s)</b></td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><var># of argument types <b>arg0</b> accepts</var></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            (<var># of argument types <b>arg0</b> accepts</var>) <b>X</b>
+                            (<var># of argument types <b>arg1</b> accepts</var>)
+                        </td>
+                    </tr>
+                </table>
+
+                <p>Example:</p>
+
+                <p>
+                    The <code>SET</code> instructions' <b>arg0</b> accepts three argument types: I, R, and
+                    M. <code>SET</code>'s <b>arg1</b> accepts only a single type, R. Hence, SET has 3 byte codes, one
+                    for the I paired with R, R paired with R, and M paired with M.
+                </p>
+
+                <p>
+                    <b>Note:</b> Labels are logically equivalent to memory hence they do not count in byte code
+                    calculations. For example, argument string "ML" is length one when determining
+                    "# of argument types".
+                </p>
+
+                <p>Mapping Byte Code</p>
+
+                <p>
+                    The mapping of the instruction by argument type to its respective byte code is shown below:
+                </p>
+                <pre>
+Given a targeted instruction, "ins".
+
+1) Take the index of your desired <b>arg0</b> from the available options for "ins". Let this index be termed "a".
+
+2) Take the index of your desired <b>arg1</b> from the available options for "ins". Let this index be termed "b".
+
+3) Take the number of possible argument options for <b>arg1</b> and term this "b_length".
+
+4) The index of the target opcode is: <var>a * b_length + b</var></pre>
+                <p>Example:</p>
+
+                <p>Perform <code>CMP</code> on a register as <b>arg0</b> and memory as <b>arg1</b>.</p>
+                <pre>
+              a = 2
+              b = 1
+       b_length = 3
+index of opcode = 2 * 3 + 1
+                = 7
+         opcode = <b>25</b></pre>
                 <h3 id="memory_access"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#memory_access"
@@ -447,7 +534,7 @@
             <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
                 <ul class="nav bs-docs-sidenav">
                     <li>
-                        <a href="#overview">Overview</a>
+                        <a href="#overview">Tutorial</a>
                         <ul class="nav">
                             <li><a href="#assembly_overview">Assembly Overview</a></li>
                             <li><a href="#why_learn_assembly">Why Learn Assembly?</a></li>

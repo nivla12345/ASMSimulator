@@ -84,7 +84,6 @@ CodeMirror.commands['my_autocompletion'] = function( cm ) {
 // this also works (takes priority if set)
 asm_mode.autocompleter.options = {prefixMatch:true, caseInsensitiveMatch:true};
 
-<!-- TODO Create my own autocomplete for this ISA -->
 var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
     lineNumbers: true,
     indentUnit: 4,
@@ -109,6 +108,10 @@ editor.on("gutterClick", function(cm, n) {
         return;
     cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
 });
+
+//editor.on("change", function() {
+//   EDITOR_CHANGED = true;
+//});
 
 function makeMarker() {
     var marker = document.createElement("div");

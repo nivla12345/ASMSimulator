@@ -1468,7 +1468,6 @@ function uncolor_sp() {
     $("#addr" + getSP()).parent().removeAttr("style");
 }
 
-
 function remove_line2mem_mem2line() {
     LINE2MEM = {};
     MEM2LINE = {};

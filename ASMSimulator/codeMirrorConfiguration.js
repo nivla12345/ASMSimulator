@@ -2,7 +2,7 @@
  * Created by Alvin on 12/9/15.
  */
 
-// 1. an almost complete python grammar in simple JSON format
+// 1. Code grammar generated codemirror mode.
 var asm_grammar = {
 
 // prefix ID for regular expressions, represented as strings, used in the grammar
@@ -84,7 +84,7 @@ CodeMirror.commands['my_autocompletion'] = function( cm ) {
 // this also works (takes priority if set)
 asm_mode.autocompleter.options = {prefixMatch:true, caseInsensitiveMatch:true};
 
-var editor = CodeMirror.fromTextArea(document.getElementById("editor_box"), {
+var editor = CodeMirror.fromTextArea($("#editor_box"), {
     lineNumbers: true,
     indentUnit: 4,
     indentWithTabs: false,
@@ -114,10 +114,8 @@ editor.on("gutterClick", function(cm, n) {
 //});
 
 function makeMarker() {
-    var marker = document.createElement("div");
-    marker.style.color = "red";
-    marker.innerHTML = "●";
-    return marker;
+    return $("<div></div>").css("color", "red").html("●");
+
 }
 
 function pcAtBP(mem2line, pc) {

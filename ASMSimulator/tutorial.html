@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="lib/docs.css">
+    <link rel="stylesheet" href="tutorial_style.css">
 
     <script src="lib/jquery-1.11.3.js"></script>
     <script src="lib/codemirror/lib/codemirror.js"></script>
@@ -29,7 +30,7 @@
     <![endif]-->
 </head>
 
-<body>
+<body onload="initialize_tutorial()">
 <nav class="navbar navbar-inverse" style="border-radius: 0">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -131,7 +132,9 @@
 
                         <p>
                             For this simulator, the CPU is abstracted away in
-                            JavaScript and isn't directly visible to you. For more information on CPU's
+                            JavaScript and is only visible to you via its memory footprint (see two components below).
+                            For
+                            more information on CPU's
                             reference the <a href="https://en.wikipedia.org/wiki/Central_processing_unit">
                             wikipedia entry</a>.
                         </p>
@@ -431,15 +434,53 @@
 
                 <p>*A combination of the letters indicates the argument could be any of the listed argument types.</p>
 
-                <p>The PC, SP and CCF field indicates what happens to those registers <b>upon completion</b> of the
+                <p>The PC, SP and ZCNO field indicates what happens to those registers <b>upon completion</b> of the
                     instruction.</p>
-                <h5>Byte Code</h5>
 
+                <p>The ZCNO field changes are indicated by the flags that get changed, hence potentially any combination
+                    of Z, C, N, and O.</p>
+                <table class="table table-bordered table-condensed">
+                    <tr class="active">
+                        <td><b>Condition Status Symbol</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Does not influence this status bit.</td>
+                    </tr>
+                    <tr>
+                        <td>?</td>
+                        <td>Conditionally influences the status bit.</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>Sets the given status bit to 0.</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Sets the given status bit to 1.</td>
+                    </tr>
+                </table>
+                <p>Example:</p>
+
+                <p>
+                    Given an instruction with the following ZCNO code <code>0?-1</code>, means that the instruction sets
+                    the zero bit to zero, conditionally sets the carry bit, doesn't change the negative bit, and always
+                    asserts the overflow bit.
+                </p>
+                <h5>Byte Code</h5>
                 <p>
                     There is also a field indicating the byte code(s) of the instruction. A single instruction will have
                     multiple byte codes when it accepts more than a single argument type for any of its arguments.
                     The number of byte codes that such an instruction has is detailed in the table below:
                 </p>
+
+                <p>
+                    <b>Note:</b> Labels are logically equivalent to memory hence they do not count in byte code
+                    calculations. For example, argument string "ML" is length one when determining
+                    "# of argument types".
+                </p>
+
                 <table class="table table-bordered table-condensed">
                     <tr class="active">
                         <td><b># of Argument(s)</b></td>
@@ -468,12 +509,6 @@
                     The <code>SET</code> instructions' <b>arg0</b> accepts three argument types: I, R, and
                     M. <code>SET</code>'s <b>arg1</b> accepts only a single type, R. Hence, SET has 3 byte codes, one
                     for the I paired with R, R paired with R, and M paired with M.
-                </p>
-
-                <p>
-                    <b>Note:</b> Labels are logically equivalent to memory hence they do not count in byte code
-                    calculations. For example, argument string "ML" is length one when determining
-                    "# of argument types".
                 </p>
 
                 <p>Mapping Byte Code</p>
@@ -507,6 +542,34 @@ index of opcode = 2 * 3 + 1
                         aria-label="Anchor link for: Memory Access"></a>
                     Memory Access
                 </h3>
+                <table class="table table-bordered table-condensed fixed">
+                    <tr>
+                        <td class="active" colspan="0"><b>SET</b></td>
+                    </tr>
+                    <tr>
+                        <td class="instruction_table_row2"><b>arg0</b></td>
+                        <td class="instruction_table_row2 instruction_table_row2_c">A</td>
+                        <td class="instruction_table_row2"><b>arg1</b></td>
+                        <td class="instruction_table_row2 instruction_table_row2_c">B</td>
+                        <td class="instruction_table_row2"><b>ZCNO</b></td>
+                        <td class="instruction_table_row2 instruction_table_row2_c">Z</td>
+                        <td class="instruction_table_row2"><b>PC</b></td>
+                        <td class="instruction_table_row2 instruction_table_row2_c">+1</td>
+                        <td class="instruction_table_row2"><b>SP</b></td>
+                        <td class="instruction_table_row2 instruction_table_row2_c">+0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><b>BC</b></td>
+                        <td colspan="0">21, 22, 23</td>
+                    </tr>
+                    <tr>
+                        <td colspan="0">
+                            <p><b>Description</b></p>
+                            Sets the value in arg0 to the register value in arg1. If arg0 is a memory value it takes the
+                            value at arg0 and places it into the register in arg1.
+                        </td>
+                    </tr>
+                </table>
 
                 <h3 id="logical"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
@@ -569,6 +632,7 @@ index of opcode = 2 * 3 + 1
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="lib/docs.js"></script>
+<script src="tutorial_script.js"></script>
 </body>
 
 </html>

@@ -101,12 +101,14 @@ ISA Definitions
 Instruction Set
 
 Legend
-
-- args
-- what it does with the args
+- name
+- arg0
+- arg1
 - ccf
 - pc
 - sp
+- opcode(s)
+- what it does with the args (description)
 
     Memory Access
         set

@@ -26,6 +26,15 @@ const OP_CODES = "OP_CODES";
 const N_ARGS = "N_ARGS";
 const ARG0 = "ARG0";
 const ARG1 = "ARG1";
+const ZCNO = "ZCNO";
+const INS_PC = "INS_PC";
+const INS_SP = "INS_SP";
+const INS_DESCRIPTION = "INSTRUCTIONS";
+const INS_TYPE = "INS_TYPE";
+const INS_TYPE_MEM_ACCESS = "memory_access";
+const INS_TYPE_LOGICAL = "logical";
+const INS_TYPE_ARITHMETIC = "arithmetic";
+const INS_TYPE_BRANCHING = "branching";
 
 /**********************************************************************************************************************/
 /*********************************************** MALLEABLE STATE VALUES ***********************************************/
@@ -76,35 +85,121 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  *     M must also be bound as: [0 < M < MAX_ADDRESS]
  * L - stands for labels which are synonymous with M
  */
-const INS_DESCRIPTION = {
-    // Memory Access
-    "SET": {N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3]},
-    "MOV": {N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6]},
-    "POP": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_pop, OP_CODES: [7]},
-    "PSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_psh, OP_CODES: [8]},
-    "CCL": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_ccl, OP_CODES: [9]},
+const INSTRUCTIONS = {
+    SET: {
+        N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: "Sets register specified by " + "arg1".bold() + "to the value in " + "arg0".bold() + ". If " +
+        "arg0".bold() + " is a memory value it takes the value at arg0 and places it into the register in " +
+        "arg1".bold() + "."
+    },
+    MOV: {
+        N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: "Sets memory location specified by arg1 to the value in arg0. If arg0 is a memory value it " +
+        "takes the value at arg0 and places it into the register in arg1."
+    },
+    POP: {
+        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_pop, OP_CODES: [7], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        , INS_PC: "+2", INS_SP: "+1",
+        INS_DESCRIPTION: "Pops the value located at SP - 1 off the stack and places this value into register " +
+        "specified in arg0. Note that this operation doesn't clear the stack value hence the old stack value is " +
+        "still present. This is how deleting on a computer generally occurs; a pointer is deleted or changed to " +
+        "another location. This is why the only way to truly delete a file is to write over the deleted area."
+    },
+    PSH: {
+        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_psh, OP_CODES: [8], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        , INS_PC: "+2", INS_SP: "-1",
+        INS_DESCRIPTION: "Pushes value specified in arg0 into memory location SP."
+    },
+    CCL: {
+        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_ccl, OP_CODES: [9], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "0000"
+        , INS_PC: "+1", INS_SP: "+0",
+        INS_DESCRIPTION: "Zeros out the condition register."
+    },
 
-    // Logical
-    "RSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_rsh, OP_CODES: [10]},
-    "LSH": {N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_lsh, OP_CODES: [11]},
-    "AND": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12]},
-    "OR" : {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [13]},
+    RSH: {
+        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
+        , INS_PC: "+2", INS_SP: "+0",
+        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0."
+    },
+    LSH: {
+        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_lsh, OP_CODES: [11], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
+        , INS_PC: "+2", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    AND: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
+        , INS_PC: "+2", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    OR: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [13], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
+        , INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
 
-    // Arithmetic
-    "ADD": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14]},
-    "SUB": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15]},
-    "MUL": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16]},
-    "DIV": {N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17]},
+    ADD: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
+        , INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    SUB: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
+        , INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    MUL: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
+        , INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    DIV: {
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
+        , INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
 
-    // Branching
-    "CMP": {N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]},
-    "BRN": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brn, OP_CODES: [27]},
-    "BRA": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_bra, OP_CODES: [28]},
-    "BRZ": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brz, OP_CODES: [29]},
-    "BRG": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brg, OP_CODES: [30]},
-    "JSR": {N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_jsr, OP_CODES: [31]},
-    "RTN": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_rtn, OP_CODES: [32]},
-    "STP": {N_ARGS: 0, ARG0: "", ARG1: "", "f": do_stp, OP_CODES: [33]}
+    CMP: {
+        N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
+        , INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "????", INS_PC: "+3", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    BRN: {
+        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "arg0", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    BRA: {
+        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "arg0", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    BRZ: {
+        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "arg0", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    BRG: {
+        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "arg0", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    },
+    JSR: {
+        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "arg0", INS_SP: "-1",
+        INS_DESCRIPTION: ""
+    },
+    RTN: {
+        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_rtn, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "?", INS_SP: "+1",
+        INS_DESCRIPTION: ""
+    },
+    STP: {
+        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_stp, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        , INS_PC: "+0", INS_SP: "+0",
+        INS_DESCRIPTION: ""
+    }
 };
 
 /**********************************************************************************************************************/
@@ -213,7 +308,6 @@ function do_rsh(arg0) {
     var arg0_val = get_arg_val(arg0);
     var rshed = arg0_val >> 1;
     setR(arg0[1], rshed);
-    setCCF("Z", ((rshed & BIT_MASK_SIGN) > 0) & 1);
     setCCF("Z", ((rshed & BIT_MASK_SIGN) > 0) & 1);
     setPC(getPC() + 2);
 }
@@ -539,7 +633,7 @@ function write_op_code(address) {
     }
     // Instruction
     else {
-        var ins = INS_DESCRIPTION[str_value];
+        var ins = INSTRUCTIONS[str_value];
         var op_codes = ins[OP_CODES];
         var op_code_length = op_codes.length;
         if (op_code_length < 2) {
@@ -827,13 +921,13 @@ function check_individual_args(arg_allowable, arg, state) {
 function check_instruction(ins, arg0, arg1, n_args) {
     var state = {"state": true, "error": ""};
     // Instruction is not recognized
-    if (!(ins in INS_DESCRIPTION)) {
+    if (!(ins in INSTRUCTIONS)) {
         state["state"] = false;
         state["error"] = ERROR_INCORRECT_INS;
         return state;
     }
     // The number of arguments is incorrect
-    if (INS_DESCRIPTION[ins][N_ARGS] != n_args) {
+    if (INSTRUCTIONS[ins][N_ARGS] != n_args) {
         state["state"] = false;
         state["error"] = ERROR_INCORRECT_NUM_ARGS;
         return state;
@@ -841,8 +935,8 @@ function check_instruction(ins, arg0, arg1, n_args) {
     var arg0allowable;
     // Check the argument state
     if (n_args == 2) {
-        arg0allowable = INS_DESCRIPTION[ins][ARG0];
-        var arg1allowable = INS_DESCRIPTION[ins][ARG1];
+        arg0allowable = INSTRUCTIONS[ins][ARG0];
+        var arg1allowable = INSTRUCTIONS[ins][ARG1];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -851,7 +945,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
             return state;
     }
     else if (n_args == 1) {
-        arg0allowable = INS_DESCRIPTION[ins][ARG0];
+        arg0allowable = INSTRUCTIONS[ins][ARG0];
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -866,25 +960,14 @@ function check_instruction(ins, arg0, arg1, n_args) {
  * Initializes main memory with all zeros.
  */
 function init_mm() {
-    var main_memory = document.getElementById("main_memory");
+    var main_memory = $("#main_memory");
     for (var i = 0; i < MEM_SIZE; i++) {
-        var table_row = document.createElement("tr");
-        var addr_col = document.createElement("td");
-        var value_col = document.createElement("td");
-        var opcode_col = document.createElement("td");
-        var label_col = document.createElement("td");
-        addr_col.setAttribute("id", "address" + i);
-        value_col.setAttribute("id", "addr" + i);
-        opcode_col.setAttribute("id", "opCode" + i);
-        label_col.setAttribute("id", "label" + i);
-        addr_col.innerHTML = format_addr(i);
-        value_col.innerHTML = format_numbers(0);
-        opcode_col.innerHTML = format_numbers(0);
-        $(table_row).append(addr_col);
-        $(table_row).append(value_col);
-        $(table_row).append(opcode_col);
-        $(table_row).append(label_col);
-        $(main_memory).append(table_row);
+        var table_row = $("<tr></tr>");
+        var addr_col = $("<td></td>").attr("id", "address" + i).html(format_addr(i));
+        var value_col = $("<td></td>").attr("id", "addr" + i).html(format_numbers(0));
+        var opcode_col = $("<td></td>").attr("id", "opCode" + i).html(format_numbers(0));
+        var label_col = $("<td></td>").attr("id", "label" + i);
+        main_memory.append(table_row.append(addr_col).append(value_col).append(opcode_col).append(label_col));
     }
 }
 
@@ -1079,13 +1162,15 @@ function assemble() {
 
         // Write labels to main memory table
         for (var label in LABELS2LINES) {
-            var address = LINE2MEM[LABELS2LINES[label]];
-            // error checking
-            if (address > MAX_ADDRESS || address < 0) {
-                write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
-                return;
+            if (LABELS2LINES.hasOwnProperty(label)) {
+                var address = LINE2MEM[LABELS2LINES[label]];
+                // error checking
+                if (address > MAX_ADDRESS || address < 0) {
+                    write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+                    return;
+                }
+                document.getElementById("label" + address).innerHTML = label.slice(1);
             }
-            document.getElementById("label" + address).innerHTML = label.slice(1);
         }
         write_to_console("Assembled successfully. Data now stored in main memory.");
     }
@@ -1098,26 +1183,26 @@ function step() {
     var pc = getPC();
     var work_ins = get_memory(pc);
     // Checks that first instruction makes sense
-    if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
+    if (!(work_ins in INSTRUCTIONS) || (work_ins === "STP")) {
         write_to_console("Stepped to end of program.");
         return;
     }
-    var n_args = INS_DESCRIPTION[work_ins][N_ARGS];
+    var n_args = INSTRUCTIONS[work_ins][N_ARGS];
     var arg0;
     // No args
     if (n_args == 0) {
-        INS_DESCRIPTION[work_ins]["f"]();
+        INSTRUCTIONS[work_ins]["f"]();
     }
     // 1 arg
     else if (n_args == 1) {
         arg0 = get_memory(pc + 1);
-        INS_DESCRIPTION[work_ins]["f"](arg0);
+        INSTRUCTIONS[work_ins]["f"](arg0);
     }
     // 2 args
     else if (n_args == 2) {
         arg0 = get_memory(pc + 1);
         var arg1 = get_memory(pc + 2);
-        INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
+        INSTRUCTIONS[work_ins]["f"](arg0, arg1);
     }
     pc = getPC();
     write_to_console("End step at address " + pc);
@@ -1160,30 +1245,30 @@ function execute_program() {
         var work_ins = get_memory(pc);
 
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
-        if (!(work_ins in INS_DESCRIPTION) || (work_ins === "STP")) {
+        if (!(work_ins in INSTRUCTIONS) || (work_ins === "STP")) {
             write_to_console("Finished running program.");
             stop_program_running();
             return;
         }
 
-        var n_args = INS_DESCRIPTION[work_ins][N_ARGS];
+        var n_args = INSTRUCTIONS[work_ins][N_ARGS];
         var arg0;
         // No args
         if (n_args == 0) {
-            INS_DESCRIPTION[work_ins]["f"]();
+            INSTRUCTIONS[work_ins]["f"]();
             pc += 1;
         }
         // 1 arg
         else if (n_args == 1) {
             arg0 = get_memory(pc + 1);
-            INS_DESCRIPTION[work_ins]["f"](arg0);
+            INSTRUCTIONS[work_ins]["f"](arg0);
             pc += 2;
         }
         // 2 args
         else if (n_args == 2) {
             arg0 = get_memory(pc + 1);
             var arg1 = get_memory(pc + 2);
-            INS_DESCRIPTION[work_ins]["f"](arg0, arg1);
+            INSTRUCTIONS[work_ins]["f"](arg0, arg1);
             pc += 3;
         }
         if (!IGNORE_BREAKPOINTS && pcAtBP(MEM2LINE, pc)) {

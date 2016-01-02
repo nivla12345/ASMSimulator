@@ -617,19 +617,19 @@ function return_arg_type(value) {
 
 function write_op_code(address) {
     address = parseInt(address);
-    var opcode = document.getElementById("opCode" + address);
+    var opcode = $("#opCode" + address);
     var str_value = get_memory(address);
     // Immediate
     if (check_if_I(str_value)) {
-        opcode.innerHTML = format_numbers(str_value.substring(1));
+        opcode.html(format_numbers(str_value.substring(1)));
     }
     // Register
     else if (check_if_R(str_value)) {
-        opcode.innerHTML = format_numbers(str_value[1]);
+        opcode.html(format_numbers(str_value[1]));
     }
     // Address
     else if (check_if_A(str_value)) {
-        opcode.innerHTML = format_numbers(str_value);
+        opcode.html(format_numbers(str_value));
     }
     // Instruction
     else {
@@ -637,7 +637,7 @@ function write_op_code(address) {
         var op_codes = ins[OP_CODES];
         var op_code_length = op_codes.length;
         if (op_code_length < 2) {
-            opcode.innerHTML = format_numbers(op_codes[0]);
+            opcode.html(format_numbers(op_codes[0]));
             return;
         }
         var n_args = ins[N_ARGS];
@@ -645,7 +645,7 @@ function write_op_code(address) {
         var arg0_type = return_arg_type(arg0_value);
         var arg0_op_index = index_op_codes(ins[ARG0], arg0_type);
         if (n_args === 1) {
-            opcode.innerHTML = format_numbers(op_codes[arg0_op_index]);
+            opcode.html(format_numbers(op_codes[arg0_op_index]));
             return;
         }
         var arg0_options = ins[ARG0].length;
@@ -654,14 +654,14 @@ function write_op_code(address) {
         var arg1_op_index = index_op_codes(ins[ARG1], arg1_type);
         var arg1_options = ins[ARG1].length;
         if (arg0_options === 1) {
-            opcode.innerHTML = format_numbers(op_codes[arg1_op_index]);
+            opcode.html(format_numbers(op_codes[arg1_op_index]));
             return;
         }
         if (arg1_options === 1) {
-            opcode.innerHTML = format_numbers(op_codes[arg0_op_index]);
+            opcode.html(format_numbers(op_codes[arg0_op_index]));
             return;
         }
-        opcode.innerHTML = format_numbers(op_codes[arg0_op_index * arg0_options + arg1_op_index]);
+        opcode.html(format_numbers(op_codes[arg0_op_index * arg0_options + arg1_op_index]));
     }
 }
 
@@ -675,24 +675,23 @@ function get_memory(address) {
         console.error(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return -1;
     }
-    var element = document.getElementById("addr" + address);
-    return element.innerHTML;
+    return $("#addr" + address).html();
+
 }
 
 /*
  * Gets the register content in integer format. rNum is bound to [0:3]
  */
 function getR(rNum) {
-    return parseInt(document.getElementById("R" + rNum + "content").innerHTML);
+    return parseInt($("#R" + rNum + "content").html());
 }
 
 function setR(rNum, rIn) {
-    var element = document.getElementById("R" + rNum + "content");
-    element.innerHTML = format_numbers(rIn);
+    $("#R" + rNum + "content").html(format_numbers(rIn));
 }
 
 function getPC() {
-    return parseInt(document.getElementById("PCcontent").innerHTML);
+    return parseInt($("#PCcontent").html());
 }
 
 function setPC_no_jump(rIn) {
@@ -705,8 +704,7 @@ function setPC_no_jump(rIn) {
         write_error_to_console(ERROR_STACK_OVERFLOW);
         return;
     }
-    var element = document.getElementById("PCcontent");
-    element.innerHTML = format_numbers(rIn);
+    $("#PCcontent").html(format_numbers(rIn));
     color_pc();
 }
 
@@ -716,7 +714,7 @@ function setPC(rIn) {
 }
 
 function getSP() {
-    return parseInt(document.getElementById("SPcontent").innerHTML);
+    return parseInt($("#SPcontent").html());
 }
 
 function setSP(rIn) {
@@ -729,23 +727,22 @@ function setSP(rIn) {
         write_error_to_console(ERROR_STACK_OVERFLOW);
         return;
     }
-    var element = document.getElementById("SPcontent");
-    element.innerHTML = format_numbers(rIn);
+    $("#SPcontent").html(format_numbers(rIn));
     color_sp();
 }
 
 function getCCF(flag) {
-    return document.getElementById("CCcontent").innerHTML[ZCNO_MAPPINGS[flag]];
+    return $("#CCcontent").html()[ZCNO_MAPPINGS[flag]];
 }
 
 /*
  * flag - ["Z" - "O"]
  */
 function setCCF(flag, set_to) {
-    var element = document.getElementById("CCcontent");
-    var status = element.innerHTML;
+    var element = $("#CCcontent");
+    var status = element.html();
     status = status.substring(0, ZCNO_MAPPINGS[flag]) + set_to + status.substring(ZCNO_MAPPINGS[flag] + 1, HEX_LENGTH);
-    element.innerHTML = status;
+    element.html(status);
 }
 
 /**********************************************************************************************************************/
@@ -1169,7 +1166,7 @@ function assemble() {
                     write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
                     return;
                 }
-                document.getElementById("label" + address).innerHTML = label.slice(1);
+                $("#label" + address).html(label.slice(1));
             }
         }
         write_to_console("Assembled successfully. Data now stored in main memory.");
@@ -1298,7 +1295,7 @@ function clear_memory_image() {
     var i;
     for (i = 0; i < MEM_SIZE; i++) {
         write_memory(i, "0000");
-        document.getElementById("label" + i).innerHTML = "";
+        $("#label" + i).html("");
         write_op_code(i);
     }
     // Has the same effect as ccl() except no manipulation to PC.
@@ -1318,38 +1315,30 @@ function clear_memory_image() {
 /**************************************** JAVASCRIPT HTML INTERACTION *************************************************/
 /**********************************************************************************************************************/
 function disable_buttons_when_run() {
-    document.getElementById("load_button").disabled = true;
-    document.getElementById("step_button").disabled = true;
-    document.getElementById("assemble_button").disabled = true;
-    document.getElementById("run_button").disabled = true;
-    document.getElementById("run_ignore_bp_button").disabled = true;
-    document.getElementById("pause_button").disabled = false;
+    $("#load_button").prop("disabled", true);
+    $("#step_button").prop("disabled", true);
+    $("#assemble_button").prop("disabled", true);
+    $("#run_button").prop("disabled", true);
+    $("#run_ignore_bp_button").prop("disabled", true);
+    $("#pause_button").prop("disabled", false);
 }
 
 function enable_buttons_when_run() {
-    document.getElementById("run_button").disabled = false;
-    document.getElementById("step_button").disabled = false;
-    document.getElementById("assemble_button").disabled = false;
-    document.getElementById("run_button").disabled = false;
-    document.getElementById("run_ignore_bp_button").disabled = false;
-    document.getElementById("pause_button").disabled = true;
+    $("#run_button").prop("disabled", false);
+    $("#step_button").prop("disabled", false);
+    $("#assemble_button").prop("disabled", false);
+    $("#run_ignore_bp_button").prop("disabled", false);
+    $("#pause_button").prop("disabled", true);
 }
 
 function write_to_console(string) {
-    var console_out = document.getElementById("console");
-    var running = document.createElement("p");
-    running.innerHTML = string;
-    console_out.appendChild(running);
-    console_out.scrollTop = console_out.scrollHeight;
+    var console_out = $("#console");
+    console_out.append($("<p></p>").html(string)).scrollTop(console_out.prop("scrollHeight"));
 }
 
 function write_error_to_console(string) {
-    var console_out = document.getElementById("console");
-    var running = document.createElement("p");
-    running.innerHTML = string;
-    running.style.color = "red";
-    console_out.appendChild(running);
-    console_out.scrollTop = console_out.scrollHeight;
+    var console_out = $("#console");
+    console_out.append($("<p></p>").html(string).css("color", "red")).scrollTop(console_out.prop("scrollHeight"));
 }
 
 // Scrolls to the PC in the main memory table. Always scrolls to the midpoint.
@@ -1377,7 +1366,7 @@ function scrollIntoView(element, container) {
 }
 
 function change_clock_rate() {
-    var hz = document.getElementById("program_speed").value;
+    var hz = $("#program_speed").val();
     switch (hz) {
         case "no_Hz":
             CLOCK_PERIOD = 0;
@@ -1407,7 +1396,7 @@ function change_clock_rate() {
 
 // Changed the base displayed for main memory and registers
 function change_base() {
-    if (document.getElementById("base_value").value == "decimal_input") {
+    if ($("#base_value").val() == "decimal_input") {
         BASE_VERSION = DECIMAL_LENGTH;
     }
     else {
@@ -1420,10 +1409,10 @@ function change_base() {
         $("#address" + i).html(format_addr(i));
         // Format the opcodes
         var opCode_dom = $("#opCode" + i);
-        var opCode = opCode_dom[0].innerHTML;
+        var opCode = opCode_dom.html();
         opCode_dom.html(format_numbers(opCode));
         // Format the address value
-        write_memory(i, $("#addr" + i)[0].innerHTML);
+        write_memory(i, $("#addr" + i).html());
     }
 
     // Rewrite registers
@@ -1443,10 +1432,10 @@ function save_file() {
 }
 
 function load_file() {
-    var fileInput = document.getElementById('load_button');
+    var fileInput = $("#load_button");
 
-    fileInput.addEventListener('change', function (e) {
-        var file = fileInput.files[0];
+    fileInput.on('change', function (e) {
+        var file = fileInput[0].files[0];
         var reader = new FileReader();
 
         reader.onload = function (e) {
@@ -1494,67 +1483,16 @@ function init() {
 }
 
 function clear_console() {
-    var console_out = document.getElementById("console");
-    while (console_out.firstChild) {
-        console_out.removeChild(console_out.firstChild);
-    }
+    $("#console").html("");
 }
 
-$("#init_memory_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        clear_memory_image();
-    }
-});
-
-$("#assemble_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        assemble();
-    }
-});
-
-$("#run_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        run();
-    }
-});
-
-$("#save_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        save_file();
-    }
-});
-
-$("#load_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        load_file();
-    }
-});
-
-$("#clear_console_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        clear_console();
-    }
-});
-
-$("#step_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        step();
-    }
-});
-
-$("#pause_button").keyup(function (event) {
-    if (event.keyCode == 13) {
-        pause_program();
-    }
-});
+$("#init_memory_button").on("click", clear_memory_image);
+$("#assemble_button").on("click", assemble);
+$("#run_button").on("click", run_program);
+$("#save_button").on("click", save_file);
+$("#load_button").on("click", load_file);
+$("#clear_console_button").on("click", clear_console);
+$("#step_button").on("click", step);
+$("#pause_button").on("click", pause_program);
 
 $("td[rowspan]").addClass('hasRowSpan');
-
-document.getElementById("init_memory_button").addEventListener("click", clear_memory_image);
-document.getElementById("assemble_button").addEventListener("click", assemble);
-document.getElementById("run_button").addEventListener("click", run_program);
-document.getElementById("save_button").addEventListener("click", save_file);
-document.getElementById("load_button").addEventListener("click", load_file);
-document.getElementById("clear_console_button").addEventListener("click", clear_console);
-document.getElementById("step_button").addEventListener("click", step);
-document.getElementById("pause_button").addEventListener("click", pause_program);

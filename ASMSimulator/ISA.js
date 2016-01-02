@@ -29,7 +29,7 @@ const ARG1 = "ARG1";
 const ZCNO = "ZCNO";
 const INS_PC = "INS_PC";
 const INS_SP = "INS_SP";
-const INS_DESCRIPTION = "INSTRUCTIONS";
+const INS_DESCRIPTION = "INS_DESCRIPTION";
 const INS_TYPE = "INS_TYPE";
 const INS_TYPE_MEM_ACCESS = "memory_access";
 const INS_TYPE_LOGICAL = "logical";
@@ -89,7 +89,7 @@ const INSTRUCTIONS = {
     SET: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: "Sets register specified by " + "arg1".bold() + "to the value in " + "arg0".bold() + ". If " +
+        INS_DESCRIPTION: "Sets register specified by " + "arg1".bold() + " to the value in " + "arg0".bold() + ". If " +
         "arg0".bold() + " is a memory value it takes the value at arg0 and places it into the register in " +
         "arg1".bold() + "."
     },
@@ -121,12 +121,14 @@ const INSTRUCTIONS = {
     RSH: {
         N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
         , INS_PC: "+2", INS_SP: "+0",
-        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0."
+        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0. See " +
+        "logical shift".link("https://en.wikipedia.org/wiki/Logical_shift") + " for more information."
     },
     LSH: {
         N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_lsh, OP_CODES: [11], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
         , INS_PC: "+2", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0. See " +
+        "logical shift".link("https://en.wikipedia.org/wiki/Logical_shift") + " for more information."
     },
     AND: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"

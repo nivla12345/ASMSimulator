@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Assembly Tutorial">
     <meta name="author" content="Alvin Mao">
-    <link rel="icon" href="Programming-Bug-icon.png">
+    <link rel="icon" href="media/Programming-Bug-icon.png">
 
     <title>Tutorial</title>
 
@@ -302,13 +302,13 @@
                         </td>
                     </tr>
                     <tr class="success">
-                        <td>Register</td>
+                        <td id="register_description">Register</td>
                         <td>
                             This consists of any of R0, R1, R2, and R3. The register can only be used as an argument.
                         </td>
                     </tr>
                     <tr class="success">
-                        <td>Immediate</td>
+                        <td id="immediate_description">Immediate</td>
                         <td>
                             <p>
                                 Immediates are started with a dollar sign "$" and are followed immediately by a number.
@@ -328,7 +328,7 @@
                         </td>
                     </tr>
                     <tr class="success">
-                        <td>Address</td>
+                        <td id="address_description">Address</td>
                         <td>
                             Addresses are represented as numbers without any decorations. Addresses are available in
                             both hexadecimal and decimal format. Addresses are bound at address 0 at the minimum and 511
@@ -343,7 +343,7 @@
                         </td>
                     </tr>
                     <tr class="danger">
-                        <td>Label</td>
+                        <td id="label_description">Label</td>
                         <td>
                             Labels are started with a period sign ".", are followed immediately by a name, and must be
                             placed at the beginning of a line. Labels act as a way of naming subroutines or chunks of
@@ -430,16 +430,54 @@
                 </h2>
                 <h4>Legend</h4>
 
-                <p>Argument Types: I (immediate), L (label), R (register), and A (address).</p>
+                <h5>Argument Types</h5>
 
-                <p>*A combination of the letters indicates the argument could be any of the listed argument types.</p>
+                <p>In the table below, the <b>arg0</b> and <b>arg1</b> entries will be labeled in accordance to the
+                    below table.</p>
+                <table class="table table-bordered table-condensed" style="width: 300px">
+                    <tr class="active">
+                        <td><b>Argument Types</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>There is no argument.</td>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td><a href="#immediate_description">Immediate value</a>.</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td><a href="#label_description">Label</a>.</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td><a href="#register_description">Register</a>.</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td><a href="#address_description">Address</a>.</td>
+                    </tr>
+                </table>
 
-                <p>The PC, SP and ZCNO field indicates what happens to those registers <b>upon completion</b> of the
+                <p>A combination of the letters indicates the argument could be any of the listed argument types.</p>
+
+                <p>Example:</p>
+
+                <p>Given an <b>arg0</b> of <code>LMR</code> means that valid <b>arg0</b> arguments would be labels,
+                    memory, and registers.</p>
+
+                <h5>PC and SP</h5>
+
+                <p>The PC and SP fields indicates what happens to those registers <b>upon completion</b> of the
                     instruction.</p>
+
+                <h5>ZCNO</h5>
 
                 <p>The ZCNO field changes are indicated by the flags that get changed, hence potentially any combination
                     of Z, C, N, and O.</p>
-                <table class="table table-bordered table-condensed">
+                <table class="table table-bordered table-condensed" style="width: 500px">
                     <tr class="active">
                         <td><b>Condition Status Symbol</b></td>
                         <td><b>Description</b></td>
@@ -542,35 +580,6 @@ index of opcode = 2 * 3 + 1
                         aria-label="Anchor link for: Memory Access"></a>
                     Memory Access
                 </h3>
-                <table class="table table-bordered table-condensed fixed">
-                    <tr>
-                        <td class="active" colspan="0"><b>SET</b></td>
-                    </tr>
-                    <tr>
-                        <td class="instruction_table_row2"><b>arg0</b></td>
-                        <td class="instruction_table_row2 instruction_table_row2_c">A</td>
-                        <td class="instruction_table_row2"><b>arg1</b></td>
-                        <td class="instruction_table_row2 instruction_table_row2_c">B</td>
-                        <td class="instruction_table_row2"><b>ZCNO</b></td>
-                        <td class="instruction_table_row2 instruction_table_row2_c">Z</td>
-                        <td class="instruction_table_row2"><b>PC</b></td>
-                        <td class="instruction_table_row2 instruction_table_row2_c">+1</td>
-                        <td class="instruction_table_row2"><b>SP</b></td>
-                        <td class="instruction_table_row2 instruction_table_row2_c">+0</td>
-                    </tr>
-                    <tr>
-                        <td colspan="1"><b>BC</b></td>
-                        <td colspan="0">21, 22, 23</td>
-                    </tr>
-                    <tr>
-                        <td colspan="0">
-                            <p><b>Description</b></p>
-                            Sets the value in arg0 to the register value in arg1. If arg0 is a memory value it takes the
-                            value at arg0 and places it into the register in arg1.
-                        </td>
-                    </tr>
-                </table>
-
                 <h3 id="logical"><a
                         style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#logical"
@@ -615,7 +624,7 @@ index of opcode = 2 * 3 + 1
                         <a href="#instruction_set">Instruction Set</a>
                         <ul class="nav">
                             <li><a href="#memory_access">Memory Access</a></li>
-                            <li><a href="#logical">Bitwise Logical</a></li>
+                            <li><a href="#logical">Logical</a></li>
                             <li><a href="#arithmetic">Arithmetic</a></li>
                             <li><a href="#branching">Branching</a></li>
                         </ul>
@@ -632,6 +641,7 @@ index of opcode = 2 * 3 + 1
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="lib/docs.js"></script>
+<script src="ISA.js"></script>
 <script src="tutorial_script.js"></script>
 </body>
 

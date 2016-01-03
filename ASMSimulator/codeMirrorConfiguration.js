@@ -17,13 +17,13 @@ var asm_grammar = {
         , "Register"            : "builtin"
         , "identifier"          : ""
         , "number"              : "number"
-        , "Label"              : "string"
+        , "Label": "string"
     },
 
 // Lexical model
     "Lex"                       : {
 
-        "comment:comment": [";", null]
+        "comment:comment": [COMMENT, null]
         , "Label": "RE::/[\.][_A-Za-z0-9]+/" // in my case label
         , "identifier": "RE::/[_A-Za-z][_A-Za-z0-9]*/"
         , "decorator": [
@@ -45,15 +45,11 @@ var asm_grammar = {
             "RE::/0(?![\\dx])/"
         ]
         , "Instruction": {
-            "autocomplete": true, "tokens": [
-            "STP", "CCL", "PSH", "POP", "RTN", "JSR", "BRG", "BRZ", "BRA", "BRN", "CMP",
-            "OR" , "AND", "LSH", "RSH", "DIV", "MUL", "SUB", "ADD", "MOV", "SET"
-        ]}
+            "autocomplete": true, "tokens": Object.keys(INSTRUCTIONS)
+        }
         , "Register": {
-            "autocomplete": true, "tokens": [
-            "R0", "R1", "R2", "R3"
-        ]}
-
+            "autocomplete": true, "tokens": Object.keys(LIST_REG_NAMES)
+        }
     },
 
 // Syntax model (optional)

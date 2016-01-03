@@ -1016,7 +1016,7 @@ function get_labels(lines) {
 function assemble() {
     clear_console();
     clear_memory_image();
-    write_to_console("Your program is being assembled...");
+    write_to_console("Assembling has begun...");
 
     // Gets the contents of the text box and stores the lines in a list
     var lines = editor.getValue().split("\n");

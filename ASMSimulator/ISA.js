@@ -11,6 +11,8 @@ const BIT_MASK_16 = 0xFFFF;
 const BIT_MASK_SIGN = 0x8000;
 const DECIMAL_LENGTH = 10;
 const HEX_LENGTH = 16;
+const MAX_POSITIVE = BIT_MASK_16 >> 1;
+const MIN_NEGATIVE = BIT_MASK_SIGN;
 
 // HTML Globals
 const PC_TRACKING_COLOR = "pink";
@@ -60,7 +62,7 @@ const ERROR_INCORRECT_SPACING = "ERROR: The number of tokens differs from your f
     " argument.";
 const ERROR_INCORRECT_INS = "ERROR: The instruction does not exist.";
 const ERROR_INCORRECT_NUM_ARGS = "ERROR: The number of arguments does not match the instruction.";
-const ERROR_INCORRECT_ARG_TYPE = "ERROR: There is something wrong with the argument provided.";
+const ERROR_INCORRECT_ARG_TYPE = "ERROR: The argument type provided is incorrect.";
 const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program.";
 const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input is out of bounds";
 const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack overflow has occurred.";
@@ -89,9 +91,8 @@ const INSTRUCTIONS = {
     SET: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: "Sets register specified by " + "arg1".bold() + " to the value in " + "arg0".bold() + ". If " +
-        "arg0".bold() + " is a memory value it takes the value at arg0 and places it into the register in " +
-        "arg1".bold() + "."
+        INS_DESCRIPTION: "Sets register specified by arg1 to the value in arg0. If arg0 is a memory value it takes the " +
+        "value at arg0 and places it into the register in arg1."
     },
     MOV: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
@@ -100,56 +101,69 @@ const INSTRUCTIONS = {
         "takes the value at arg0 and places it into the register in arg1."
     },
     POP: {
-        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_pop, OP_CODES: [7], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_pop, OP_CODES: [7], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
         , INS_PC: "+2", INS_SP: "+1",
         INS_DESCRIPTION: "Pops the value located at SP - 1 off the stack and places this value into register " +
         "specified in arg0. Note that this operation doesn't clear the stack value hence the old stack value is " +
         "still present. This is how deleting on a computer generally occurs; a pointer is deleted or changed to " +
-        "another location. This is why the only way to truly delete a file is to write over the deleted area."
+        "another location."
     },
     PSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_psh, OP_CODES: [8], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_psh, OP_CODES: [8], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
         , INS_PC: "+2", INS_SP: "-1",
-        INS_DESCRIPTION: "Pushes value specified in arg0 into memory location SP."
+        INS_DESCRIPTION: "Pushes value specified in arg0 into memory location of SP."
     },
     CCL: {
-        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_ccl, OP_CODES: [9], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "0000"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_ccl, OP_CODES: [9], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "0000"
         , INS_PC: "+1", INS_SP: "+0",
-        INS_DESCRIPTION: "Zeros out the condition register."
+        INS_DESCRIPTION: "Zeros out all conditions in the condition register."
     },
 
     RSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
         , INS_PC: "+2", INS_SP: "+0",
-        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0. See " +
-        "logical shift".link("https://en.wikipedia.org/wiki/Logical_shift") + " for more information."
+        INS_DESCRIPTION: "Performs " + "logical right shift".link("https://en.wikipedia.org/wiki/Logical_shift") +
+        " on the register specified in arg0. If result is 0 sets 0 flag."
     },
     LSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "", "f": do_lsh, OP_CODES: [11], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_lsh, OP_CODES: [11], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
         , INS_PC: "+2", INS_SP: "+0",
-        INS_DESCRIPTION: "Performs bitwise logical right shift on the register specified in arg0. See " +
-        "logical shift".link("https://en.wikipedia.org/wiki/Logical_shift") + " for more information."
+        INS_DESCRIPTION: "Performs " + "logical left shift".link("https://en.wikipedia.org/wiki/Logical_shift") +
+        " on the register specified in arg0. If the most significant bit in arg0 is asserted then the C and " +
+        "O bit get asserted."
     },
     AND: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
         , INS_PC: "+2", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs a logical " + "and".link("https://en.wikipedia.org/wiki/Logical_conjunction") +
+        " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
+        "N bit is set if the resulting most significant bit is 1, and the C and O bit are always set to 0."
     },
     OR: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [13], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
         , INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs a logical " + "or".link("https://en.wikipedia.org/wiki/Logical_disjunction") +
+        " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
+        "N bit is set if the resulting most significant bit is 1, and the C and O bit are always set to 0."
     },
 
     ADD: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
         , INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs " +
+        "2's complement addition".link("https://en.wikipedia.org/wiki/Two's_complement#Addition") +
+        " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
+        "N bit is set if the resulting most significant bit is 1, and the C and O bit are set when the result should" +
+        " be greater than 0x7FFF."
     },
     SUB: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
         , INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs " +
+        "2's complement subtraction".link("https://en.wikipedia.org/wiki/Two's_complement#Subtraction") +
+        " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
+        "N bit is set if the resulting most significant bit is 1, and the C and O bit are set when the result should" +
+        " be less than 0x8000."
     },
     MUL: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
@@ -168,37 +182,37 @@ const INSTRUCTIONS = {
         INS_DESCRIPTION: ""
     },
     BRN: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: ""
     },
     BRA: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: ""
     },
     BRZ: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: ""
     },
     BRG: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: ""
     },
     JSR: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "-1",
         INS_DESCRIPTION: ""
     },
     RTN: {
-        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_rtn, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_rtn, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "?", INS_SP: "+1",
         INS_DESCRIPTION: ""
     },
     STP: {
-        N_ARGS: 0, ARG0: "", ARG1: "", "f": do_stp, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_stp, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "+0", INS_SP: "+0",
         INS_DESCRIPTION: ""
     }
@@ -224,64 +238,53 @@ function do_add(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
     var arg1_val = get_arg_val(arg1);
     var sum = arg0_val + arg1_val;
-
-    if (check_overflow(arg0, arg1, "+", sum)) {
-        setCCF("O", 1);
-        setCCF("C", 1);
-    }
-    else {
-        setCCF("O", 0);
-        setCCF("C", 0);
-    }
-    if ((sum & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if (sum & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
+    arithmetic_flag_setting(arg0_val, arg1_val, sum);
     setR(arg1[1], (sum & BIT_MASK_16));
-    setPC(getPC() + 3);
 }
 
 function do_sub(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
-    var arg1_val = get_arg_val(arg1);
-    var dif = arg0_val - arg1_val;
-    if (check_overflow(arg0, arg1, "-", dif)) {
-        setCCF("O", 1);
-        setCCF("C", 1);
-    }
-    else {
-        setCCF("O", 0);
-        setCCF("C", 0);
-    }
-    if ((dif & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if (dif & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
+    // Changes the arg1 to its 2's complement equivalent.
+    // Basically transform: a - b to a + (-b) in order to use the same consistent check_overflow.
+    var arg1_val = twos_comp_16_bit(get_arg_val(arg1));
+    var dif = arg0_val + arg1_val;
+    arithmetic_flag_setting(arg0_val, arg1_val, dif);
     setR(arg1[1], (dif & BIT_MASK_16));
-    setPC(getPC() + 3);
 }
 
 function do_mul(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
     var arg1_val = get_arg_val(arg1);
     var prod = arg0_val * arg1_val;
-    if ((prod & BIT_MASK_16) == 0)
+    arithmetic_flag_setting(arg0_val, arg1_val, prod);
+    setR(arg1[1], (prod & BIT_MASK_16));
+}
+
+function zero_and_negative_flag_setting(result) {
+    if ((result & BIT_MASK_16) == 0)
         setCCF("Z", 1);
     else
         setCCF("Z", 0);
-    if ((prod & BIT_MASK_16) & BIT_MASK_SIGN)
+    if ((result & BIT_MASK_16) & BIT_MASK_SIGN)
         setCCF("N", 1);
     else
         setCCF("N", 0);
-    setR(arg1[1], (prod & BIT_MASK_16));
+}
+
+function overflow_and_carry_flag_setting(arg0, arg1, result) {
+    if (check_overflow(arg0, arg1, result)) {
+        setCCF("O", 1);
+        setCCF("C", 1);
+    }
+    else {
+        setCCF("O", 0);
+        setCCF("C", 0);
+    }
+}
+
+function arithmetic_flag_setting(arg0, arg1, result) {
+    overflow_and_carry_flag_setting(arg0, arg1, result);
+    zero_and_negative_flag_setting(result);
     setPC(getPC() + 3);
 }
 
@@ -294,14 +297,7 @@ function do_div(arg0, arg1) {
         return;
     }
     var div = Math.floor(arg0_val / arg1_val);
-    if ((div & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if ((div & BIT_MASK_16) & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
+    zero_and_negative_flag_setting(div);
     setR(arg1[1], (div & BIT_MASK_16));
     setPC(getPC() + 3);
 }
@@ -329,14 +325,7 @@ function do_and(arg0, arg1) {
     var anded = arg0_val & arg1_val;
     setCCF("O", 0);
     setCCF("C", 0);
-    if ((anded & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if (anded & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
+    zero_and_negative_flag_setting(anded);
     setR(arg1[1], (anded & BIT_MASK_16));
     setPC(getPC() + 3);
 }
@@ -347,39 +336,16 @@ function do_or(arg0, arg1) {
     var ored = arg0_val | arg1_val;
     setCCF("O", 0);
     setCCF("C", 0);
-    if ((ored & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if (ored & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
+    zero_and_negative_flag_setting(ored);
     setR(arg1[1], (ored & BIT_MASK_16));
     setPC(getPC() + 3);
 }
 
 function do_cmp(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
-    var arg1_val = get_arg_val(arg1);
-    var dif = arg0_val - arg1_val;
-    if (check_overflow(arg0, arg1, "-", dif)) {
-        setCCF("O", 1);
-        setCCF("C", 1);
-    }
-    else {
-        setCCF("O", 0);
-        setCCF("C", 0);
-    }
-    if ((dif & BIT_MASK_16) == 0)
-        setCCF("Z", 1);
-    else
-        setCCF("Z", 0);
-    if (dif & BIT_MASK_SIGN)
-        setCCF("N", 1);
-    else
-        setCCF("N", 0);
-    setPC(getPC() + 3);
+    var arg1_val = twos_comp_16_bit(get_arg_val(arg1));
+    var dif = arg0_val + arg1_val;
+    arithmetic_flag_setting(arg0_val, arg1_val, dif);
 }
 
 function do_brn(arg0) {
@@ -754,24 +720,46 @@ function setCCF(flag, set_to) {
 // in MM. The key "state" indicates the check status and "arg" indicates the returned argument.
 
 /*
- * Checks overflow. Rules for overflow: 2 positive values give a negative or 2 negatives give a positive.
+ * Returns whether a number is 2's complement 16 bit negative.
  */
-function check_overflow(arg0, arg1, operation, result) {
-    var arg0p = arg0 & BIT_MASK_SIGN;
-    var arg1p = arg1 & BIT_MASK_SIGN;
-    var result_p = result & BIT_MASK_SIGN;
-    if (operation == "+")
-        return (arg0p == arg1p) && (result_p != arg0p);
-    if (operation == "-") {
-        // Overflow can only occur with different signed arguments
-        if (arg0p != arg1p) {
-            if (arg0p && !arg1p && !result_p)
-                return true;
-            if (!arg0p && arg1p && result_p)
-                return true;
-        }
+function is_negative(value) {
+    return (value & BIT_MASK_SIGN) > 0;
+}
+
+function is_positive(value) {
+    return !is_negative(value) && value != 0;
+}
+
+/*
+ * Returns the 2's complement of value. Note: that this fails for minimum integer, 0x8000.
+ */
+function twos_comp_16_bit(value) {
+    return (~value + 1) & BIT_MASK_16;
+}
+
+/*
+ * Returns whether overflow has occurred.
+ */
+function check_overflow(arg0, arg1, result) {
+    // Get should be positive cases
+    if ((is_positive(arg0) && is_positive(arg1)) || (is_negative(arg0) && is_negative(arg1))) {
+        return !is_2s_complement_positive(result);
     }
-    return false;
+    else if (arg0 == 0 || arg1 == 0) {
+        return false;
+    }
+    else {
+        return !is_2s_complement_negative(result);
+    }
+
+}
+
+function is_2s_complement_positive(value) {
+    return value > 0 && value <= MAX_POSITIVE;
+}
+
+function is_2s_complement_negative(value) {
+    return value >= MIN_NEGATIVE && value <= BIT_MASK_16;
 }
 
 /*

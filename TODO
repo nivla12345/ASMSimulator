@@ -1,5 +1,7 @@
 TODO:
-- Write up ISA description with examples.
+- Select an HTML template that works in chrome.
+- Write up ISA descriptions.
+- Add a examples section to the tutorial.
 - Add a features page
 - Convert from document to all jquery.
 - Add alerts telling the user if they switch tabs they will lose all changes they've made, only 

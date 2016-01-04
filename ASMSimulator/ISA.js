@@ -1225,6 +1225,16 @@ function run_program_noBP() {
     resume_program_running();
 }
 
+function load_and_run() {
+    assemble();
+    run_program();
+}
+
+function load_and_run_noBP() {
+    assemble();
+    run_program_noBP();
+}
+
 function run_program() {
     write_to_console("Program started running...");
     resume_program_running();

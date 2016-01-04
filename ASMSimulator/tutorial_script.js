@@ -39,3 +39,5 @@ function initialize_tutorial() {
         section_to_add_to.after(table);
     }
 }
+
+//new Clipboard('.btn');

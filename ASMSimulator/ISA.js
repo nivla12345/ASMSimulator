@@ -118,7 +118,6 @@ const INSTRUCTIONS = {
         , INS_PC: "+1", INS_SP: "+0",
         INS_DESCRIPTION: "Zeros out all conditions in the condition register."
     },
-
     RSH: {
         N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
         , INS_PC: "+2", INS_SP: "+0",
@@ -146,7 +145,6 @@ const INSTRUCTIONS = {
         " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
         "N bit is set if the resulting most significant bit is 1, and the C and O bit are always set to 0."
     },
-
     ADD: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
         , INS_PC: "+3", INS_SP: "+0",
@@ -177,48 +175,49 @@ const INSTRUCTIONS = {
     DIV: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
         , INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs signed division between arg0 and arg1 and places result in arg1. If arg1 is 0, the " +
+        "result is 0. The result will be returned in 2's complement form."
     },
-
     CMP: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
         , INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "????", INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs that same operation as subtract except it doesn't fill arg1 with the result. The" +
+        " purpose of this instruction is to fill the condition flags."
     },
     BRN: {
         N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Branches to address in arg0 if N flag is set."
     },
     BRA: {
         N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Branch unconditionally to address in arg0."
     },
     BRZ: {
         N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Branches to address in arg0 if Z flag is set."
     },
     BRG: {
         N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Branches if greater than or if both Z and N flag aren't set."
     },
     JSR: {
         N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "-1",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Pushes the next instruction address onto the stack and jumps to address in arg0."
     },
     RTN: {
         N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_rtn, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "?", INS_SP: "+1",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Jumps to the address at the top entry of the stack."
     },
     STP: {
         N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_stp, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "+0", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Halts the program execution. Call this when the program has completed running."
     }
 };
 
@@ -377,7 +376,7 @@ function do_brz(arg0) {
 }
 
 function do_brg(arg0) {
-    if (!(getCCF("N") == 1))
+    if (!(getCCF("N") === 1) && !(getCCF("Z") === 1))
         setPC(arg0);
     else
         setPC(getPC() + 2);

@@ -1,8 +1,7 @@
 TODO:
-- Write up ISA descriptions.
 - Add a examples section to the tutorial.
 - Add a features page
-- Convert from document to all jquery.
+- Add unsigned arithmetic
 - Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
   prompt once. Or just open in new tab
 - minify my stuff using google minify
@@ -61,4 +60,6 @@ DONE:
 - Map instructions to machine code values.
 - Change main memory values to hex on hex change.
 - Select an HTML template that works in chrome.
+- Convert from document to all jquery.
+- Write up ISA descriptions.
 

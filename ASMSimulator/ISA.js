@@ -154,7 +154,7 @@ const INSTRUCTIONS = {
         "2's complement addition".link("https://en.wikipedia.org/wiki/Two's_complement#Addition") +
         " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
         "N bit is set if the resulting most significant bit is 1, and the C and O bit are set when the result should" +
-        " be greater than 0x7FFF."
+        " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     SUB: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
@@ -163,12 +163,16 @@ const INSTRUCTIONS = {
         "2's complement subtraction".link("https://en.wikipedia.org/wiki/Two's_complement#Subtraction") +
         " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
         "N bit is set if the resulting most significant bit is 1, and the C and O bit are set when the result should" +
-        " be less than 0x8000."
+        " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     MUL: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
         , INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: ""
+        INS_DESCRIPTION: "Performs " +
+        "2's complement multiplication".link("https://en.wikipedia.org/wiki/Two's_complement#Multiplication") +
+        " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
+        "N bit is set if the resulting most significant bit is 1, and the C and O bit are set when the result should" +
+        " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     DIV: {
         N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
@@ -246,7 +250,7 @@ function do_sub(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
     // Changes the arg1 to its 2's complement equivalent.
     // Basically transform: a - b to a + (-b) in order to use the same consistent check_overflow.
-    var arg1_val = twos_comp_16_bit(get_arg_val(arg1));
+    var arg1_val = twos_invert_sign(get_arg_val(arg1));
     var dif = arg0_val + arg1_val;
     arithmetic_flag_setting(arg0_val, arg1_val, dif);
     setR(arg1[1], (dif & BIT_MASK_16));
@@ -288,15 +292,21 @@ function arithmetic_flag_setting(arg0, arg1, result) {
     setPC(getPC() + 3);
 }
 
-// Division by zero puts a 0 into arg1
+/*
+ * Performs 2's complement division. Division by zero puts a 0 into arg1.
+ */
 function do_div(arg0, arg1) {
-    var arg0_val = get_arg_val(arg0);
-    var arg1_val = get_arg_val(arg1);
-    if (arg1_val == 0) {
+    var arg0_val = convert_to_js_integer(get_arg_val(arg0));
+    var arg1_val = convert_to_js_integer(get_arg_val(arg1));
+    if (arg1_val === 0) {
+        setR(arg1[1], 0);
         setPC(getPC() + 3);
         return;
     }
     var div = Math.floor(arg0_val / arg1_val);
+    if (div < 0) {
+        div = twos_invert_sign(Math.abs(div));
+    }
     zero_and_negative_flag_setting(div);
     setR(arg1[1], (div & BIT_MASK_16));
     setPC(getPC() + 3);
@@ -343,7 +353,7 @@ function do_or(arg0, arg1) {
 
 function do_cmp(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
-    var arg1_val = twos_comp_16_bit(get_arg_val(arg1));
+    var arg1_val = twos_invert_sign(get_arg_val(arg1));
     var dif = arg0_val + arg1_val;
     arithmetic_flag_setting(arg0_val, arg1_val, dif);
 }
@@ -452,8 +462,8 @@ function format_addr(n) {
 function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
-    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
     var decimal_zero = (BASE_VERSION == HEX_LENGTH) ? "" : "0";
+    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
 
     if (n < BASE_VERSION) {
         return suffix + "000" + decimal_zero + str_n.toUpperCase();
@@ -730,10 +740,14 @@ function is_positive(value) {
     return !is_negative(value) && value != 0;
 }
 
+function convert_to_js_integer(value) {
+    return (is_positive(value)) ? value : -twos_invert_sign(value);
+}
+
 /*
  * Returns the 2's complement of value. Note: that this fails for minimum integer, 0x8000.
  */
-function twos_comp_16_bit(value) {
+function twos_invert_sign(value) {
     return (~value + 1) & BIT_MASK_16;
 }
 
@@ -743,22 +757,22 @@ function twos_comp_16_bit(value) {
 function check_overflow(arg0, arg1, result) {
     // Get should be positive cases
     if ((is_positive(arg0) && is_positive(arg1)) || (is_negative(arg0) && is_negative(arg1))) {
-        return !is_2s_complement_positive(result);
+        return !is_2s_positive(result);
     }
     else if (arg0 == 0 || arg1 == 0) {
         return false;
     }
     else {
-        return !is_2s_complement_negative(result);
+        return !is_2s_negative(result);
     }
 
 }
 
-function is_2s_complement_positive(value) {
+function is_2s_positive(value) {
     return value > 0 && value <= MAX_POSITIVE;
 }
 
-function is_2s_complement_negative(value) {
+function is_2s_negative(value) {
     return value >= MIN_NEGATIVE && value <= BIT_MASK_16;
 }
 
@@ -1216,7 +1230,6 @@ function run_program() {
     write_to_console("Program started running...");
     resume_program_running();
 }
-
 
 /*
  * The objective of this program is to be a generic function that executes an assembly program from PC to an

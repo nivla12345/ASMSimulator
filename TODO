@@ -1,5 +1,4 @@
 TODO:
-- Select an HTML template that works in chrome.
 - Write up ISA descriptions.
 - Add a examples section to the tutorial.
 - Add a features page
@@ -61,4 +60,5 @@ DONE:
 - Allow running values in hex when stored in memory.
 - Map instructions to machine code values.
 - Change main memory values to hex on hex change.
+- Select an HTML template that works in chrome.
 

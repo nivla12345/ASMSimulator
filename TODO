@@ -3,6 +3,7 @@ TODO:
   instructions that reference addresses. Will have to check that nothing gets overriden here.
   o Inside of the assembler, gotta add check when seeing labels that accepts addresses 
     immediately afterwards.
+- In load and run, if load fails, don't run.
 - Enable using labels for all instructions that invoke memory.
 - Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
   address and JSRs to that address, enable running from there.

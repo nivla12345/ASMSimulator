@@ -1122,6 +1122,7 @@ function assemble() {
         for (var i = 0; i < errors.length; i++) {
             write_error_to_console(errors[i]);
         }
+        return false;
     }
     // Assembled successfully
     else {
@@ -1156,6 +1157,7 @@ function assemble() {
         }
         write_to_console("Assembled successfully. Data now stored in main memory.");
     }
+    return true;
 }
 
 /**
@@ -1204,13 +1206,13 @@ function run_program_noBP() {
 }
 
 function load_and_run() {
-    assemble();
-    run_program();
+    if (assemble())
+        run_program();
 }
 
 function load_and_run_noBP() {
-    assemble();
-    run_program_noBP();
+    if (assemble())
+        run_program_noBP();
 }
 
 function run_program() {

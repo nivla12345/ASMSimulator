@@ -1,9 +1,16 @@
 TODO:
+- Allow labelling of specific memory locations. This will also mean expanding labels to other
+  instructions that reference addresses. Will have to check that nothing gets overriden here.
+  o Inside of the assembler, gotta add check when seeing labels that accepts addresses 
+    immediately afterwards.
+- Enable using labels for all instructions that invoke memory.
+- Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
+  address and JSRs to that address, enable running from there.
+  o Do this by checking the byte code IF the instruction isn't listed.
+  o Also perform some checks to see if the next instruction is 0.
+- Add unsigned arithmetic
 - Add a examples section to the tutorial.
 - Add a features page
-- Add unsigned arithmetic
-- Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
-  prompt once. Or just open in new tab
 - minify my stuff using google minify
 - Enable inputting negative numbers
   o I might wanna mask instead of reject numbers > 16 bits.
@@ -11,23 +18,18 @@ TODO:
   o I'll need to go through the various assembly operations to see if negative values are
     implemented properly.
   o The option to display signed vs unsigned can be added to the Decimal section
-
-Future Ideas
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
   appropriate address (search with both label name and address).
-- Allow labelling of specific memory locations. This will also mean expanding labels to other
-  instructions that reference addresses. Will have to check that nothing gets overriden here.
+- Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
+  prompt once. Or just open in new tab
+- Enable adding watchpoint
+
+Future Ideas
 - Square bracket to dereference (this will need to be done in run time)
-- Link main memory location to line number in code to highlight section
-  of code hit in text editor (only do this if change to bytemode)
-  If I do this, the functionality will be: press debug to keep debugging if paused.
-- Enable hardware customization
-- Enable choosing textarea editor
-- Before running, re-program memory if not at breakpoint. This allows for 
-  back to back runs. The problem here is that after stepping, a run would reprogram the whole
-  program.
 - Make everything object oriented in order to break up ISA.js into multiple files
 - Add unit tests
+- Enable hardware customization
+- Enable choosing textarea editor
 
 DONE:
 - Make sure you can't set breakpoints on comments + blanklines
@@ -62,4 +64,7 @@ DONE:
 - Select an HTML template that works in chrome.
 - Convert from document to all jquery.
 - Write up ISA descriptions.
+- Before running, re-program memory if not at breakpoint. This allows for 
+  back to back runs. The problem here is that after stepping, a run would reprogram the whole
+  program.
 

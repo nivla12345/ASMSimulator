@@ -39,7 +39,7 @@ const INS_TYPE_ARITHMETIC = "arithmetic";
 const INS_TYPE_BRANCHING = "branching";
 
 /**********************************************************************************************************************/
-/*********************************************** MALLEABLE STATE VALUES ***********************************************/
+/*********************************************** MUTABLE STATE VALUES *************************************************/
 /**********************************************************************************************************************/
 // Indicates what base I'm in, gets changed by the select tag
 var BASE_VERSION = 10;
@@ -500,10 +500,10 @@ function strip_label(code_line) {
         }
         // There is just the label in this line
         else {
-            return ""
+            return "";
         }
     }
-    return code_line
+    return code_line;
 }
 
 function strip_whitespace_and_comment(code_line) {
@@ -519,7 +519,7 @@ function strip_whitespace_and_comment(code_line) {
     if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
         return "";
     }
-    return arg_no_comment
+    return arg_no_comment;
 }
 
 /**********************************************************************************************************************/
@@ -649,7 +649,8 @@ function get_memory(address) {
     address = parseInt(address);
     // error checking
     if (address > MAX_ADDRESS || address < 0) {
-        console.error(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        stop_program_running();
         return -1;
     }
     return $("#addr" + address).html();
@@ -675,10 +676,12 @@ function setPC_no_jump(rIn) {
     uncolor_pc();
     if (rIn > MAX_ADDRESS || rIn < 0) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        stop_program_running();
         return;
     }
     if (getPC() > getSP()) {
         write_error_to_console(ERROR_STACK_OVERFLOW);
+        stop_program_running();
         return;
     }
     $("#PCcontent").html(format_numbers(rIn));
@@ -779,21 +782,15 @@ function is_2s_negative(value) {
  * Checks that all register names are valid.
  */
 function checkR(reg) {
-    var state = {"state": false, "arg": 0};
-    state["state"] = reg.toUpperCase() in LIST_REG_NAMES;
-    if (state["state"]) {
-        state["arg"] = reg.toUpperCase();
-    }
-    return state;
+    return reg.toUpperCase() in LIST_REG_NAMES;
 }
 
 /*
  * Checks that the immediate value is correct. This includes in bounds and contains all the proper numeric characters.
  */
 function checkI(imm) {
-    var state = {"state": false, "arg": 0};
     if (imm.length < 2 || imm[0] != "$")
-        return state;
+        return false;
     var i;
     // Immediate value may be hex
     if (imm.length > 3) {
@@ -803,99 +800,77 @@ function checkI(imm) {
             // Check all digits are valid hex
             for (i = 3; i < imm.length; i++) {
                 if (!(imm[i] in LEGAL_BASE_10_NUMBERS || imm[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
-                    return state;
+                    return false;
                 }
-            }
-            // Check size constraints
-            immParsed = parseInt(imm.substring(1, imm.length));
-            if (immParsed > BIT_MASK_16) {
-                return state;
             }
         }
         // Value is decimal
         else {
             for (i = 1; i < imm.length; i++) {
                 if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
-                    return state;
+                    return false;
                 }
             }
-            immParsed = parseInt(imm.substring(1, imm.length));
-            if (immParsed > BIT_MASK_16 || immParsed < 0) {
-                return state;
-            }
         }
-        state["arg"] = immParsed;
+        // Check size constraints
+        immParsed = parseInt(imm.substring(1, imm.length));
+        if (immParsed > BIT_MASK_16 || immParsed < 0) {
+            return false;
+        }
     }
     // Number is length 2 or 3
     else {
         for (i = 1; i < imm.length; i++) {
             if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
-                return state;
+                return false;
             }
         }
-        state["arg"] = imm.substring(1, 3);
     }
-    state["state"] = true;
-    return state;
+    return true;
 }
 
 /*
  * Checks that the memory address is valid.
  */
 function checkM(mem) {
-    var state = {"state": false, "arg": 0};
     if (mem.length < 1)
-        return state;
-    else {
-        var i;
-        // Immediate value may be hex
-        if (mem.length > 2) {
-            // Value is hex
-            if (mem.substring(0, 2) == "0x") {
-                for (i = 2; i < mem.length; i++) {
-                    if (!(mem[i] in LEGAL_BASE_10_NUMBERS || mem[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
-                        return state;
-                    }
+        return false;
+    var i;
+    // Immediate value may be hex
+    if (mem.length > 2) {
+        // Value is hex
+        if (mem.substring(0, 2) == "0x") {
+            for (i = 2; i < mem.length; i++) {
+                if (!(mem[i] in LEGAL_BASE_10_NUMBERS || mem[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
+                    return false;
                 }
-                if (mem > MAX_ADDRESS || mem < 0) {
-                    return state;
-                }
-                state["arg"] = mem;
-            }
-            // Value is decimal
-            else {
-                for (i = 0; i < mem.length; i++) {
-                    if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
-                        return state;
-                    }
-                }
-                if (mem > 0x1FF || mem < 0) {
-                    return state;
-                }
-                state["arg"] = mem;
             }
         }
-        // Number is length 1 or 2
+        // Value is decimal
         else {
             for (i = 0; i < mem.length; i++) {
                 if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
-                    return state;
+                    return false;
                 }
             }
-            state["arg"] = mem;
         }
-        state["state"] = true;
-        return state;
+        if (mem > MAX_ADDRESS || mem < 0) {
+            return false;
+        }
     }
+    // Number is length 1 or 2
+    else {
+        for (i = 0; i < mem.length; i++) {
+            if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function checkL(label) {
-    if (label in LABELS2LINES) {
-        return {"state": true, "arg": label};
-    }
-    else {
-        return {"state": false, "arg": 0};
-    }
+    return label in LABELS2LINES;
 }
 
 /*
@@ -905,7 +880,7 @@ function checkL(label) {
  */
 function check_individual_args(arg_allowable, arg, state) {
     for (var i = 0; i < arg_allowable.length; i++) {
-        if (CHECK_ARGS[arg_allowable[i]](arg)["state"]) {
+        if (CHECK_ARGS[arg_allowable[i]](arg)) {
             return state;
         }
     }
@@ -971,8 +946,10 @@ function init_mm() {
     }
 }
 
-// Gets the assigned labels throughout the text editor.
-function get_labels(lines) {
+/*
+ * Gets the assigned labels throughout the text editor and maps them to their respective address.
+ */
+function get_labels(lines, errors) {
     var line_number = 1;
     for (var i = 0; i < lines.length; i++) {
         // Remove starting and ending whitespace
@@ -987,7 +964,9 @@ function get_labels(lines) {
         if (arg_no_comment[0] == LABEL_INDICATOR) {
             var split_label_line = arg_no_comment.split(/\s+/g);
             var label = split_label_line[0];
+            // This is assuming that either the label is on the current line, or it is specified in the current line.
             if (split_label_line.length > 1) {
+                //var potential_address = split_label_line[1];
                 LABELS2LINES[label] = line_number;
             }
             // Find the next line that's neither whitespace nor comment.
@@ -1042,7 +1021,7 @@ function assemble() {
     var line2args = {};
 
     LABELS2LINES = {};
-    get_labels(lines);
+    get_labels(lines, errors);
 
     // Line number refers to the line number in the editor
     var line_number = 1;
@@ -1206,10 +1185,6 @@ function step() {
     }
     pc = getPC();
     write_to_console("End step at address " + pc);
-}
-
-function pause_program() {
-    stop_program_running();
 }
 
 /*
@@ -1378,30 +1353,11 @@ function scrollIntoView(element, container) {
 }
 
 function change_clock_rate() {
-    var hz = $("#program_speed").val();
-    switch (hz) {
-        case "no_Hz":
-            CLOCK_PERIOD = 0;
-            break;
-        case "1_Hz":
-            CLOCK_PERIOD = 1000;
-            break;
-        case "2_Hz":
-            CLOCK_PERIOD = 500;
-            break;
-        case "4_Hz":
-            CLOCK_PERIOD = 250;
-            break;
-        case "8_Hz":
-            CLOCK_PERIOD = 125;
-            break;
-        default:
-            CLOCK_PERIOD = 0;
-            break;
-    }
+    var hz = parseInt($("#program_speed").val());
+    CLOCK_PERIOD = (isNaN(hz) || hz === 0) ? 0 : (1000 / hz);
 
+    stop_program_running();
     if (RUNNING) {
-        stop_program_running();
         resume_program_running();
     }
 }
@@ -1504,6 +1460,6 @@ $("#save_button").on("click", save_file);
 $("#load_button").on("click", load_file);
 $("#clear_console_button").on("click", clear_console);
 $("#step_button").on("click", step);
-$("#pause_button").on("click", pause_program);
+$("#pause_button").on("click", stop_program_running);
 
 $("td[rowspan]").addClass('hasRowSpan');

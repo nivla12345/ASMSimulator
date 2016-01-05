@@ -333,9 +333,11 @@
                     <tr class="success">
                         <td id="address_description">Address</td>
                         <td>
-                            Addresses are represented as numbers without any decorations. Addresses are available in
+                            <p>
+                                Addresses are represented as numbers without any decorations. Addresses are available in
                             both hexadecimal and decimal format. Addresses are bound at address 0 at the minimum and 511
                             as the maximum.
+                            </p>
                             <p>For example:</p>
 
                             <p><code>123</code></p>
@@ -348,12 +350,17 @@
                     <tr class="danger">
                         <td id="label_description">Label</td>
                         <td>
+                            <p>
                             Labels are started with a period sign ".", are followed immediately by a name, and must be
                             placed at the beginning of a line. Labels act as a way of naming subroutines or chunks of
                             code to be jumped to.
+                            </p>
                             <p>For example:</p>
 
                             <p><code>.SUM_FUNCTION</code></p>
+
+                            If there are multiple labels on consecutive lines, only the last label will be displayed in
+                            the main memory box.
                         </td>
                     </tr>
                     <tr class="danger">
@@ -424,6 +431,9 @@
     .MUL_FUNCTION
     MUL R0, R1
     RTN</pre>
+                <p>
+                    The last way in which labels can be used is to explicitly label a memory location by
+                </p>
             </div>
             <div class="bs-docs-section">
                 <h2 id="instruction_set" class="page-header"><a

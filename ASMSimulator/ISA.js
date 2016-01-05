@@ -742,6 +742,17 @@ function is_positive(value) {
     return !is_negative(value) && value != 0;
 }
 
+/*
+ * Returns whether the value is an acceptable 16 bit 2's complement sign value.
+ */
+function is_2s_positive(value) {
+    return value > 0 && value <= MAX_POSITIVE;
+}
+
+function is_2s_negative(value) {
+    return value >= MIN_NEGATIVE && value <= BIT_MASK_16;
+}
+
 function convert_to_js_integer(value) {
     return (is_positive(value)) ? value : -twos_invert_sign(value);
 }
@@ -768,14 +779,6 @@ function check_overflow(arg0, arg1, result) {
         return !is_2s_negative(result);
     }
 
-}
-
-function is_2s_positive(value) {
-    return value > 0 && value <= MAX_POSITIVE;
-}
-
-function is_2s_negative(value) {
-    return value >= MIN_NEGATIVE && value <= BIT_MASK_16;
 }
 
 /*

@@ -13,6 +13,10 @@ const DECIMAL_LENGTH = 10;
 const HEX_LENGTH = 16;
 const MAX_POSITIVE = BIT_MASK_16 >> 1;
 const MIN_NEGATIVE = BIT_MASK_SIGN;
+const MAX_HEX_ADDRESS_LENGTH = MAX_ADDRESS.toString(HEX_LENGTH).length;
+const MAX_ADDRESS_LENGTH = MAX_ADDRESS.toString().length;
+const MAX_16_BIT_HEX_DIGITS = 4;
+const MAX_16_BIT_DEC_DIGITS = 5;
 
 // HTML Globals
 const PC_TRACKING_COLOR = "pink";
@@ -62,7 +66,7 @@ const ERROR_INCORRECT_SPACING = "ERROR: The number of tokens differs from your f
     " argument.";
 const ERROR_INCORRECT_INS = "ERROR: The instruction does not exist.";
 const ERROR_INCORRECT_NUM_ARGS = "ERROR: The number of arguments does not match the instruction.";
-const ERROR_INCORRECT_ARG_TYPE = "ERROR: The argument type provided is incorrect.";
+const ERROR_INCORRECT_ARG_TYPE = "ERROR: The argument provided is incorrect.";
 const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program.";
 const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input is out of bounds";
 const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack overflow has occurred.";
@@ -73,9 +77,6 @@ const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack ov
 const LIST_REG_NAMES = {"R0": true, "R1": true, "R2": true, "R3": true};
 const NUM_REGS = Object.keys(LIST_REG_NAMES).length;
 
-const LEGAL_BASE_10_NUMBERS = {"0": true, "1": true, "2": true, "3": true, "4": true, "5": true, "6": true, "7": true,
-    "8": true, "9": true};
-const LEGAL_BASE_16_NUMBERS = {"A": true, "B": true, "C": true, "D": true, "E": true, "F": true};
 const CHECK_ARGS = {"I": checkI, "R": checkR, "M": checkM, "L": checkL};
 const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
 
@@ -412,7 +413,9 @@ function do_pop(arg0) {
     setSP(sp + 1);
 }
 
-// No need to do stack overflow checks given they are already implemented in the setSP/PC commands.
+/*
+ * No need to do stack overflow checks given they are already implemented in the setSP/PC commands.
+ */
 function do_psh(arg0) {
     var sp = getSP();
     var pc = getPC();
@@ -430,9 +433,10 @@ function do_ccl() {
     setPC(getPC() + 1);
 }
 
-// Stops the program execution.
-function do_stp() {
-}
+/*
+ * Stops the program execution.
+ */
+function do_stp() {}
 
 /**********************************************************************************************************************/
 /********************************************** FORMATTING FOR APPEARANCE *********************************************/
@@ -444,15 +448,10 @@ function do_stp() {
 function format_addr(n) {
     n &= MAX_ADDRESS;
     var str_n = convert_to_proper_string_base(n);
-    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
-
-    if (n < BASE_VERSION) {
-        return suffix + "00" + str_n.toUpperCase();
+    if (BASE_VERSION == HEX_LENGTH) {
+        return "0x" + new Array(MAX_HEX_ADDRESS_LENGTH - str_n.length + 1).join("0") + str_n.toUpperCase();
     }
-    else if (n < BASE_VERSION * BASE_VERSION) {
-        return suffix + "0" + str_n.toUpperCase();
-    }
-    return suffix + str_n.toUpperCase();
+    return new Array(MAX_ADDRESS_LENGTH - str_n.length + 1).join("0") + str_n;
 }
 
 /*
@@ -461,29 +460,17 @@ function format_addr(n) {
 function format_numbers(n) {
     n &= BIT_MASK_16;
     var str_n = convert_to_proper_string_base(n);
-    var decimal_zero = (BASE_VERSION == HEX_LENGTH) ? "" : "0";
-    var suffix = (BASE_VERSION == HEX_LENGTH) ? "0x" : "";
-
-    if (n < BASE_VERSION) {
-        return suffix + "000" + decimal_zero + str_n.toUpperCase();
+    if (BASE_VERSION == HEX_LENGTH) {
+        return "0x" + new Array(MAX_16_BIT_HEX_DIGITS - str_n.length + 1).join("0") + str_n.toUpperCase();
     }
-    else if (n < BASE_VERSION * BASE_VERSION) {
-        return suffix + "00" + decimal_zero  + str_n.toUpperCase();
-    }
-    else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION) {
-        return suffix + "0" + decimal_zero  + str_n.toUpperCase();
-    }
-    else if (n < BASE_VERSION * BASE_VERSION * BASE_VERSION * BASE_VERSION) {
-        return suffix + decimal_zero  + str_n.toUpperCase();
-    }
-    return suffix + str_n.toUpperCase();
+    return new Array(MAX_16_BIT_DEC_DIGITS - str_n.length + 1).join("0") + str_n;
 }
 
 /*
  * This function converts to the new base. The contract is that it only gets invoked when a change of base occurs.
  */
 function convert_to_proper_string_base(n) {
-    return (BASE_VERSION === 10) ? n.toString(DECIMAL_LENGTH) : n.toString(HEX_LENGTH);
+    return (BASE_VERSION === DECIMAL_LENGTH) ? n.toString() : n.toString(HEX_LENGTH);
 }
 
 function strip_label(code_line) {
@@ -778,7 +765,6 @@ function check_overflow(arg0, arg1, result) {
     else {
         return !is_2s_negative(result);
     }
-
 }
 
 /*
@@ -792,84 +778,24 @@ function checkR(reg) {
  * Checks that the immediate value is correct. This includes in bounds and contains all the proper numeric characters.
  */
 function checkI(imm) {
-    if (imm.length < 2 || imm[0] != "$")
-        return false;
-    var i;
-    // Immediate value may be hex
-    if (imm.length > 3) {
-        // Value is hex
-        var immParsed;
-        if (imm.substring(1, 3) == "0x") {
-            // Check all digits are valid hex
-            for (i = 3; i < imm.length; i++) {
-                if (!(imm[i] in LEGAL_BASE_10_NUMBERS || imm[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
-                    return false;
-                }
-            }
-        }
-        // Value is decimal
-        else {
-            for (i = 1; i < imm.length; i++) {
-                if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
-                    return false;
-                }
-            }
-        }
-        // Check size constraints
-        immParsed = parseInt(imm.substring(1, imm.length));
-        if (immParsed > BIT_MASK_16 || immParsed < 0) {
-            return false;
-        }
+    // Check if the digits make sense
+    if (/(^\$0x[0-9a-f]+$)|(^\$[0-9]+$)/i.test(imm)) {
+        var parsed_imm = parseInt(imm.substring(1));
+        return 0 <= parsed_imm && parsed_imm <= BIT_MASK_16;
     }
-    // Number is length 2 or 3
-    else {
-        for (i = 1; i < imm.length; i++) {
-            if (!(imm[i] in LEGAL_BASE_10_NUMBERS)) {
-                return false;
-            }
-        }
-    }
-    return true;
+    return false;
 }
 
 /*
  * Checks that the memory address is valid.
  */
 function checkM(mem) {
-    if (mem.length < 1)
-        return false;
-    var i;
-    // Immediate value may be hex
-    if (mem.length > 2) {
-        // Value is hex
-        if (mem.substring(0, 2) == "0x") {
-            for (i = 2; i < mem.length; i++) {
-                if (!(mem[i] in LEGAL_BASE_10_NUMBERS || mem[i].toUpperCase() in LEGAL_BASE_16_NUMBERS)) {
-                    return false;
-                }
-            }
-        }
-        // Value is decimal
-        else {
-            for (i = 0; i < mem.length; i++) {
-                if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
-                    return false;
-                }
-            }
-        }
-        if (mem > MAX_ADDRESS || mem < 0) {
-            return false;
-        }
+    // Check if the digits make sense
+    if (/(^0x[0-9a-f]+$)|(^[0-9]+$)/i.test(mem)) {
+        var parsed_mem = parseInt(mem);
+        return 0 <= parsed_mem && parsed_mem <= MAX_ADDRESS;
     }
-    // Number is length 1 or 2
-    else {
-        for (i = 0; i < mem.length; i++) {
-            if (!(mem[i] in LEGAL_BASE_10_NUMBERS)) {
-                return false;
-            }
-        }
-    }
-    return true;
+    return false;
 }
 
 function checkL(label) {
@@ -969,7 +895,10 @@ function get_labels(lines, errors) {
             var label = split_label_line[0];
             // This is assuming that either the label is on the current line, or it is specified in the current line.
             if (split_label_line.length > 1) {
-                //var potential_address = split_label_line[1];
+
+                var potential_address = split_label_line[1];
+
+
                 LABELS2LINES[label] = line_number;
             }
             // Find the next line that's neither whitespace nor comment.
@@ -1343,18 +1272,6 @@ function jump2pc_in_mm() {
 function jump2sp_in_mm() {
     var row_pos = $('#address' + getSP()).parent().position();
     $('#div_main_memory').scrollTop(Math.max(0, row_pos.top - HALF_TABLE_LENGTH));
-}
-
-function scrollIntoView(element, container) {
-    var containerTop = $(container).scrollTop();
-    var containerBottom = containerTop + $(container).height();
-    var elemTop = element.offsetTop;
-    var elemBottom = elemTop + $(element).height();
-    if (elemTop < containerTop) {
-        $(container).scrollTop(elemTop);
-    } else if (elemBottom > containerBottom) {
-        $(container).scrollTop(elemBottom - $(container).height());
-    }
 }
 
 function change_clock_rate() {

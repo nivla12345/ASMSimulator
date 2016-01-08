@@ -3,6 +3,7 @@ TODO:
   instructions that reference addresses. Will have to check that nothing gets overriden here.
   o Inside of the assembler, gotta add check when seeing labels that accepts addresses 
     immediately afterwards.
+- Add check memory label size.
 - In load and run, if load fails, don't run.
 - Enable using labels for all instructions that invoke memory.
 - Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
@@ -12,7 +13,6 @@ TODO:
 - Add unsigned arithmetic
 - Add a examples section to the tutorial.
 - Add a features page
-- minify my stuff using google minify
 - Enable inputting negative numbers
   o I might wanna mask instead of reject numbers > 16 bits.
   o I also probably wanna compare the negative limits when checking immediate.
@@ -68,4 +68,5 @@ DONE:
 - Before running, re-program memory if not at breakpoint. This allows for 
   back to back runs. The problem here is that after stepping, a run would reprogram the whole
   program.
+- minify my stuff using google minify
 

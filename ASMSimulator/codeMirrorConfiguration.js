@@ -100,7 +100,7 @@ editor.on("gutterClick", function(cm, n) {
         return;
     }
     // Perform some checking to see if the attempted line to breakpoint is whitespace, comment, or address declaration.
-    if (strip_label(strip_whitespace_and_comment(editor.getValue().split("\n")[n])) == "")
+    if (strip_label_definition(strip_whitespace_and_comment(editor.getValue().split("\n")[n])) == "")
         return;
     cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
 });

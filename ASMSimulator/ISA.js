@@ -53,6 +53,7 @@ var IGNORE_BREAKPOINTS = false;
 var LINE2MEM = {};
 var MEM2LINE = {};
 var LABELS2LINES = {};
+var LABELS2MEM = {};
 var RUNNING = false;
 var PROGRAM_INTERVAL_ID;
 //var EDITOR_CHANGED = false;
@@ -70,6 +71,8 @@ const ERROR_INCORRECT_ARG_TYPE = "ERROR: The argument provided is incorrect.";
 const ERROR_INSUFFICIENT_MEMORY = "ERROR: Memory size is too small for the entered program.";
 const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input is out of bounds";
 const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack overflow has occurred.";
+const ERROR_VALUES_AFTER_LABEL = "ERROR: There are tokens following address labelling.";
+const ERROR_LABEL_VALUE_OVERFLOW = "ERROR: The given address for the label doesn't fit within the memory constraints.";
 
 /**********************************************************************************************************************/
 /************************************************ Dictionaries ********************************************************/
@@ -90,13 +93,13 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  */
 const INSTRUCTIONS = {
     SET: {
-        N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        N_ARGS: 2, ARG0: "ILMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets register specified by arg1 to the value in arg0. If arg0 is a memory value it takes the " +
         "value at arg0 and places it into the register in arg1."
     },
     MOV: {
-        N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        N_ARGS: 2, ARG0: "ILMR", ARG1: "LM", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets memory location specified by arg1 to the value in arg0. If arg0 is a memory value it " +
         "takes the value at arg0 and places it into the register in arg1."
@@ -180,7 +183,7 @@ const INSTRUCTIONS = {
         "result is 0. The result will be returned in 2's complement form."
     },
     CMP: {
-        N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
+        N_ARGS: 2, ARG0: "ILMR", ARG1: "ILMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
         , INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "????", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs that same operation as subtract except it doesn't fill arg1 with the result. The" +
         " purpose of this instruction is to fill the condition flags."
@@ -443,7 +446,6 @@ function do_stp() {}
 /**********************************************************************************************************************/
 /*
  * Takes an address and fills in with 0's if needed.
- * ie. n = 10, returns 0010
  */
 function format_addr(n) {
     n &= MAX_ADDRESS;
@@ -455,7 +457,7 @@ function format_addr(n) {
 }
 
 /*
- * Same function as above except formats with 4 digits
+ * Same function as above except formats immediates.
  */
 function format_numbers(n) {
     n &= BIT_MASK_16;
@@ -473,22 +475,24 @@ function convert_to_proper_string_base(n) {
     return (BASE_VERSION === DECIMAL_LENGTH) ? n.toString() : n.toString(HEX_LENGTH);
 }
 
-function strip_label(code_line) {
+function strip_label_definition(code_line) {
     if (code_line[0] == LABEL_INDICATOR) {
         var label_arg_split = code_line.split(/\s+/g);
-
+        var label_arg_split_length = label_arg_split.length;
         // There is some code or something after the label
-        if (label_arg_split.length > 1) {
+        if (label_arg_split_length > 1) {
             var arg_no_comment_no_label = label_arg_split[1];
-            for (var j = 2; j < label_arg_split.length; j++) {
-                arg_no_comment_no_label += (" " + label_arg_split[j]);
+            // If memory, remove label and address
+            if (checkM(arg_no_comment_no_label)) {
+                if (label_arg_split_length > 2) {
+                    return label_arg_split.slice(2).join(" ");
+                }
+                return "";
             }
-            return arg_no_comment_no_label;
+            // If correct, instruction immediately after.
+            return label_arg_split.slice(1).join(" ");
         }
-        // There is just the label in this line
-        else {
-            return "";
-        }
+        return "";
     }
     return code_line;
 }
@@ -498,10 +502,8 @@ function strip_whitespace_and_comment(code_line) {
     if (code_line == "" || /^\s+$/.test(code_line)) {
         return "";
     }
-
     // Remove starting and ending whitespace and keep only first part of line of comment
     var arg_no_comment = code_line.split(COMMENT)[0].trim();
-
     // Remove if line is a whitespace
     if (arg_no_comment == "" || /^\s+$/.test(arg_no_comment)) {
         return "";
@@ -529,25 +531,12 @@ function get_arg_val(arg) {
     }
 }
 
-function check_if_R(val) {
-    return val === "R0" || val === "R1" || val === "R2" || val === "R3";
-}
-
-function check_if_I(val) {
-    return val[0] === "$";
-}
-
-// Checks if a vlaue is address by checking if the first digit is [0-9], works for hex given hex are prefixed by 0x.
-function check_if_A(val) {
-    return /^\d+$/.test(val[0]);
-}
-
 // This function checks if a number is immediate or address, formats accordingly and returns. Otherwise it does nothing.
 function format_number_check_type(val) {
-    if (check_if_A(val)) {
+    if (checkM(val)) {
         return format_numbers(val);
     }
-    else if (check_if_I(val)) {
+    else if (checkI(val)) {
         return "$" + format_numbers(val.substring(1));
     }
     return val;
@@ -557,8 +546,9 @@ function format_number_check_type(val) {
  * Performs a write to the address with the given value.
  */
 function write_memory(address, value) {
+    address = parseInt(address);
     // error checking
-    if (address > MAX_ADDRESS || address < 0) {
+    if (!check_memory_limits(address)) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
@@ -572,11 +562,13 @@ function index_op_codes(arg_list, arg) {
 
 // Returns the argument type
 function return_arg_type(value) {
-    if (check_if_R(value))
+    if (checkR(value))
         return "R";
-    if (check_if_I(value))
+    if (checkI(value))
         return "I";
-    return "M";
+    if (checkM(value))
+        return "M";
+    return "L";
 }
 
 function write_op_code(address) {
@@ -584,15 +576,15 @@ function write_op_code(address) {
     var opcode = $("#opCode" + address);
     var str_value = get_memory(address);
     // Immediate
-    if (check_if_I(str_value)) {
+    if (checkI(str_value)) {
         opcode.html(format_numbers(str_value.substring(1)));
     }
     // Register
-    else if (check_if_R(str_value)) {
+    else if (checkR(str_value)) {
         opcode.html(format_numbers(str_value[1]));
     }
     // Address
-    else if (check_if_A(str_value)) {
+    else if (checkM(str_value)) {
         opcode.html(format_numbers(str_value));
     }
     // Instruction
@@ -635,7 +627,7 @@ function write_op_code(address) {
 function get_memory(address) {
     address = parseInt(address);
     // error checking
-    if (address > MAX_ADDRESS || address < 0) {
+    if (!check_memory_limits(address)) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         stop_program_running();
         return -1;
@@ -661,7 +653,7 @@ function getPC() {
 
 function setPC_no_jump(rIn) {
     uncolor_pc();
-    if (rIn > MAX_ADDRESS || rIn < 0) {
+    if (!check_memory_limits(rIn)) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         stop_program_running();
         return;
@@ -686,7 +678,7 @@ function getSP() {
 
 function setSP(rIn) {
     uncolor_sp();
-    if (rIn > MAX_ADDRESS || rIn < 0) {
+    if (!check_memory_limits(rIn)) {
         write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
         return;
     }
@@ -786,20 +778,29 @@ function checkI(imm) {
     return false;
 }
 
+function check_memory_limits(value) {
+    var parsed_value = parseInt(value);
+    return 0 <= parsed_value && parsed_value <= MAX_ADDRESS;
+}
+
+function check_number(value) {
+    // Check if the digits make sense
+    return (/(^0x[0-9a-f]+$)|(^[0-9]+$)/i.test(value));
+}
+
 /*
  * Checks that the memory address is valid.
  */
 function checkM(mem) {
-    // Check if the digits make sense
-    if (/(^0x[0-9a-f]+$)|(^[0-9]+$)/i.test(mem)) {
+    if (check_number(mem)) {
         var parsed_mem = parseInt(mem);
-        return 0 <= parsed_mem && parsed_mem <= MAX_ADDRESS;
+        return check_memory_limits(parsed_mem);
     }
     return false;
 }
 
 function checkL(label) {
-    return label in LABELS2LINES;
+    return label in LABELS2LINES || label in LABELS2MEM;
 }
 
 /*
@@ -897,9 +898,22 @@ function get_labels(lines, errors) {
             if (split_label_line.length > 1) {
 
                 var potential_address = split_label_line[1];
-
-
-                LABELS2LINES[label] = line_number;
+                if (check_number(potential_address)) {
+                    if (split_label_line.length > 2) {
+                        errors.push("Line " + line_number + " " + ERROR_VALUES_AFTER_LABEL);
+                        line_number++;
+                        continue;
+                    }
+                    else if (!check_memory_limits(potential_address)) {
+                        errors.push("Line " + line_number + " " + ERROR_LABEL_VALUE_OVERFLOW);
+                        line_number++;
+                        continue;
+                    }
+                    LABELS2MEM[label] = parseInt(potential_address);
+                }
+                else {
+                    LABELS2LINES[label] = line_number;
+                }
             }
             // Find the next line that's neither whitespace nor comment.
             else {
@@ -952,6 +966,7 @@ function assemble() {
     // to map line numbers to their respective locations in main memory.
     var line2args = {};
 
+    LABELS2MEM = {};
     LABELS2LINES = {};
     get_labels(lines, errors);
 
@@ -959,7 +974,7 @@ function assemble() {
     var line_number = 1;
     for (i = 0; i < lines.length; i++) {
         // Remove comment and appended whitespaces.
-        var arg_no_comment_no_label = strip_label(strip_whitespace_and_comment(lines[i]));
+        var arg_no_comment_no_label = strip_label_definition(strip_whitespace_and_comment(lines[i]));
         // Jump if superfluous line.
         if (arg_no_comment_no_label == "") {
             line_number++;
@@ -1060,7 +1075,12 @@ function assemble() {
         for (i = 0; i < arg_length; i++) {
             var arg = args[i];
             if (arg[0] === ".") {
-                arg = line2args[LABELS2LINES[arg]];
+                if (arg in LABELS2MEM) {
+                    arg = LABELS2MEM[arg];
+                }
+                else {
+                    arg = line2args[LABELS2LINES[arg]];
+                }
             }
             write_memory(i, arg);
         }
@@ -1071,17 +1091,22 @@ function assemble() {
 
         LINE2MEM = jQuery.extend(true, {}, line2args);
         MEM2LINE = _.invert(line2args);
-
+        var label;
         // Write labels to main memory table
-        for (var label in LABELS2LINES) {
+        for (label in LABELS2LINES) {
             if (LABELS2LINES.hasOwnProperty(label)) {
                 var address = LINE2MEM[LABELS2LINES[label]];
                 // error checking
-                if (address > MAX_ADDRESS || address < 0) {
+                if (!check_memory_limits(address)) {
                     write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
                     return;
                 }
                 $("#label" + address).html(label.slice(1));
+            }
+        }
+        for (label in LABELS2MEM) {
+            if (LABELS2MEM.hasOwnProperty(label)) {
+                $("#label" + LABELS2MEM[label]).html(label.slice(1));
             }
         }
         write_to_console("Assembled successfully. Data now stored in main memory.");

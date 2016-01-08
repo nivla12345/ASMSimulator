@@ -483,7 +483,7 @@ function strip_label_definition(code_line) {
         if (label_arg_split_length > 1) {
             var arg_no_comment_no_label = label_arg_split[1];
             // If memory, remove label and address
-            if (checkM(arg_no_comment_no_label)) {
+            if (check_number(arg_no_comment_no_label)) {
                 if (label_arg_split_length > 2) {
                     return label_arg_split.slice(2).join(" ");
                 }
@@ -1024,7 +1024,7 @@ function assemble() {
                     args.push(ins);
                 }
                 else {
-                    errors.push(line_number + " " + state["error"]);
+                    errors.push("Line " + line_number + " " + state["error"]);
                     args = [];
                 }
             }
@@ -1058,7 +1058,7 @@ function assemble() {
 
     if (args.length > MEM_SIZE) {
         args = [];
-        errors.push(ERROR_INSUFFICIENT_MEMORY);
+        errors.push("Line " + line_number + " " + ERROR_INSUFFICIENT_MEMORY);
     }
 
     if (errors.length) {

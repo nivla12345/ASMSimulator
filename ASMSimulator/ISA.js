@@ -533,7 +533,7 @@ function get_arg_val(arg) {
 
 // This function checks if a number is immediate or address, formats accordingly and returns. Otherwise it does nothing.
 function format_number_check_type(val) {
-    if (checkM(val)) {
+    if (checkM(val) || check_number(val)) {
         return format_numbers(val);
     }
     else if (checkI(val)) {
@@ -583,8 +583,8 @@ function write_op_code(address) {
     else if (checkR(str_value)) {
         opcode.html(format_numbers(str_value[1]));
     }
-    // Address
-    else if (checkM(str_value)) {
+    // Address or unmarked immediate
+    else if (check_number(str_value)) {
         opcode.html(format_numbers(str_value));
     }
     // Instruction

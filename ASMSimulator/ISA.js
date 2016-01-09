@@ -80,7 +80,7 @@ const ERROR_LABEL_VALUE_OVERFLOW = "ERROR: The given address for the label doesn
 const LIST_REG_NAMES = {"R0": true, "R1": true, "R2": true, "R3": true};
 const NUM_REGS = Object.keys(LIST_REG_NAMES).length;
 
-const CHECK_ARGS = {"I": checkI, "R": checkR, "M": checkM, "L": checkL};
+const CHECK_ARGS = {"I": checkI, "R": checkR, "M": checkM};
 const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
 
 /*
@@ -93,13 +93,13 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  */
 const INSTRUCTIONS = {
     SET: {
-        N_ARGS: 2, ARG0: "ILMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets register specified by arg1 to the value in arg0. If arg0 is a memory value it takes the " +
         "value at arg0 and places it into the register in arg1."
     },
     MOV: {
-        N_ARGS: 2, ARG0: "ILMR", ARG1: "LM", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets memory location specified by arg1 to the value in arg0. If arg0 is a memory value it " +
         "takes the value at arg0 and places it into the register in arg1."
@@ -183,33 +183,33 @@ const INSTRUCTIONS = {
         "result is 0. The result will be returned in 2's complement form."
     },
     CMP: {
-        N_ARGS: 2, ARG0: "ILMR", ARG1: "ILMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
+        N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
         , INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "????", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs that same operation as subtract except it doesn't fill arg1 with the result. The" +
         " purpose of this instruction is to fill the condition flags."
     },
     BRN: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches to address in arg0 if N flag is set."
     },
     BRA: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branch unconditionally to address in arg0."
     },
     BRZ: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches to address in arg0 if Z flag is set."
     },
     BRG: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches if greater than or if both Z and N flag aren't set."
     },
     JSR: {
-        N_ARGS: 1, ARG0: "LM", ARG1: "-", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "-1",
         INS_DESCRIPTION: "Pushes the next instruction address onto the stack and jumps to address in arg0."
     },
@@ -796,11 +796,7 @@ function checkM(mem) {
         var parsed_mem = parseInt(mem);
         return check_memory_limits(parsed_mem);
     }
-    return false;
-}
-
-function checkL(label) {
-    return label in LABELS2LINES || label in LABELS2MEM;
+    return mem in LABELS2LINES || mem in LABELS2MEM;
 }
 
 /*

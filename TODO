@@ -1,10 +1,4 @@
 TODO:
-- Allow labelling of specific memory locations. This will also mean expanding labels to other
-  instructions that reference addresses. Will have to check that nothing gets overriden here.
-  o Inside of the assembler, gotta add check when seeing labels that accepts addresses 
-    immediately afterwards.
-- Add check memory label size.
-- In load and run, if load fails, don't run.
 - Enable using labels for all instructions that invoke memory.
 - Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
   address and JSRs to that address, enable running from there.
@@ -69,4 +63,10 @@ DONE:
   back to back runs. The problem here is that after stepping, a run would reprogram the whole
   program.
 - minify my stuff using google minify
+- Allow labelling of specific memory locations. This will also mean expanding labels to other
+  instructions that reference addresses. Will have to check that nothing gets overriden here.
+  o Inside of the assembler, gotta add check when seeing labels that accepts addresses 
+    immediately afterwards.
+- Add check memory label size.
+- In load and run, if load fails, don't run.
 

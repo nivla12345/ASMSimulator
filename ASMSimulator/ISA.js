@@ -99,13 +99,13 @@ const INSTRUCTIONS = {
         "value at arg0 and places it into the register in arg1."
     },
     MOV: {
-        N_ARGS: 2, ARG0: "IMR", ARG1: "M", "f": do_mov, OP_CODES: [4, 5, 6], INS_TYPE: INS_TYPE_MEM_ACCESS,
+        N_ARGS: 2, ARG0: "IMR", ARG1: "MR", "f": do_mov, OP_CODES: [4, 5, 6, 7, 8, 9], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets memory location specified by arg1 to the value in arg0. If arg0 is a memory value it " +
         "takes the value at arg0 and places it into the register in arg1."
     },
     POP: {
-        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_pop, OP_CODES: [7], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_pop, OP_CODES: [10], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
         , INS_PC: "+2", INS_SP: "+1",
         INS_DESCRIPTION: "Pops the value located at SP - 1 off the stack and places this value into register " +
         "specified in arg0. Note that this operation doesn't clear the stack value hence the old stack value is " +
@@ -113,44 +113,44 @@ const INSTRUCTIONS = {
         "another location."
     },
     PSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_psh, OP_CODES: [8], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_psh, OP_CODES: [11], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"
         , INS_PC: "+2", INS_SP: "-1",
         INS_DESCRIPTION: "Pushes value specified in arg0 into memory location of SP."
     },
     CCL: {
-        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_ccl, OP_CODES: [9], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "0000"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_ccl, OP_CODES: [12], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "0000"
         , INS_PC: "+1", INS_SP: "+0",
         INS_DESCRIPTION: "Zeros out all conditions in the condition register."
     },
     RSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_rsh, OP_CODES: [10], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_rsh, OP_CODES: [13], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?---"
         , INS_PC: "+2", INS_SP: "+0",
         INS_DESCRIPTION: "Performs " + "logical right shift".link("https://en.wikipedia.org/wiki/Logical_shift") +
         " on the register specified in arg0. If result is 0 sets 0 flag."
     },
     LSH: {
-        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_lsh, OP_CODES: [11], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
+        N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_lsh, OP_CODES: [14], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "-?-?"
         , INS_PC: "+2", INS_SP: "+0",
         INS_DESCRIPTION: "Performs " + "logical left shift".link("https://en.wikipedia.org/wiki/Logical_shift") +
         " on the register specified in arg0. If the most significant bit in arg0 is asserted then the C and " +
         "O bit get asserted."
     },
     AND: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [12], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_and, OP_CODES: [15], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
         , INS_PC: "+2", INS_SP: "+0",
         INS_DESCRIPTION: "Performs a logical " + "and".link("https://en.wikipedia.org/wiki/Logical_conjunction") +
         " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
         "N bit is set if the resulting most significant bit is 1, and the C and O bit are always set to 0."
     },
     OR: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [13], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_or, OP_CODES: [16], INS_TYPE: INS_TYPE_LOGICAL, ZCNO: "?0?0"
         , INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs a logical " + "or".link("https://en.wikipedia.org/wiki/Logical_disjunction") +
         " between arg0 and arg1 and places the result into arg1. The Z bit is set if the result is 0, the " +
         "N bit is set if the resulting most significant bit is 1, and the C and O bit are always set to 0."
     },
     ADD: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [14], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_add, OP_CODES: [17], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
         , INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs " +
         "2's complement addition".link("https://en.wikipedia.org/wiki/Two's_complement#Addition") +
@@ -159,7 +159,7 @@ const INSTRUCTIONS = {
         " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     SUB: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [15], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_sub, OP_CODES: [18], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "????"
         , INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs " +
         "2's complement subtraction".link("https://en.wikipedia.org/wiki/Two's_complement#Subtraction") +
@@ -168,7 +168,7 @@ const INSTRUCTIONS = {
         " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     MUL: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [16], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_mul, OP_CODES: [19], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
         , INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs " +
         "2's complement multiplication".link("https://en.wikipedia.org/wiki/Two's_complement#Multiplication") +
@@ -177,49 +177,49 @@ const INSTRUCTIONS = {
         " be greater than 0x7FFF or if the negative result should be less than 0x8000."
     },
     DIV: {
-        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [17], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
+        N_ARGS: 2, ARG0: "R", ARG1: "R", "f": do_div, OP_CODES: [20], INS_TYPE: INS_TYPE_ARITHMETIC, ZCNO: "?-?-"
         , INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs signed division between arg0 and arg1 and places result in arg1. If arg1 is 0, the " +
         "result is 0. The result will be returned in 2's complement form."
     },
     CMP: {
-        N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [18, 19, 20, 21, 22, 23, 24, 25, 26]
+        N_ARGS: 2, ARG0: "IMR", ARG1: "IMR", "f": do_cmp, OP_CODES: [21, 22, 23, 24, 25, 26, 27, 28, 29]
         , INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "????", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Performs that same operation as subtract except it doesn't fill arg1 with the result. The" +
         " purpose of this instruction is to fill the condition flags."
     },
     BRN: {
-        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brn, OP_CODES: [27], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brn, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches to address in arg0 if N flag is set."
     },
     BRA: {
-        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_bra, OP_CODES: [28], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_bra, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branch unconditionally to address in arg0."
     },
     BRZ: {
-        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brz, OP_CODES: [29], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brz, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches to address in arg0 if Z flag is set."
     },
     BRG: {
-        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brg, OP_CODES: [30], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brg, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches if greater than or if both Z and N flag aren't set."
     },
     JSR: {
-        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_jsr, OP_CODES: [31], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_jsr, OP_CODES: [34], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "-1",
         INS_DESCRIPTION: "Pushes the next instruction address onto the stack and jumps to address in arg0."
     },
     RTN: {
-        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_rtn, OP_CODES: [32], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_rtn, OP_CODES: [35], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "?", INS_SP: "+1",
         INS_DESCRIPTION: "Jumps to the address at the top entry of the stack."
     },
     STP: {
-        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_stp, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
+        N_ARGS: 0, ARG0: "-", ARG1: "-", "f": do_stp, OP_CODES: [36], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "+0", INS_SP: "+0",
         INS_DESCRIPTION: "Halts the program execution. Call this when the program has completed running."
     }
@@ -236,8 +236,11 @@ function do_set(arg0, arg1) {
 
 function do_mov(arg0, arg1) {
     var arg0_val = get_arg_val(arg0);
-    write_memory(arg1, arg0_val);
-    write_op_code(arg1);
+    var arg1_val = arg1;
+    if (checkR(arg1))
+        arg1_val = get_arg_val(arg1);
+    write_memory(arg1_val, arg0_val);
+    write_op_code(arg1_val);
     setPC(getPC() + 3);
 }
 

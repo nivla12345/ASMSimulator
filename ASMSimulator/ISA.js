@@ -1268,9 +1268,42 @@ function execute_program() {
         var work_ins = get_memory(pc);
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
         if (!(work_ins in INSTRUCTIONS) || (work_ins === "STP")) {
-            write_to_console("Finished running program.");
-            stop_program_running();
-            return;
+            var potential_int = parseInt(work_ins);
+            // Legal potential int.
+            if (!isNaN(potential_int) && (BYTE_TO_INS.length > potential_int && potential_int > 0)) {
+                // Configure work ins to symbolic mode.
+                work_ins = BYTE_TO_INS[potential_int][0];
+                var work_ins_arg_info = BYTE_TO_INS[potential_int][1];
+                var work_ins_arg0_indicator = work_ins_arg_info[0];
+                // Configure arg0
+                if (work_ins_arg0_indicator === "-") {
+                    INSTRUCTIONS[work_ins]["f"]();
+                    pc += 1;
+                }
+                else {
+                    arg0 = set_op_code_type(get_op_code(pc + 1), work_ins_arg0_indicator);
+                    var work_ins_arg1_indicator = work_ins_arg_info[1];
+                    if (work_ins_arg1_indicator === "-") {
+                        INSTRUCTIONS[work_ins]["f"](arg0);
+                        pc += 2;
+                    }
+                    else {
+                        arg1 = set_op_code_type(get_op_code(pc + 2), work_ins_arg1_indicator);
+                        INSTRUCTIONS[work_ins]["f"](arg0, arg1);
+                        pc += 3
+                    }
+                }
+                if (!IGNORE_BREAKPOINTS && pcAtBP(MEM2LINE, pc)) {
+                    write_to_console("Breakpoint hit, main memory address: " + pc);
+                    stop_program_running();
+                }
+                return;
+            }
+            else {
+                write_to_console("Finished running program.");
+                stop_program_running();
+                return;
+            }
         }
 
         var n_args = INSTRUCTIONS[work_ins].N_ARGS;

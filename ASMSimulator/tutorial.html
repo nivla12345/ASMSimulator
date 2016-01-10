@@ -351,15 +351,15 @@
                         <td>
                             <p>
                             Labels are started with a period sign ".", are followed immediately by a name, and must be
-                            placed at the beginning of a line. Labels act as a way of naming subroutines or chunks of
-                            code to be jumped to.
+                                placed at the beginning of a line. Labels act as a way of naming subroutines or sections
+                                of
+                                main memory and can be used interchangeably with addresses.
                             </p>
                             <p>For example:</p>
 
                             <p><code>.SUM_FUNCTION</code></p>
 
-                            If there are multiple labels on consecutive lines, only the last label will be displayed in
-                            the main memory box.
+                            All labels names must be unique.
                         </td>
                     </tr>
                     <tr class="danger">
@@ -416,23 +416,29 @@
     .LABEL       ; Label being set
     SET 0xA, R0  ; Ensuing instruction(s)
     ...</pre>
-                <p>Labels can then be used as addresses when branching, for instance:</p>
+                <p>
+                    To declare a memory location with a label, place the address after the label.
+                </p>
+                <pre>
+    .LABEL 200       ; Memory location 200 is now marked as .LABEL</pre>
+                <p>Labels can then be used memory would, for instance to branch:</p>
                 <pre>
     .MUL_FUNCTION
     MUL R0, R1
     RTN
     ... ; A couple lines later...
     BRN .MUL_FUNCTION</pre>
-                <p>Labels can be branched to even if they are declared after the branching instruction for instance:</p>
+                <p>and can be assigned to an address and used as memory as follows:</p>
+                <pre>
+    .ADDRESS_NAME 100
+    MOV R0, .ADDRESS_NAME</pre>
+                <p>Labels can be used even if they are declared after being used in their instruction for instance:</p>
                 <pre>
     BRN .MUL_FUNCTION
     ... ; A couple lines later...
     .MUL_FUNCTION
     MUL R0, R1
     RTN</pre>
-                <p>
-                    The last way in which labels can be used is to explicitly label a memory location by
-                </p>
             </div>
             <div class="bs-docs-section">
                 <h2 id="instruction_set" class="page-header"><a
@@ -460,10 +466,6 @@
                         <td><a href="#immediate_description">Immediate value</a>.</td>
                     </tr>
                     <tr>
-                        <td>L</td>
-                        <td><a href="#label_description">Label</a>.</td>
-                    </tr>
-                    <tr>
                         <td>R</td>
                         <td><a href="#register_description">Register</a>.</td>
                     </tr>
@@ -477,8 +479,8 @@
 
                 <p>Example:</p>
 
-                <p>Given an <b>arg0</b> of <code>LMR</code> means that valid <b>arg0</b> arguments would be labels,
-                    memory, and registers.</p>
+                <p>Given an <b>arg0</b> of <code>MR</code> means that valid <b>arg0</b> arguments would be
+                    memory and registers.</p>
 
                 <h5>PC and SP</h5>
 
@@ -524,13 +526,6 @@
                     multiple byte codes when it accepts more than a single argument type for any of its arguments.
                     The number of byte codes that such an instruction has is detailed in the table below:
                 </p>
-
-                <p>
-                    <b>Note:</b> Labels are logically equivalent to memory hence they do not count in byte code
-                    calculations. For example, argument string "ML" is length one when determining
-                    "# of argument types".
-                </p>
-
                 <table class="table table-bordered table-condensed">
                     <tr class="active">
                         <td><b># of Argument(s)</b></td>

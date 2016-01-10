@@ -86,14 +86,14 @@ const INSTRUCTIONS = {
     SET: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "R", "f": do_set, OP_CODES: [1, 2, 3], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
-        INS_DESCRIPTION: "Sets register specified by arg1 to the value in arg0. If arg0 is a memory value it takes the " +
-        "value at arg0 and places it into the register in arg1."
+        INS_DESCRIPTION: "Sets register specified by arg1 to the value in arg0. If arg0 is a memory value it takes " +
+        "the value at arg0 and places it into the register in arg1."
     },
     MOV: {
         N_ARGS: 2, ARG0: "IMR", ARG1: "MR", "f": do_mov, OP_CODES: [4, 5, 6, 7, 8, 9], INS_TYPE: INS_TYPE_MEM_ACCESS,
         ZCNO: "----", INS_PC: "+3", INS_SP: "+0",
         INS_DESCRIPTION: "Sets memory location specified by arg1 to the value in arg0. If arg0 is a memory value it " +
-        "takes the value at arg0 and places it into the register in arg1."
+        "takes the value at arg0 and places it into the memory address specified in arg1."
     },
     POP: {
         N_ARGS: 1, ARG0: "R", ARG1: "-", "f": do_pop, OP_CODES: [10], INS_TYPE: INS_TYPE_MEM_ACCESS, ZCNO: "----"

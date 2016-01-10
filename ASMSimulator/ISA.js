@@ -28,15 +28,6 @@ const COMMENT = ";";
 const LABEL_INDICATOR = ".";
 
 // ISA Constants
-const OP_CODES = "OP_CODES";
-const N_ARGS = "N_ARGS";
-const ARG0 = "ARG0";
-const ARG1 = "ARG1";
-const ZCNO = "ZCNO";
-const INS_PC = "INS_PC";
-const INS_SP = "INS_SP";
-const INS_DESCRIPTION = "INS_DESCRIPTION";
-const INS_TYPE = "INS_TYPE";
 const INS_TYPE_MEM_ACCESS = "memory_access";
 const INS_TYPE_LOGICAL = "logical";
 const INS_TYPE_ARITHMETIC = "arithmetic";
@@ -73,6 +64,7 @@ const ERROR_ADDRESS_OUT_OF_BOUNDS = "ERROR: the address you are trying to input 
 const ERROR_STACK_OVERFLOW = "ERROR: The PC is now greater than the SP. Stack overflow has occurred.";
 const ERROR_VALUES_AFTER_LABEL = "ERROR: There are tokens following address labelling.";
 const ERROR_LABEL_VALUE_OVERFLOW = "ERROR: The given address for the label doesn't fit within the memory constraints.";
+const ERROR_SAME_LABEL_MULTIPLE_LINES = "ERROR: This label has already been used.";
 
 /**********************************************************************************************************************/
 /************************************************ Dictionaries ********************************************************/
@@ -87,9 +79,8 @@ const ZCNO_MAPPINGS = {"Z": 0, "C": 1, "N": 2, "O": 3};
  * IRM stands for immediate, register, memory
  * I - delimited by a "$" sign, must be less than 0x10000
  * R - must be: R0, R1, R2, R3
- * M - stands for memory and may be de-referenced with square brackets: "["
+ * M - stands for memory:
  *     M must also be bound as: [0 < M < MAX_ADDRESS]
- * L - stands for labels which are synonymous with M
  */
 const INSTRUCTIONS = {
     SET: {
@@ -224,6 +215,28 @@ const INSTRUCTIONS = {
         INS_DESCRIPTION: "Halts the program execution. Call this when the program has completed running."
     }
 };
+
+function generate_byte_code_mapping() {
+    var byte_code_mapping = [0];
+    var count = 0;
+    for (var i in INSTRUCTIONS) {
+        count += 1;
+        if (INSTRUCTIONS.hasOwnProperty(i)) {
+            var instruction_def = INSTRUCTIONS[i];
+            var args0 = instruction_def.ARG0;
+            for (var j = 0, args0len = args0.length; j < args0len; j++) {
+                var args1 = instruction_def.ARG1;
+                var args1len = args1.length;
+                for (var k = 0; k < args1len; k++) {
+                    byte_code_mapping.push([i, args0[j] + args1[k]]);
+                }
+            }
+        }
+    }
+    return byte_code_mapping;
+}
+
+const BYTE_TO_INS = generate_byte_code_mapping();
 
 /**********************************************************************************************************************/
 /**************************************** ASSEMBLY INSTRUCTION FUNCTIONS **********************************************/
@@ -517,6 +530,17 @@ function strip_whitespace_and_comment(code_line) {
 /**********************************************************************************************************************/
 /**************************************** ISA GETTERS AND SETTERS *****************************************************/
 /**********************************************************************************************************************/
+function set_op_code_type(opcode, arg_type) {
+    switch (arg_type) {
+        case "I":
+            return "$" + opcode;
+        case "R":
+            return "R" + opcode;
+        default:
+            return opcode;
+    }
+}
+
 /*
  * Returns the numeric value of the arg.
  */
@@ -593,25 +617,25 @@ function write_op_code(address) {
     // Instruction
     else {
         var ins = INSTRUCTIONS[str_value];
-        var op_codes = ins[OP_CODES];
+        var op_codes = ins.OP_CODES;
         var op_code_length = op_codes.length;
         if (op_code_length < 2) {
             opcode.html(format_numbers(op_codes[0]));
             return;
         }
-        var n_args = ins[N_ARGS];
+        var n_args = ins.N_ARGS;
         var arg0_value = get_memory(address + 1);
         var arg0_type = return_arg_type(arg0_value);
-        var arg0_op_index = index_op_codes(ins[ARG0], arg0_type);
+        var arg0_op_index = index_op_codes(ins.ARG0, arg0_type);
         if (n_args === 1) {
             opcode.html(format_numbers(op_codes[arg0_op_index]));
             return;
         }
-        var arg0_options = ins[ARG0].length;
+        var arg0_options = ins.ARG0.length;
         var arg1_value = get_memory(address + 2);
         var arg1_type = return_arg_type(arg1_value);
-        var arg1_op_index = index_op_codes(ins[ARG1], arg1_type);
-        var arg1_options = ins[ARG1].length;
+        var arg1_op_index = index_op_codes(ins.ARG1, arg1_type);
+        var arg1_options = ins.ARG1.length;
         if (arg0_options === 1) {
             opcode.html(format_numbers(op_codes[arg1_op_index]));
             return;
@@ -622,6 +646,17 @@ function write_op_code(address) {
         }
         opcode.html(format_numbers(op_codes[arg0_op_index * arg0_options + arg1_op_index]));
     }
+}
+
+function get_op_code(address) {
+    address = parseInt(address);
+    // error checking
+    if (!check_memory_limits(address)) {
+        write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
+        stop_program_running();
+        return -1;
+    }
+    return parseInt($("#opCode" + address).html());
 }
 
 /*
@@ -712,6 +747,24 @@ function setCCF(flag, set_to) {
 /**********************************************************************************************************************/
 // All the checks return a state dictionary that indicate whether the check passed (true) and the parsed argument to put
 // in MM. The key "state" indicates the check status and "arg" indicates the returned argument.
+
+function check_and_assign_label2mem(label, errors, line_number, potential_address) {
+    if ((label in LABELS2MEM) || (label in LABELS2LINES)) {
+        errors.push("Line " + line_number + " " + ERROR_SAME_LABEL_MULTIPLE_LINES);
+    }
+    else {
+        LABELS2MEM[label] = parseInt(potential_address);
+    }
+}
+
+function check_and_assign_label2lines(label, errors, line_number) {
+    if ((label in LABELS2MEM) || (label in LABELS2LINES)) {
+        errors.push("Line " + line_number + " " + ERROR_SAME_LABEL_MULTIPLE_LINES);
+    }
+    else {
+        LABELS2LINES[label] = line_number;
+    }
+}
 
 /*
  * Returns whether a number is 2's complement 16 bit negative.
@@ -831,7 +884,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
         return state;
     }
     // The number of arguments is incorrect
-    if (INSTRUCTIONS[ins][N_ARGS] != n_args) {
+    if (INSTRUCTIONS[ins].N_ARGS != n_args) {
         state["state"] = false;
         state["error"] = ERROR_INCORRECT_NUM_ARGS;
         return state;
@@ -839,8 +892,8 @@ function check_instruction(ins, arg0, arg1, n_args) {
     var arg0allowable;
     // Check the argument state
     if (n_args == 2) {
-        arg0allowable = INSTRUCTIONS[ins][ARG0];
-        var arg1allowable = INSTRUCTIONS[ins][ARG1];
+        arg0allowable = INSTRUCTIONS[ins].ARG0;
+        var arg1allowable = INSTRUCTIONS[ins].ARG1;
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -849,7 +902,7 @@ function check_instruction(ins, arg0, arg1, n_args) {
             return state;
     }
     else if (n_args == 1) {
-        arg0allowable = INSTRUCTIONS[ins][ARG0];
+        arg0allowable = INSTRUCTIONS[ins].ARG0;
         state = check_individual_args(arg0allowable, arg0, state);
         if (!state["state"])
             return state;
@@ -908,10 +961,10 @@ function get_labels(lines, errors) {
                         line_number++;
                         continue;
                     }
-                    LABELS2MEM[label] = parseInt(potential_address);
+                    check_and_assign_label2mem(label, errors, line_number, potential_address);
                 }
                 else {
-                    LABELS2LINES[label] = line_number;
+                    check_and_assign_label2lines(label, errors, line_number);
                 }
             }
             // Find the next line that's neither whitespace nor comment.
@@ -935,7 +988,7 @@ function get_labels(lines, errors) {
                         continue;
                     }
 
-                    LABELS2LINES[label] = seeker + 1;
+                    check_and_assign_label2lines(label, errors, seeker + 1);
                     break;
                 }
             }
@@ -1119,13 +1172,41 @@ function assemble() {
 function step() {
     var pc = getPC();
     var work_ins = get_memory(pc);
+    var arg0, arg1;
     // Checks that first instruction makes sense
     if (!(work_ins in INSTRUCTIONS) || (work_ins === "STP")) {
-        write_to_console("Stepped to end of program.");
-        return;
+        var potential_int = parseInt(work_ins);
+        // Legal potential int.
+        if (!isNaN(potential_int) && (BYTE_TO_INS.length > potential_int && potential_int > 0)) {
+            // Configure work ins to symbolic mode.
+            work_ins = BYTE_TO_INS[potential_int][0];
+            var work_ins_arg_info = BYTE_TO_INS[potential_int][1];
+            var work_ins_arg0_indicator = work_ins_arg_info[0];
+            // Configure arg0
+            if (work_ins_arg0_indicator === "-") {
+                INSTRUCTIONS[work_ins]["f"]();
+            }
+            else {
+                arg0 = set_op_code_type(get_op_code(pc + 1), work_ins_arg0_indicator);
+                var work_ins_arg1_indicator = work_ins_arg_info[1];
+                if (work_ins_arg1_indicator === "-") {
+                    INSTRUCTIONS[work_ins]["f"](arg0);
+                }
+                else {
+                    arg1 = set_op_code_type(get_op_code(pc + 2), work_ins_arg1_indicator);
+                    INSTRUCTIONS[work_ins]["f"](arg0, arg1);
+                }
+            }
+            pc = getPC();
+            write_to_console("End step at address " + pc);
+            return;
+        }
+        else {
+            write_to_console("Stepped to end of program.");
+            return;
+        }
     }
-    var n_args = INSTRUCTIONS[work_ins][N_ARGS];
-    var arg0;
+    var n_args = INSTRUCTIONS[work_ins].N_ARGS;
     // No args
     if (n_args == 0) {
         INSTRUCTIONS[work_ins]["f"]();
@@ -1138,7 +1219,7 @@ function step() {
     // 2 args
     else if (n_args == 2) {
         arg0 = get_memory(pc + 1);
-        var arg1 = get_memory(pc + 2);
+        arg1 = get_memory(pc + 2);
         INSTRUCTIONS[work_ins]["f"](arg0, arg1);
     }
     pc = getPC();
@@ -1185,7 +1266,6 @@ function execute_program() {
     PROGRAM_INTERVAL_ID = setInterval(function() {
         var pc = getPC();
         var work_ins = get_memory(pc);
-
         // While a pc is pointing at an instruction to be executed this means that there is a program to be executed.
         if (!(work_ins in INSTRUCTIONS) || (work_ins === "STP")) {
             write_to_console("Finished running program.");
@@ -1193,7 +1273,7 @@ function execute_program() {
             return;
         }
 
-        var n_args = INSTRUCTIONS[work_ins][N_ARGS];
+        var n_args = INSTRUCTIONS[work_ins].N_ARGS;
         var arg0;
         // No args
         if (n_args == 0) {

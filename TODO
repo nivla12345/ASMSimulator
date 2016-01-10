@@ -1,5 +1,4 @@
 TODO:
-- Enable using labels for all instructions that invoke memory.
 - Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
   address and JSRs to that address, enable running from there.
   o Do this by checking the byte code IF the instruction isn't listed.
@@ -69,4 +68,5 @@ DONE:
     immediately afterwards.
 - Add check memory label size.
 - In load and run, if load fails, don't run.
+- Enable using labels for all instructions that invoke memory.
 

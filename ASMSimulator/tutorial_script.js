@@ -14,13 +14,13 @@ function initialize_tutorial() {
     while (ins_stack.length) {
         key = ins_stack.pop();
         var value = INSTRUCTIONS[key];
-        var params = [value[ARG0], value[ARG1], value[ZCNO], value[INS_PC], value[INS_SP]];
+        var params = [value.ARG0, value.ARG1, value.ZCNO, value.INS_PC, value.INS_SP];
         var param_description = ["arg0", "arg1", "ZCNO", "PC", "SP"];
         var param_length = params.length;
         var net_columns = (param_length << 1).toString();
-        var opcode = value[OP_CODES];
-        var description = value[INS_DESCRIPTION].replace(/arg0/g, "arg0".bold()).replace(/arg1/g, "arg1".bold());
-        var section_to_add_to = $("#" + value[INS_TYPE]);
+        var opcode = value.OP_CODES;
+        var description = value.INS_DESCRIPTION.replace(/arg0/g, "arg0".bold()).replace(/arg1/g, "arg1".bold());
+        var section_to_add_to = $("#" + value.INS_TYPE);
         var table = $("<table></table>").attr("class", "table table-bordered table-condensed");
         var row0 = $("<tr></tr>").append($("<td></td>").attr({class: "active", colspan: net_columns}).html(key.bold()));
         var row1 = $("<tr></tr>");

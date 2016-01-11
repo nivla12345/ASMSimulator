@@ -1034,6 +1034,9 @@ function assemble() {
         }
 
         var split_args = arg_no_comment_no_label.split(",");
+        for (var arg_count = 0; arg_count < split_args.length; arg_count++) {
+            split_args[arg_count] = split_args[arg_count].trim();
+        }
         var ins = "";
         var state;
         // There are 2 arguments
@@ -1041,7 +1044,7 @@ function assemble() {
             // split by whitespace to get instruction and arg0
             var ins_arg0 = split_args[0].split(/\s+/g);
             var arg0 = "";
-            var arg1 = split_args[1].trim();
+            var arg1 = split_args[1];
             // 2 arguments
             if (ins_arg0.length == 2) {
                 ins = ins_arg0[0];
@@ -1415,8 +1418,8 @@ function change_clock_rate() {
     var hz = parseInt($("#program_speed").val());
     CLOCK_PERIOD = (isNaN(hz) || hz === 0) ? 0 : (1000 / hz);
 
-    stop_program_running();
     if (RUNNING) {
+        stop_program_running();
         resume_program_running();
     }
 }
@@ -1522,3 +1525,76 @@ $("#step_button").on("click", step);
 $("#pause_button").on("click", stop_program_running);
 
 $("td[rowspan]").addClass('hasRowSpan');
+
+/**********************************************************************************************************************/
+/************************************* CODEMIRROR SYNTAX HIGHLIGHTING *************************************************/
+/**********************************************************************************************************************/
+
+// 1. an almost complete python grammar in simple JSON format
+var asm_grammar = {
+
+// prefix ID for regular expressions, represented as strings, used in the grammar
+    "RegExpID": "RE::",
+
+// Style model
+    "Style": {
+
+        "comment": "comment"
+        , "decorator": "meta"
+        , "Instruction": "keyword"
+        , "Register": "builtin"
+        , "identifier": ""
+        , "number": "number"
+        , "Label": "string"
+    },
+
+// Lexical model
+    "Lex": {
+
+        "comment:comment": [COMMENT, null]
+        , "Label": "RE::/[\.][_A-Za-z0-9]+/" // in my case label
+        , "identifier": "RE::/[_A-Za-z][_A-Za-z0-9]*/"
+        , "decorator": [
+            // integers
+            // hex
+            "RE::/[\$]0x[0-9a-fA-F]+/",
+            // decimal
+            "RE::/[\$][1-9]\\d*/",
+            // just zero
+            "RE::/[\$]0(?![\\dx])/"
+        ]
+        , "number": [
+            // integers
+            // hex
+            "RE::/0x[0-9a-fA-F]+/",
+            // decimal
+            "RE::/[1-9]\\d*/",
+            // just zero
+            "RE::/0(?![\\dx])/"
+        ]
+        , "Instruction": {
+            "autocomplete": true, "tokens": Object.keys(INSTRUCTIONS)
+        }
+        , "Register": {
+            "autocomplete": true, "tokens": Object.keys(LIST_REG_NAMES)
+        }
+    },
+
+// Syntax model (optional)
+    "Syntax": {
+
+        "asm": "comment | decorator | number | Label | Instruction | Register | identifier"
+
+    },
+
+// what to parse and in what order
+// an array i.e ["asm"], instead of single token i.e "asm", is a shorthand for an "ngram"-type syntax token (for parser use)
+    "Parser": [["asm"]]
+
+};
+
+// 2. parse the grammar into a Codemirror syntax-highlight mode
+var asm_mode = CodeMirrorGrammar.getMode(asm_grammar);
+
+// 3. use it with Codemirror
+CodeMirror.defineMode("asm", asm_mode);

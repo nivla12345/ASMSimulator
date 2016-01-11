@@ -1,6 +1,7 @@
 /**
  * Created by alvin on 1/1/16.
  */
+$('[data-toggle="tooltip"]').tooltip();
 
 // Adds all the instruction definitions to the DOM.
 function initialize_tutorial() {
@@ -40,4 +41,17 @@ function initialize_tutorial() {
     }
 }
 
-//new Clipboard('.btn');
+var arithmetic_editor = CodeMirror.fromTextArea($("#arithmetic_example_box")[0], {
+    lineNumbers: true,
+    indentUnit: 4,
+    indentWithTabs: false,
+    lineWrapping: true,
+    styleActiveLine: true,
+    readOnly: true
+}).setSize("100%", 100);
+
+new Clipboard("#arithmetic_example_button", {
+    text: function (trigger) {
+        return $("#arithmetic_example_box").html();
+    }
+});

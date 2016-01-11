@@ -17,16 +17,6 @@
     <link rel="stylesheet" href="lib/codemirror/css/codemirror.css">
     <link rel="stylesheet" href="lib/docs.css">
     <link rel="stylesheet" href="tutorial_style.css">
-
-    <script src="lib/jquery-1.11.3.js"></script>
-    <script src="lib/codemirror/js/codemirror-compressed.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="lib/html5shiv.min.js"></script>
-    <script src="lib/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body onload="initialize_tutorial()">
@@ -320,13 +310,15 @@
                                 significant bits.
                             </p>
 
-                            <p>For example:</p>
+                            <div class="example_background">
+                                <p>Decimal immediate:</p>
 
                             <p><code>$1234</code></p>
 
-                            <p>and in hexadecimal:</p>
+                                <p>and hexadecimal immediate:</p>
 
                             <p><code>$0xBEAF</code></p>
+                            </div>
                         </td>
                     </tr>
                     <tr class="success">
@@ -337,13 +329,16 @@
                             both hexadecimal and decimal format. Addresses are bound at address 0 at the minimum and 511
                             as the maximum.
                             </p>
-                            <p>For example:</p>
+
+                            <div class="example_background">
+                                <p>Decimal address:</p>
 
                             <p><code>123</code></p>
 
-                            <p>and in hexadecimal:</p>
+                                <p>and hexadecimal address:</p>
 
                             <p><code>0x00AF</code></p>
+                            </div>
                         </td>
                     </tr>
                     <tr class="danger">
@@ -355,10 +350,10 @@
                                 of
                                 main memory and can be used interchangeably with addresses.
                             </p>
-                            <p>For example:</p>
 
+                            <div class="example_background">
                             <p><code>.SUM_FUNCTION</code></p>
-
+                            </div>
                             All labels names must be unique.
                         </td>
                     </tr>
@@ -387,11 +382,8 @@
                 <p>
                     For instructions that have greater than one argument, a comma is used to separate the arguments.
                 </p>
-                <h4>Examples</h4>
 
-                <p>
-                    Here is a generic template for all instructions:
-                </p>
+                <p>Here is a generic template for all instructions:</p>
 
                 <pre>.optional_label INSTRUCTION arg0, arg1 ; Comment which is optional</pre>
 
@@ -623,6 +615,19 @@ index of opcode = 2 * 3 + 1
                     Arithmetic
                 </h3>
 
+                <div class="example">
+                <textarea title="Arithmetic Example" id="arithmetic_example_box">
+    SET $0x0001, R0 ; Place immediate 1 into R0.
+    SET $2     , R1 ; Place immediate 2 into R1.
+    ADD R0     , R1 ; Add R0 and R1 placing result (3) into R1</textarea>
+                    <btn class="btn btn-success"
+                         id="arithmetic_example_button" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
+
                 <h3 id="demo_logic"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#demo_logic"
@@ -679,12 +684,23 @@ index of opcode = 2 * 3 + 1
     </div>
 </div>
 
+<script src="lib/jquery-1.11.3.js"></script>
+<script src="lib/codemirror/js/codemirror-compressed.js"></script>
+<script src="lib/codemirror-grammar/codemirror_grammar.min.js"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="lib/html5shiv.min.js"></script>
+<script src="lib/respond.min.js"></script>
+<![endif]-->
+
 <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="lib/clipboard.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="lib/docs.js"></script>
 <script src="ISA.js"></script>
 <script src="tutorial_script.js"></script>
-<script src="lib/node_modules/clipboard/dist/clipboard.min.js"></script>
 <script src="lib/underscore-min.js"></script>
 </body>
 

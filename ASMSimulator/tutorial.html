@@ -608,39 +608,125 @@ index of opcode = 2 * 3 + 1
                     Example Code
                 </h2>
 
-                <h3 id="demo_arithmetic"><a
+                <h3 id="demo_memory_access"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
-                        class="anchorjs-link " href="#demo_arithmetic"
-                        aria-label="Anchor link for: demo_arithmetic"></a>
-                    Arithmetic
+                        class="anchorjs-link " href="#demo_memory_access"
+                        aria-label="Anchor link for: demo_memory_access"></a>
+                    Memory Access
                 </h3>
-
-                <div class="example">
-                <textarea title="Arithmetic Example" id="arithmetic_example_box">
-    SET $0x0001, R0 ; Place immediate 1 into R0.
-    SET $2     , R1 ; Place immediate 2 into R1.
-    ADD R0     , R1 ; Add R0 and R1 placing result (3) into R1</textarea>
-                    <btn class="btn btn-success"
-                         id="arithmetic_example_button" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
-                        <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
-                </div>
 
                 <h3 id="demo_logic"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#demo_logic"
                         aria-label="Anchor link for: demo_logic"></a>
-                    Logic
+                    Logical
                 </h3>
 
                 <h3 id="demo_branching_and_jsr"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#demo_branching_and_jsr"
                         aria-label="Anchor link for: demo_branching_and_jsr"></a>
-                    Branching and Function Calls
+                    Branching
                 </h3>
+
+                <h3 id="demo_arithmetic"><a
+                        style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                        class="anchorjs-link " href="#demo_arithmetic"
+                        aria-label="Anchor link for: demo_arithmetic"></a>
+                    Arithmetic
+                </h3>
+                <h4>Addition and Subtraction</h4>
+                <div class="example">
+                <textarea title="Addition Subtraction Example" id="plus_minus_example_box">
+; Addition
+; Regular addition, adding 1 and 2
+SET $0x0001, R0
+SET $2     , R1
+ADD R0     , R1 ; Add R0 and R1 placing result (3) into R1
+
+; Overflows the sum of R0 and R1
+SET $0x7FFF, R0 ; Place immediate 0x7FFF into R0.
+SET $1     , R1 ; Place immediate 1 into R1.
+ADD R0     , R1 ; Add R0 and R1 placing result (0x8000) into R1
+
+; Set the negative flag
+SET $0x1   , R0
+SET $0xFFFE, R1
+ADD R0     , R1 ; Results in 0xFFFF (-1 in 2's complement)
+
+; Set the zero flag
+SET $0x1    , R0
+SET $0xFFFF , R1
+ADD R0      , R1 ; Results in 0
+
+; Negative overflow (adding 2 negative numbers results in a positive)
+SET $0x8000, R0
+SET $0x8001, R1
+ADD R0     , R1 ; Results in 0x0001
+
+; Subtraction
+; Normal error free subtraction
+SET $0x9, R0
+SET $0x8, R1
+SUB R0  , R1 ; Results in 0x1
+
+; Setting carry, overflow, and negative flag
+SET $0x7FFF, R0
+SET $0xFFFF, R1
+SUB R0     , R1 ; Results in 0x8000</textarea>
+                    <btn class="btn btn-success"
+                         id="plus_minus_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
+                <h4>Multiplication and Division</h4>
+
+                <div class="example">
+                <textarea title="Multiplication Division Example" id="times_div_example_box">
+; Multiplication
+; Zero flag being set
+SET $0, R0
+SET $9, R1
+MUL R0, R1 ; Results in 81
+
+; Normal error free multiplication
+SET $9, R0
+SET $9, R1
+MUL R0, R1 ; Results in 81
+
+; Positive * Negative
+SET $9     , R0
+SET $0xFFFF, R1
+MUL R0     , R1 ; Results in 0xFFF7
+
+; Negative * Negative
+SET $0xFFFF, R0
+SET $0xFFF7, R1
+MUL R0     , R1 ; Results in 0x9
+
+; Overflow, carry, and negative
+SET $0xFF, R0
+SET $0xFF, R1
+MUL R0   , R1 ; Results in 0xFE01, should be positive but result is negative.
+
+; Division
+SET $81, R0
+SET $9 , R1
+DIV R0 , R1 ; Results in 9
+
+; Division by 0 results in 0
+SET $81, R0
+SET $0 , R1
+DIV R0 , R1 ; Results in 0</textarea>
+                    <btn class="btn btn-success"
+                         id="times_div_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
             </div>
         </div>
         <div class="col-md-3" role="complementary">
@@ -673,15 +759,20 @@ index of opcode = 2 * 3 + 1
                     <li>
                         <a href="#sample_code">Sample Code</a>
                         <ul class="nav">
+                            <li><a href="#demo_memory_access">Memory Access</a></li>
                             <li><a href="#demo_logic">Logical</a></li>
+                            <li><a href="#demo_branching_and_jsr">Branching</a></li>
                             <li><a href="#demo_arithmetic">Arithmetic</a></li>
-                            <li><a href="#demo_branching_and_jsr">Branching and Function Calls</a></li>
                         </ul>
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
+    <br>
+    <footer>
+        <p>© by Alvin Mao (2016)</p>
+    </footer>
 </div>
 
 <script src="lib/jquery-1.11.3.js"></script>

@@ -41,17 +41,33 @@ function initialize_tutorial() {
     }
 }
 
-var arithmetic_editor = CodeMirror.fromTextArea($("#arithmetic_example_box")[0], {
-    lineNumbers: true,
-    indentUnit: 4,
-    indentWithTabs: false,
-    lineWrapping: true,
-    styleActiveLine: true,
-    readOnly: true
-}).setSize("100%", 100);
+var EXAMPLE_EDITORS = [["#plus_minus_example_box", "#plus_minus_example_btn", 730],
+    ["#times_div_example_box", "#times_div_example_btn", 710]
+];
 
-new Clipboard("#arithmetic_example_button", {
+for (var example_editor_count = 0; example_editor_count < EXAMPLE_EDITORS.length; example_editor_count++) {
+    function GENERATE_SAMPLE_CMS(id) {
+        CodeMirror.fromTextArea($(id)[0], {
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: false,
+            lineWrapping: true,
+            styleActiveLine: true,
+            readOnly: true
+        }).setSize("100%", EXAMPLE_EDITORS[example_editor_count][2]);
+    }
+
+    GENERATE_SAMPLE_CMS(EXAMPLE_EDITORS[example_editor_count][0]);
+}
+
+new Clipboard(EXAMPLE_EDITORS[0][1], {
     text: function (trigger) {
-        return $("#arithmetic_example_box").html();
+        return $(EXAMPLE_EDITORS[0][0]).html();
+    }
+});
+
+new Clipboard(EXAMPLE_EDITORS[1][1], {
+    text: function (trigger) {
+        return $(EXAMPLE_EDITORS[1][0]).html();
     }
 });

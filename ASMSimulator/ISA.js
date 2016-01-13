@@ -194,10 +194,10 @@ const INSTRUCTIONS = {
         , INS_PC: "arg0", INS_SP: "+0",
         INS_DESCRIPTION: "Branches to address in arg0 if Z flag is set."
     },
-    BRG: {
+    BRGE: {
         N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_brg, OP_CODES: [33], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
         , INS_PC: "arg0", INS_SP: "+0",
-        INS_DESCRIPTION: "Branches if greater than or if both Z and N flag aren't set."
+        INS_DESCRIPTION: "Branches if greater than or equal to. In other words if either both Z or N flags are set."
     },
     JSR: {
         N_ARGS: 1, ARG0: "M", ARG1: "-", "f": do_jsr, OP_CODES: [34], INS_TYPE: INS_TYPE_BRANCHING, ZCNO: "----"
@@ -284,7 +284,7 @@ function do_mul(arg0, arg1) {
 }
 
 function zero_and_negative_flag_setting(result) {
-    if ((result & BIT_MASK_16) == 0)
+    if ((result & BIT_MASK_16) === 0)
         setCCF("Z", 1);
     else
         setCCF("Z", 0);
@@ -396,7 +396,7 @@ function do_brz(arg0) {
 }
 
 function do_brg(arg0) {
-    if (!(getCCF("N") === 1) && !(getCCF("Z") === 1))
+    if ((getCCF("N") == 1) || (getCCF("Z") == 1))
         setPC(arg0);
     else
         setPC(getPC() + 2);
@@ -804,15 +804,13 @@ function twos_invert_sign(value) {
  */
 function check_overflow(arg0, arg1, result) {
     // Get should be positive cases
-    if ((is_positive(arg0) && is_positive(arg1)) || (is_negative(arg0) && is_negative(arg1))) {
+    if (is_positive(arg0) && is_positive(arg1)) {
         return !is_2s_positive(result);
     }
-    else if (arg0 == 0 || arg1 == 0) {
-        return false;
-    }
-    else {
+    else if (is_negative(arg0) && is_negative(arg1)) {
         return !is_2s_negative(result);
     }
+    return false;
 }
 
 /*
@@ -1035,7 +1033,7 @@ function assemble() {
         // Remove comment and appended whitespaces.
         var arg_no_comment_no_label = strip_label_definition(strip_whitespace_and_comment(lines[i]));
         // Jump if superfluous line.
-        if (arg_no_comment_no_label == "") {
+        if (arg_no_comment_no_label === "") {
             line_number++;
             continue;
         }
@@ -1334,21 +1332,19 @@ function execute_program() {
         // No args
         if (n_args == 0) {
             INSTRUCTIONS[work_ins]["f"]();
-            pc += 1;
         }
         // 1 arg
         else if (n_args == 1) {
             arg0 = get_memory(pc + 1);
             INSTRUCTIONS[work_ins]["f"](arg0);
-            pc += 2;
         }
         // 2 args
         else if (n_args == 2) {
             arg0 = get_memory(pc + 1);
             var arg1 = get_memory(pc + 2);
             INSTRUCTIONS[work_ins]["f"](arg0, arg1);
-            pc += 3;
         }
+        pc = getPC();
         if (!IGNORE_BREAKPOINTS && pcAtBP(MEM2LINE, pc)) {
             write_to_console("Breakpoint hit, main memory address: " + pc);
             stop_program_running();

@@ -345,10 +345,11 @@
                         <td id="label_description">Label</td>
                         <td>
                             <p>
-                            Labels are started with a period sign ".", are followed immediately by a name, and must be
-                                placed at the beginning of a line. Labels act as a way of naming subroutines or sections
-                                of
-                                main memory and can be used interchangeably with addresses.
+                                Labels are started with a period sign ".", are followed immediately by a name, and must
+                                be
+                                placed at the beginning of a line. Labels act as a way of naming numbers. They can be
+                                used in place
+                                of any number.
                             </p>
 
                             <div class="example_background">
@@ -628,28 +629,27 @@ index of opcode = 2 * 3 + 1
                         aria-label="Anchor link for: demo_branching_and_jsr"></a>
                     Branching
                 </h3>
-                <h4>JSR, RTN and STP</h4>
+
+                <h4>CMP and Branching</h4>
 
                 <div class="example">
                 <textarea title="JSR and RTN Example" id="jsr_rtn_example_box">
-; Testing JSR and RTN calls.
-SET $0xF, R0
-SET $0xF, R1
-JSR .SUM
-JSR .TIMES
-STP          ; Program has finished running here
+; Testing branching
+; Sums the numbers from 1-100 and stores result in R3
+SET  $101, R0
+SET  $0x1, R1
+SET  $0x1, R2
+SET  $0x0, R3
 
-.SUM
-ADD R0, R1
-RTN
+.COMPARE
+CMP  R0  , R1
+BRGE .DONE_INCREMENTING
+ADD  R1, R3
+ADD  R2, R1
+BRA  .COMPARE
 
-.TIMES
-MUL R0, R1
-RTN</textarea>
+.DONE_INCREMENTING STP</textarea>
 
-                    <p>*For more information on how subroutines are invoked to save register values in between
-                        subroutine
-                        calls see <a href="https://en.wikipedia.org/wiki/Calling_convention">calling convention</a>.</p>
                     <btn class="btn btn-success"
                          id="jsr_rtn_example_btn" data-clipboard-action="copy"
                          type="button"
@@ -658,7 +658,7 @@ RTN</textarea>
                     </btn>
                 </div>
 
-                <h4>CMI and Branching</h4>
+                <h4>JSR, RTN and STP</h4>
 
                 <div class="example">
                 <textarea title="CMI and Branching" id="cmi_br_example_box">
@@ -682,6 +682,8 @@ RTN</textarea>
                          data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
                     </btn>
+                    <p>*For more information on how register are saved in between subroutine calls see
+                        <a href="https://en.wikipedia.org/wiki/Calling_convention">calling convention</a>.</p>
                 </div>
 
                 <h3 id="demo_arithmetic"><a

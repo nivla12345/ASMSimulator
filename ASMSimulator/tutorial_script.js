@@ -43,7 +43,7 @@ function initialize_tutorial() {
 
 var EXAMPLE_EDITORS = [["#plus_minus_example_box", "#plus_minus_example_btn", 730],
     ["#times_div_example_box", "#times_div_example_btn", 710],
-    ["#jsr_rtn_example_box", "#jsr_rtn_example_btn", 290],
+    ["#jsr_rtn_example_box", "#jsr_rtn_example_btn", 310],
     ["#cmi_br_example_box", "#cmi_br_example_btn", 290]
 ];
 

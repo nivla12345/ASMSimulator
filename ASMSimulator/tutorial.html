@@ -628,6 +628,61 @@ index of opcode = 2 * 3 + 1
                         aria-label="Anchor link for: demo_branching_and_jsr"></a>
                     Branching
                 </h3>
+                <h4>JSR, RTN and STP</h4>
+
+                <div class="example">
+                <textarea title="JSR and RTN Example" id="jsr_rtn_example_box">
+; Testing JSR and RTN calls.
+SET $0xF, R0
+SET $0xF, R1
+JSR .SUM
+JSR .TIMES
+STP          ; Program has finished running here
+
+.SUM
+ADD R0, R1
+RTN
+
+.TIMES
+MUL R0, R1
+RTN</textarea>
+
+                    <p>*For more information on how subroutines are invoked to save register values in between
+                        subroutine
+                        calls see <a href="https://en.wikipedia.org/wiki/Calling_convention">calling convention</a>.</p>
+                    <btn class="btn btn-success"
+                         id="jsr_rtn_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
+
+                <h4>CMI and Branching</h4>
+
+                <div class="example">
+                <textarea title="CMI and Branching" id="cmi_br_example_box">
+; Testing JSR and RTN calls.
+SET $0xF, R0
+SET $0xF, R1
+JSR .SUM
+JSR .TIMES
+STP
+
+.SUM
+ADD R0, R1
+RTN
+
+.TIMES
+MUL R0, R1
+RTN</textarea>
+                    <btn class="btn btn-success"
+                         id="cmi_br_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
 
                 <h3 id="demo_arithmetic"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"

@@ -826,10 +826,17 @@ function checkR(reg) {
  * Checks that the immediate value is correct. This includes in bounds and contains all the proper numeric characters.
  */
 function checkI(imm) {
+    var imm_str = String(imm);
     // Check if the digits make sense
     if (/(^\$0x[0-9a-f]+$)|(^\$[0-9]+$)/i.test(imm)) {
-        var parsed_imm = parseInt(imm.substring(1));
+        var parsed_imm = parseInt(imm_str.substring(1));
         return 0 <= parsed_imm && parsed_imm <= BIT_MASK_16;
+    }
+    if (imm_str.length > 2) {
+        if (imm_str.substring(0, 2) === "$.") {
+            imm_str = imm_str.substring(1);
+            return imm_str in LABELS2LINES || imm_str in LABELS2MEM
+        }
     }
     return false;
 }
@@ -1135,6 +1142,19 @@ function assemble() {
                 }
                 else {
                     arg = line2args[LABELS2LINES[arg]];
+                }
+            }
+            else if (arg[0] === "$") {
+                if (arg.length > 2) {
+                    if (arg[1] === ".") {
+                        arg = arg.substring(1);
+                        if (arg in LABELS2MEM) {
+                            arg = "$" + LABELS2MEM[arg];
+                        }
+                        else {
+                            arg = "$" + line2args[LABELS2LINES[arg]];
+                        }
+                    }
                 }
             }
             write_memory(i, arg);

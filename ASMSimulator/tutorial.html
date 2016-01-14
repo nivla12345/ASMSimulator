@@ -348,8 +348,7 @@
                                 Labels are started with a period sign ".", are followed immediately by a name, and must
                                 be
                                 placed at the beginning of a line. Labels act as a way of naming numbers. They can be
-                                used in place
-                                of any number.
+                                used in place of any number (both addresses and immediates).
                             </p>
 
                             <div class="example_background">
@@ -410,10 +409,10 @@
     SET 0xA, R0  ; Ensuing instruction(s)
     ...</pre>
                 <p>
-                    To declare a memory location with a label, place the address after the label.
+                    To declare a memory location with a label, place the value after the label.
                 </p>
                 <pre>
-    .LABEL 200       ; Memory location 200 is now marked as .LABEL</pre>
+    .LABEL 200       ; .LABEL is now associated with 200</pre>
                 <p>Labels can then be used memory would, for instance to branch:</p>
                 <pre>
     .MUL_FUNCTION
@@ -432,6 +431,10 @@
     .MUL_FUNCTION
     MUL R0, R1
     RTN</pre>
+                <p>Labels can also be used in immediates, for instance:</p>
+                <pre>
+    .VALUE 100
+    SET $.VALUE, R0 ; Puts 100 into R0</pre>
             </div>
             <div class="bs-docs-section">
                 <h2 id="instruction_set" class="page-header"><a
@@ -616,12 +619,65 @@ index of opcode = 2 * 3 + 1
                     Memory Access
                 </h3>
 
+                <h4>SET</h4>
+
+                <div class="example">
+                    <textarea title="SET Example" id="set_example_box">
+; Testing SET
+.ADDR0 100
+SET $10    , R0     ; Put 10 in R0
+SET $0xA   , R0     ; Put 10 in R0
+SET R0     , R1     ; Put 10 in R1
+MOV $10    , .ADDR0 ; Put 10 into memory slot 100
+SET .ADDR0 , R2     ; Takes value stored in 100 and puts into R2
+SET $.ADDR0, R3     ; Puts 100 into R3</textarea>
+                    <btn class="btn btn-success"
+                         id="set_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
+
+                <h4>MOV</h4>
+
+                <div class="example">
+                    <textarea title="MOV Example" id="mov_example_box">
+; Testing MOV
+.ADDR0 100
+SET $10     , R0     ; Put 10 in R0
+SET $.ADDR0 , R1     ; Put 100 in R1
+MOV R0      , .ADDR0 ; Put 10 in memory slot 100
+MOV $11     , .ADDR0 ; Put 11 in memory slot 100
+MOV $0xC    , .ADDR0 ; Put 12 in memory slot 100
+MOV $0xD    , R1     ; Put 13 in memory specified by R1</textarea>
+                    <btn class="btn btn-success"
+                         id="mov_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
+
                 <h3 id="demo_logic"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                         class="anchorjs-link " href="#demo_logic"
                         aria-label="Anchor link for: demo_logic"></a>
                     Logical
                 </h3>
+
+                <h4>AND, OR, Left and Right Logical Shift</h4>
+
+                <div class="example">
+                    <textarea title="JSR and RTN Example" id="logical_example_box">c
+                    </textarea>
+                    <btn class="btn btn-success"
+                         id="logical_example_btn" data-clipboard-action="copy"
+                         type="button"
+                         data-toggle="tooltip">
+                        <span class="glyphicon glyphicon-copy"></span> Copy
+                    </btn>
+                </div>
 
                 <h3 id="demo_branching_and_jsr"><a
                         style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"

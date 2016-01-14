@@ -1326,7 +1326,6 @@ function execute_program() {
                 return;
             }
         }
-
         var n_args = INSTRUCTIONS[work_ins].N_ARGS;
         var arg0;
         // No args

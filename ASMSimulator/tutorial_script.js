@@ -44,7 +44,10 @@ function initialize_tutorial() {
 var EXAMPLE_EDITORS = [["#plus_minus_example_box", "#plus_minus_example_btn", 730],
     ["#times_div_example_box", "#times_div_example_btn", 710],
     ["#jsr_rtn_example_box", "#jsr_rtn_example_btn", 310],
-    ["#cmi_br_example_box", "#cmi_br_example_btn", 290]
+    ["#cmi_br_example_box", "#cmi_br_example_btn", 290],
+    ["#set_example_box", "#set_example_btn", 170],
+    ["#mov_example_box", "#mov_example_btn", 170],
+    ["#logical_example_box", "#logical_example_btn", 100]
 ];
 
 for (var example_editor_count = 0; example_editor_count < EXAMPLE_EDITORS.length; example_editor_count++) {
@@ -83,5 +86,23 @@ new Clipboard(EXAMPLE_EDITORS[2][1], {
 new Clipboard(EXAMPLE_EDITORS[3][1], {
     text: function (trigger) {
         return $(EXAMPLE_EDITORS[3][0]).html();
+    }
+});
+
+new Clipboard(EXAMPLE_EDITORS[4][1], {
+    text: function (trigger) {
+        return $(EXAMPLE_EDITORS[4][0]).html();
+    }
+});
+
+new Clipboard(EXAMPLE_EDITORS[5][1], {
+    text: function (trigger) {
+        return $(EXAMPLE_EDITORS[5][0]).html();
+    }
+});
+
+new Clipboard(EXAMPLE_EDITORS[6][1], {
+    text: function (trigger) {
+        return $(EXAMPLE_EDITORS[6][0]).html();
     }
 });

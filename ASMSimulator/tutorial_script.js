@@ -47,7 +47,7 @@ var EXAMPLE_EDITORS = [["#plus_minus_example_box", "#plus_minus_example_btn", 73
     ["#cmi_br_example_box", "#cmi_br_example_btn", 290],
     ["#set_example_box", "#set_example_btn", 170],
     ["#mov_example_box", "#mov_example_btn", 170],
-    ["#logical_example_box", "#logical_example_btn", 100]
+    ["#logical_example_box", "#logical_example_btn", 150]
 ];
 
 for (var example_editor_count = 0; example_editor_count < EXAMPLE_EDITORS.length; example_editor_count++) {
@@ -65,6 +65,9 @@ for (var example_editor_count = 0; example_editor_count < EXAMPLE_EDITORS.length
     GENERATE_SAMPLE_CMS(EXAMPLE_EDITORS[example_editor_count][0]);
 }
 
+// For some reason fails to copy when put in a loop hence hard coding as follows.
+// Posted question on stack overflow about this:
+// bit.ly/1ROo3Nx
 new Clipboard(EXAMPLE_EDITORS[0][1], {
     text: function (trigger) {
         return $(EXAMPLE_EDITORS[0][0]).html();

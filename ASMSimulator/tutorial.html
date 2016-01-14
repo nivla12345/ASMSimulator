@@ -631,12 +631,12 @@ SET R0     , R1     ; Put 10 in R1
 MOV $10    , .ADDR0 ; Put 10 into memory slot 100
 SET .ADDR0 , R2     ; Takes value stored in 100 and puts into R2
 SET $.ADDR0, R3     ; Puts 100 into R3</textarea>
-                    <btn class="btn btn-success"
-                         id="set_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="set_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
 
                 <h4>MOV</h4>
@@ -651,12 +651,12 @@ MOV R0      , .ADDR0 ; Put 10 in memory slot 100
 MOV $11     , .ADDR0 ; Put 11 in memory slot 100
 MOV $0xC    , .ADDR0 ; Put 12 in memory slot 100
 MOV $0xD    , R1     ; Put 13 in memory specified by R1</textarea>
-                    <btn class="btn btn-success"
-                         id="mov_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="mov_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
 
                 <h3 id="demo_logic"><a
@@ -669,14 +669,21 @@ MOV $0xD    , R1     ; Put 13 in memory specified by R1</textarea>
                 <h4>AND, OR, Left and Right Logical Shift</h4>
 
                 <div class="example">
-                    <textarea title="JSR and RTN Example" id="logical_example_box">c
-                    </textarea>
-                    <btn class="btn btn-success"
+                    <textarea title="Logical Example" id="logical_example_box">
+; Testing Logical Operations
+SET $0x8, R0
+LSH R0         ; Shift R0 to the left, R0 is now 0x10
+RSH R0         ; Shift R0 to the right, R0 is now back to 0x8
+
+SET $0x7, R1
+OR  R1  , R0 ; Or's R0 and R1, puts 0xF into R0
+AND R1  , R0 ; And's R0 and R1, puts 0x7 into R0</textarea>
+                    <button class="btn btn-success"
                          id="logical_example_btn" data-clipboard-action="copy"
                          type="button"
                          data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
 
                 <h3 id="demo_branching_and_jsr"><a
@@ -699,19 +706,19 @@ SET  $0x0, R3
 
 .COMPARE
 CMP  R0  , R1
-BRGE .DONE_INCREMENTING
+BRGE .DONE
 ADD  R1, R3
 ADD  R2, R1
 BRA  .COMPARE
 
-.DONE_INCREMENTING STP</textarea>
+.DONE STP</textarea>
 
-                    <btn class="btn btn-success"
-                         id="jsr_rtn_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="jsr_rtn_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
 
                 <h4>JSR, RTN and STP</h4>
@@ -732,12 +739,12 @@ RTN
 .TIMES
 MUL R0, R1
 RTN</textarea>
-                    <btn class="btn btn-success"
-                         id="cmi_br_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="cmi_br_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                     <p>*For more information on how register are saved in between subroutine calls see
                         <a href="https://en.wikipedia.org/wiki/Calling_convention">calling convention</a>.</p>
                 </div>
@@ -751,7 +758,7 @@ RTN</textarea>
                 <h4>Addition and Subtraction</h4>
                 <div class="example">
                 <textarea title="Addition Subtraction Example" id="plus_minus_example_box">
-; Addition
+; Testing Addition
 ; Regular addition, adding 1 and 2
 SET $0x0001, R0
 SET $2     , R1
@@ -777,7 +784,7 @@ SET $0x8000, R0
 SET $0x8001, R1
 ADD R0     , R1 ; Results in 0x0001
 
-; Subtraction
+; Testing Subtraction
 ; Normal error free subtraction
 SET $0x9, R0
 SET $0x8, R1
@@ -787,18 +794,18 @@ SUB R0  , R1 ; Results in 0x1
 SET $0x7FFF, R0
 SET $0xFFFF, R1
 SUB R0     , R1 ; Results in 0x8000</textarea>
-                    <btn class="btn btn-success"
-                         id="plus_minus_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="plus_minus_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
                 <h4>Multiplication and Division</h4>
 
                 <div class="example">
                 <textarea title="Multiplication Division Example" id="times_div_example_box">
-; Multiplication
+; Testing Multiplication
 ; Zero flag being set
 SET $0, R0
 SET $9, R1
@@ -824,7 +831,7 @@ SET $0xFF, R0
 SET $0xFF, R1
 MUL R0   , R1 ; Results in 0xFE01, should be positive but result is negative.
 
-; Division
+; Testing Division
 SET $81, R0
 SET $9 , R1
 DIV R0 , R1 ; Results in 9
@@ -833,12 +840,12 @@ DIV R0 , R1 ; Results in 9
 SET $81, R0
 SET $0 , R1
 DIV R0 , R1 ; Results in 0</textarea>
-                    <btn class="btn btn-success"
-                         id="times_div_example_btn" data-clipboard-action="copy"
-                         type="button"
-                         data-toggle="tooltip">
+                    <button class="btn btn-success"
+                            id="times_div_example_btn" data-clipboard-action="copy"
+                            type="button"
+                            data-toggle="tooltip">
                         <span class="glyphicon glyphicon-copy"></span> Copy
-                    </btn>
+                    </button>
                 </div>
             </div>
         </div>

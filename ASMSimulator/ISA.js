@@ -1164,7 +1164,7 @@ function assemble() {
 
         LINE2MEM = jQuery.extend(true, {}, line2args);
         MEM2LINE = _.invert(line2args);
-        var label;
+        var label, label_name;
         // Write labels to main memory table
         for (label in LABELS2LINES) {
             if (LABELS2LINES.hasOwnProperty(label)) {
@@ -1174,12 +1174,14 @@ function assemble() {
                     write_error_to_console(ERROR_ADDRESS_OUT_OF_BOUNDS);
                     return;
                 }
-                $("#label" + address).html(label.slice(1));
+                label_name = label.slice(1);
+                $("#label" + address).html(label_name).attr("data-toggle", "tooltip").attr("title", label_name);
             }
         }
         for (label in LABELS2MEM) {
             if (LABELS2MEM.hasOwnProperty(label)) {
-                $("#label" + LABELS2MEM[label]).html(label.slice(1));
+                label_name = label.slice(1);
+                $("#label" + LABELS2MEM[label]).html(label_name).attr("data-toggle", "tooltip").attr("title", label_name);
             }
         }
         write_to_console("Assembled successfully. Data now stored in main memory.");
@@ -1540,6 +1542,7 @@ $("#step_button").on("click", step);
 $("#pause_button").on("click", stop_program_running);
 
 $("td[rowspan]").addClass('hasRowSpan');
+//$('[data-toggle="tooltip"]').tooltip();
 
 /**********************************************************************************************************************/
 /************************************* CODEMIRROR SYNTAX HIGHLIGHTING *************************************************/

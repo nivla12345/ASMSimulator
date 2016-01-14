@@ -1,6 +1,7 @@
 POTENTIAL TODO:
-- Add unsigned arithmetic
+- Add MIT license tag at bottom of all pages.
 - Add a features page
+- Add unsigned arithmetic
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
   appropriate address (search with both label name and address).
 - Enhance error checking inside of check* functions to more intelligently report errors.  

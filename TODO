@@ -2,8 +2,10 @@ POTENTIAL TODO:
 - Add MIT license tag at bottom of all pages.
 - Add a features page
 - Add unsigned arithmetic
+- Extend immediate to arithmetic ops.
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
   appropriate address (search with both label name and address).
+- Add scroll to pc checkbox.  
 - Enhance error checking inside of check* functions to more intelligently report errors.  
 - Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
   prompt once. Or just open in new tab

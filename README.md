@@ -14,6 +14,8 @@ This project uses the following code from other sources:
 - Uses eligrey/FileSaver.js to save files.
 - Uses underscore js to do mapping.
 - Uses JQuery to query the DOM.
+- Uses clipboard.js to copy sample files.
+- Used a debug icon picture in the tab.
 
 Feel free to ping me if any errors are found or with any suggestions.
 

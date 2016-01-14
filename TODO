@@ -1,22 +1,13 @@
-TODO:
-- Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
-  address and JSRs to that address, enable running from there.
-  o Do this by checking the byte code IF the instruction isn't listed.
-  o Also perform some checks to see if the next instruction is 0.
+POTENTIAL TODO:
 - Add unsigned arithmetic
-- Add a examples section to the tutorial.
 - Add a features page
-- Enable inputting negative numbers
-  o I might wanna mask instead of reject numbers > 16 bits.
-  o I also probably wanna compare the negative limits when checking immediate.
-  o I'll need to go through the various assembly operations to see if negative values are
-    implemented properly.
-  o The option to display signed vs unsigned can be added to the Decimal section
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
   appropriate address (search with both label name and address).
+- Enhance error checking inside of check* functions to more intelligently report errors.  
 - Add alerts telling the user if they switch tabs they will lose all changes they've made, only 
   prompt once. Or just open in new tab
-- Enable adding watchpoint
+- Enable adding watchpoint.
+- When no delay, remove from setInterval call and let run to speed things up.
 
 Future Ideas
 - Square bracket to dereference (this will need to be done in run time)
@@ -24,6 +15,12 @@ Future Ideas
 - Add unit tests
 - Enable hardware customization
 - Enable choosing textarea editor
+- Enable inputting negative numbers
+  o I might wanna mask instead of reject numbers > 16 bits.
+  o I also probably wanna compare the negative limits when checking immediate.
+  o I'll need to go through the various assembly operations to see if negative values are
+    implemented properly.
+  o The option to display signed vs unsigned can be added to the Decimal section
 
 DONE:
 - Make sure you can't set breakpoints on comments + blanklines
@@ -69,4 +66,9 @@ DONE:
 - Add check memory label size.
 - In load and run, if load fails, don't run.
 - Enable using labels for all instructions that invoke memory.
+- Enable running bytecode. For instance, if someone uses the MOV operator to write stuff to an 
+  address and JSRs to that address, enable running from there.
+  o Do this by checking the byte code IF the instruction isn't listed.
+  o Also perform some checks to see if the next instruction is 0.
+- Add a examples section to the tutorial.
 

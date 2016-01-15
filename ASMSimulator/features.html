@@ -13,12 +13,9 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="lib/docs.css">
 
     <script src="lib/jquery-1.11.3.js"></script>
-    <script src="lib/codemirror/lib/codemirror.js"></script>
-    <script src="lib/codemirror/mode/javascript/javascript.js"></script>
-    <script src="lib/codemirror/addon/selection/active-line.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,10 +39,72 @@
             </ul>
         </div>
     </nav>
-    <h1>Features page.</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9" role="main">
+                <div class="bs-docs-section">
+                    <h2 id="features" class="page-header"><a
+                            style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                            class="anchorjs-link" href="#overview" aria-label="Anchor link for: overview"></a>
+                        Editor
+                    </h2>
+
+                </div>
+                <div class="bs-docs-section">
+                    <h2 id="ISA_def" class="page-header"><a
+                            style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                            class="anchorjs-link" href="#ISA_def"
+                            aria-label="Anchor link for: Instruction Definitions"></a>
+                        Register Table
+                    </h2>
+
+                </div>
+                <div class="bs-docs-section">
+                    <h2 id="instruction_set" class="page-header"><a
+                            style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                            class="anchorjs-link" href="#ISA_def" aria-label="Anchor link for: Instruction Set"></a>
+                        Main Memory
+                    </h2>
+
+                </div>
+                <div class="bs-docs-section">
+                    <h2 id="sample_code" class="page-header"><a
+                            style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
+                            class="anchorjs-link" href="#sample_code" aria-label="Anchor link for: Example Code"></a>
+                        Console
+                    </h2>
+
+                </div>
+            </div>
+            <div class="col-md-3" role="complementary">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+                    <ul class="nav bs-docs-sidenav">
+                        <li>
+                            <a href="#features">Editor</a>
+                        </li>
+                        <li>
+                            <a href="#ISA_def">Register Table</a>
+                        </li>
+                        <li>
+                            <a href="#instruction_set">Main Memory</a>
+                        </li>
+                        <li>
+                            <a href="#sample_code">Console</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <br>
+        <footer>
+            <p>© by Alvin Mao (MIT License 2016)</p>
+        </footer>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="lib/jquery-1.11.3.js"></script>
+    <script src="lib/docs.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 </body>

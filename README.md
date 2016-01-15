@@ -15,7 +15,7 @@ This project uses the following code from other sources:
 - Uses underscore js to do mapping.
 - Uses JQuery to query the DOM.
 - Uses clipboard.js to copy sample files.
-- Used a debug icon picture in the tab.
+- Used a debug icon picture in the tab from here: http://vitalflux.com/wp-content/uploads/2013/12/Debug.png.
 
 Feel free to ping me if any errors are found or with any suggestions.
 

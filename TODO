@@ -1,6 +1,4 @@
 POTENTIAL TODO:
-- Add MIT license tag at bottom of all pages.
-- Add a features page
 - Add unsigned arithmetic
 - Extend immediate to arithmetic ops.
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
@@ -74,4 +72,6 @@ DONE:
   o Do this by checking the byte code IF the instruction isn't listed.
   o Also perform some checks to see if the next instruction is 0.
 - Add a examples section to the tutorial.
+- Add MIT license tag at bottom of all pages.
+- Add a features page
 

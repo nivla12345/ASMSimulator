@@ -47,12 +47,12 @@
                     <h2 id="editor" class="page-header"><a
                             style="font-family: anchorjs-icons, serif; font-style: normal; font-variant: normal; font-weight: normal; position: absolute; margin-left: -1em; padding-right: 0.5em;"
                             class="anchorjs-link" href="#editor" aria-label="Anchor link for: overview"></a>
-                        Editor
+                        Program Editor
                     </h2>
                     <table class="table table-condensed fixed">
                         <tr>
-                            <td><b>Hotkey</b></td>
-                            <td><b>Action</b></td>
+                            <td style="width:15%"><b>Hotkey</b></td>
+                            <td style="width:85%"><b>Action</b></td>
                         </tr>
                         <!-- Comment out -->                        
                         <tr>
@@ -62,14 +62,19 @@
                         <!-- Autocomplete -->                        
                         <tr>
                             <td><kbd>Ctrl + space</kbd></td>
-                            <td>Provides instruction or register suggestions. Will also complete the instruction text if there is a single possibility.</td>
+                            <td>Autocomplete instructions and registers. Will also complete the instruction text if
+                                there is a single possibility.
+                            </td>
                         </tr>
-                    </table>
-                    
-                    <table class="table table-condensed fixed">
                         <tr>
-                            <td><b>Button</b></td>
-                            <td><b>Action</b></td>
+                            <td>
+                                <br>
+                                <b>Button</b>
+                            </td>
+                            <td>
+                                <br>
+                                <b>Action</b>
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -91,18 +96,23 @@
                                 Run
                             </td>
                             <td>
-                                Runs the program currently loaded in main_memory.
+                                <p>Runs the program currently loaded in main_memory.</p>
                                 <p>Dropdown options:</p>
                                 <ul>
-                                    <il><b>Run (ignore breakpoints)</b> - runs loaded program while ignoring breakpoints.</il>
-                                    <il><b>Load and Run</b> - assembles and loads the program and runs loaded program.</il>
-                                    <il><b>Load and Run(ignore breakpoints)</b> - assembles and loads program and runs loaded program while ignoring breakpoints.</il>                                    
+                                    <li><b>Run (ignore breakpoints)</b> - runs loaded program while ignoring
+                                        breakpoints.
+                                    </li>
+                                    <li><b>Load and Run</b> - assembles and loads the program and runs loaded program.
+                                    </li>
+                                    <li><b>Load and Run (ignore breakpoints)</b> - assembles and loads program and runs
+                                        loaded program while ignoring breakpoints.
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-pause" aria-hidden="true" style="color:red">
+                                <span class="glyphicon glyphicon-pause" aria-hidden="true" style="color:red"></span>
                                 Pause
                             </td>
                             <td>Pauses a running program.</td>
@@ -139,8 +149,8 @@
                     </h2>
                     <table class="table table-condensed fixed">
                         <tr>
-                            <td><b>Option</b></td>
-                            <td><b>Action</b></td>
+                            <td style="width:15%"><b>Option</b></td>
+                            <td style="width:85%"><b>Action</b></td>
                         </tr>
                         <tr>
                             <td>PC</td>
@@ -164,11 +174,11 @@
                     </h2>
                     <table class="table table-condensed fixed">
                         <tr>
-                            <td><b>Option</b></td>
-                            <td><b>Action</b></td>
+                            <td style="width:15%"><b>Option</b></td>
+                            <td style="width:85%"><b>Action</b></td>
                         </tr>
                         <tr>
-                            <td>Speed</td>
+                            <td>Speed (Hz)</td>
                             <td>Toggles the speed at which to run the loaded assembly program. No delay does not mean the program will run instantly but instead means there is no artificially inserted delay.</td>
                         </tr>
                     </table>
@@ -181,34 +191,34 @@
                     </h2>
                     <table class="table table-condensed fixed">
                         <tr>
-                            <td><b>Button</b></td>
-                            <td><b>Action</b></td>
+                            <td style="width:15%"><b>Button</b></td>
+                            <td style="width:85%"><b>Action</b></td>
                         </tr>
                         <tr>
                             <td>Clear Console</td>
-                            <td>Clears all messages in the console.</td>
+                            <td>Clears all messages displayed in the console.</td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="col-md-3" role="complementary">
-                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
-                    <ul class="nav bs-docs-sidenav">
-                        <li>
-                            <a href="#editor">Editor</a>
-                        </li>
-                        <li>
-                            <a href="#ISA_def">Register Table</a>
-                        </li>
-                        <li>
-                            <a href="#instruction_set">Main Memory</a>
-                        </li>
-                        <li>
-                            <a href="#sample_code">Console</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <!--<div class="col-md-3" role="complementary">-->
+            <!--<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">-->
+            <!--<ul class="nav bs-docs-sidenav">-->
+            <!--<li>-->
+            <!--<a href="#editor">Editor</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#ISA_def">Register Table</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#instruction_set">Main Memory</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#sample_code">Console</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</nav>-->
+            <!--</div>-->
         </div>
         <br>
         <footer>

@@ -84,14 +84,14 @@
                 </h3>
 
                 <p>
-                    So why learn assembly? Learning assembly will provide you with an in depth knowledge of how programs
+                    So why learn assembly? Learning assembly will provide you with an in-depth knowledge of how programs
                     operate within the constraints of hardware. To name a few specific reasons:
                 </p>
                 <ul>
                     <li>Assembly reveals the performance penalty of function calls and the potential risk of stack
                         overflow.
                     </li>
-                    <li>The presence of condition registers that consequently determine branching and conditionals.
+                    <li>The presence of condition-code registers that consequently determine branching and conditionals.
                     </li>
                     <li>The challenges and necessity of memory management.</li>
                     <li>And <a
@@ -113,77 +113,72 @@
                 <ol>
                     <li>
                         <p>
-                            The <b>central processing unit</b> (CPU) is the brain behind the computer (referred to
-                            throughout this tutorial as simply the
-                            processor). In reality, the CPU recognizes a fixed number of instructions and rotely matches
-                            an instruction from the stream of byte coded
-                            instructions being fed to it with one of its recognized instructions and executes that
-                            instruction.
+                            The <b>central processing unit</b> (CPU) is commonly described as the brain behind the
+                            computer (referred to throughout this tutorial as simply the processor). In reality, the
+                            processor does very little decision making. The CPU recognizes a fixed number of
+                            instructions and is fed a stream of bytes. The CPU then matches the bytes to the recognized
+                            instructions and executes the instructions blindly.
                         </p>
 
                         <p>
-                            For this simulator, the CPU is abstracted away in
-                            JavaScript and is only visible to you via its memory footprint (see two components below).
-                            For
-                            more information on CPU's
-                            reference the <a href="https://en.wikipedia.org/wiki/Central_processing_unit">
-                            wikipedia entry</a>.
-                        </p>
-
-                        <p>There are a wide variety of processors present hence there is an equally diverse set of
-                            assembly languages present. The assembly language used in this emulator is a 16-bit home
-                            brew assembly that resembles those used in basic micro controllers.
+                            For this simulator, the CPU is abstracted away in JavaScript and is only visible to you via
+                            its memory footprint (see two components below). For more information on CPU's reference the
+                            <a href="https://en.wikipedia.org/wiki/Central_processing_unit">wikipedia entry</a>.
                         </p>
                     </li>
                     <li>
-                        <b>Main memory</b> is the set of memory in which the machine code is stored. Main memory
-                        generally has the following features/purposes:
-                        <br><br>
+                        <p><b>Main memory</b> is the set of memory in which the machine code is stored. Main memory
+                        generally has the following features/purposes:</p>
                         <ol>
-                            <li>Stores the assembly program itself.</li>
-                            <li>Features a <a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29">stack
-                            </a> at the bottom. The stack is used for function calls and can be used to store temporary
-                                data. Stack overflow is when the stack gets too large and overflows into the program or
-                                stored data values.
+                            <li><p>Stores the assembled program itself.</p></li>
+                            <li><p>
+                                Features a <a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29">stack
+                            </a> at the bottom. The stack is generally used for calling functions. When a function call
+                                occurs, the next instruction address and temporary register values are pushed onto the
+                                stack. The stack can also be used to store data temporarily but care must be exercised
+                                to remember the order in which data is pushed onto the stack.</p>
+                                <p>Stack overflow is when the stack gets too large and overflows into the
+                                program or stored data values.</p>
                             </li>
                             <li>
-                                Can be used by the assembly program to store data while the program is being run.
+                                <p>Can be used by the assembly program to store data while the program is being run.</p>
                             </li>
                         </ol>
 <p>
-                        On your personal machine, this memory is your computers' RAM and the memory management
+                        On your personal machine, this memory is your system's RAM and the memory management
                         techniques become much more <a href="https://en.wikipedia.org/wiki/Memory_management">
                         complicated</a>.
 </p>
 <p>
-                        This simulator has 512 16-bit memory slots (this may increase to 1024 or more upon greater
+                        This simulator has 512 16-bit memory locations (this may increase to 1024 or more upon greater
                         demand).
 </p>
                     </li>
                     <li>
                         <p>
-                            <b>Registers</b> are a small set of memory that reside in the processor. In this simulator
-                            there are four types of registers and seven registers total:
+                            <b>Registers</b> are a small set of storage that reside in the processor. In this simulator
+                            there are four types of registers and seven registers in total:
                         </p>
                         <ol>
                             <li>
-                                The <b>Program Counter</b> (PC) which points to the location in memory where the next
-                                assembly instruction to execute resides. The SP is bound by the main memory size which
-                                in this case is 9 bits wide.
+                                The <b>Program Counter</b> (PC) holds the address of the next assembly instruction to
+                                execute. For this simulator, the PC is bound by the main memory size which in this case
+                                is 9 bits wide. With the use of <a href="https://en.wikipedia.org/wiki/Virtual_memory">
+                                virtual memory</a>, the PC can actually exceed these bounds.
                             </li>
                             <li>
-                                The <b>Stack Pointer</b> (SP) which points to the location in memory where to deposit
-                                the next value in the stack. The SP is bound by the main memory size which in this case
-                                is 9 bits wide.
+                                The <b>Stack Pointer</b> (SP) holds the address of the next place to put values on the
+                                stack. For this simulator, the SP is bound by the main memory size which in this case
+                                is 9 bits wide. With the use of <a href="https://en.wikipedia.org/wiki/Virtual_memory">
+                                virtual memory</a>, the SP can actually exceed these bounds.
                             </li>
                             <li>
                                 The registers <b>R0, R1, R2</b> and <b>R3</b> are 16-bit general purpose registers that
-                                are
-                                used to store or output data.
+                                are used to store data.
                             </li>
                             <li>
-                                The <b>ZCNO</b> register is a four bit condition register which has conditionals that
-                                get set as a result of given instructions. The conditions are detailed in the table
+                                The <b>ZCNO</b> register is a four bit condition code register which has conditionals
+                                that get set as a result of given instructions. The conditions are detailed in the table
                                 below:
 
                                 <table class="table table-bordered">
@@ -194,32 +189,30 @@
                                     <tr>
                                         <td>Z</td>
                                         <td>
-                                            Z stands for zero and gets asserted for given instructions that result in
-                                            zero.
+                                            Z gets asserted for certain instructions that result in zero.
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>
-                                            C stands for carry and gets asserted for given instructions where an
-                                            arithmetic or logical carry get generated. Logical carry includes left
-                                            shifting a value who's most significant bit is one and arithmetic carry
-                                            includes adding two values which exceeds the given 16 bit limit.
+                                            C gets asserted for certain instructions where an arithmetic or logical
+                                            carry is generated. Logical carry includes left shifting a value whose most
+                                            significant bit is one. Arithmetic carry includes adding or subtracting two
+                                            values which exceeds the given 16 bit limit.
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>N</td>
                                         <td>
-                                            N stands for negative and gets asserted for given instructions who's
-                                            results' most significant bit is one. See
-                                            <a href="https://en.wikipedia.org/wiki/Two's_complement">2's complement</a>
-                                            for explanation.
+                                            N gets asserted for given instructions whose result's most significant bit
+                                            is one. See <a href="https://en.wikipedia.org/wiki/Two's_complement">2's
+                                            complement</a> for explanation.
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>O</td>
                                         <td>
-                                            O stands for overflow and gets asserted for given instructions that result
+                                            O gets asserted for given instructions that result
                                             in arithmetic overflow. To summarize arithmetic overflow is when the
                                             result exceeds the 16-bit limit and the result gets truncated at 16 bits.
                                         </td>
@@ -245,9 +238,9 @@
                 </h2>
 
                 <p>
-                    Every assembly language has its own, albeit similar, syntax. The syntax of an assembly language is
-                    the grammar the assembly program must be written in accordance to in order for the program to be
-                    legally transformed into machine code. The syntax is defined in the following two sections.
+                    Every assembly language has its own syntax. The syntax of an assembly language is
+                    the grammar the assembly program must obey in order for the program to be properly transformed into
+                    machine code. The syntax is defined in the following two sections.
                 </p>
 
                 <h3 id="syntax_definitions"><a
@@ -261,6 +254,10 @@
                     different token types used here are detailed in the table below:
                 </p>
 
+                <p>
+                    The assembly language used in this emulator is a 16-bit home brew assembly that resembles those used
+                    in basic microcontrollers.
+                </p>
                 <table>
                     <tr>
                         <td>
@@ -291,8 +288,8 @@
                     <tr>
                         <td>Instruction</td>
                         <td>
-                            The instruction is one of the commands that the processor recognizes. Instructions sometimes
-                            requires anywhere from 0 to 2 arguments to complete the command. A list of instructions can
+                            The instruction is one of the commands that the processor recognizes. Instructions
+                            requires 0 to 2 arguments to complete the command. A list of instructions can
                             be found below in the <a href="#instruction_set">Instruction Set</a> section.
                         </td>
                     </tr>
@@ -363,8 +360,8 @@
                     <tr class="danger">
                         <td>Comment</td>
                         <td>
-                            Comments are started with a semicolon ";" and continue until the of the line. Comments are
-                            used to annotate and describe the code at hand.
+                            Comments are started with a semicolon ";" and continue to the of the line. Comments are
+                            used to annotate and describe adjacent code.
                         </td>
                     </tr>
                 </table>
@@ -455,7 +452,7 @@
                 <h5>Argument Types</h5>
 
                 <p>In the table below, the <b>arg0</b> and <b>arg1</b> entries will be labeled in accordance to the
-                    below table.</p>
+                    table below.</p>
                 <table class="table table-bordered table-condensed" style="width: 300px">
                     <tr class="active">
                         <td><b>Argument Types</b></td>
@@ -463,19 +460,19 @@
                     </tr>
                     <tr>
                         <td>-</td>
-                        <td>There is no argument.</td>
+                        <td>There is no argument</td>
                     </tr>
                     <tr>
                         <td>I</td>
-                        <td><a href="#immediate_description">Immediate value</a>.</td>
+                        <td><a href="#immediate_description">Immediate value</a></td>
                     </tr>
                     <tr>
                         <td>R</td>
-                        <td><a href="#register_description">Register</a>.</td>
+                        <td><a href="#register_description">Register</a></td>
                     </tr>
                     <tr>
-                        <td>A</td>
-                        <td><a href="#address_description">Address</a>.</td>
+                        <td>M</td>
+                        <td><a href="#address_description">Address</a></td>
                     </tr>
                 </table>
 
@@ -488,7 +485,7 @@
 
                 <h5>PC and SP</h5>
 
-                <p>The PC and SP fields indicates what happens to those registers <b>upon completion</b> of the
+                <p>The PC and SP fields indicate what happens to those registers <b>upon completion</b> of the
                     instruction.</p>
 
                 <h5>ZCNO</h5>
@@ -555,7 +552,7 @@
                 <p>Example:</p>
 
                 <p>
-                    The <code>SET</code> instructions' <b>arg0</b> accepts three argument types: I, R, and
+                    The <code>SET</code> instruction's <b>arg0</b> accepts three argument types: I, R, and
                     M. <code>SET</code>'s <b>arg1</b> accepts only a single type, R. Hence, SET has 3 byte codes, one
                     for the I paired with R, R paired with R, and M paired with M.
                 </p>

@@ -1,4 +1,6 @@
 POTENTIAL TODO:
+- Increase memory size
+- Optimize machine code by combining memory/register into instruction.
 - Add unsigned arithmetic
 - Extend immediate to arithmetic ops.
 - Enable search inside of the main memory box (probably in the title bar) and jump to the
